@@ -37,7 +37,7 @@
     <Label text="Mật khẩu" styleClass="field-label"/>
     <PasswordField fx:id="passwordField" promptText="Nhập mật khẩu" styleClass="input-field"/>
   </VBox>
-  <Button text="ĐĂNG NHẬP" styleClass="button-login" onAction="#handleLogin"/>
+  <Button fx:id="loginButton" text="ĐĂNG NHẬP" styleClass="button-login" onAction="#handleForm"/>
   <Label text="Chưa có tài khoản?" styleClass="link-label"/>
   <Button fx:id="switchToSignUpButton" text="Đăng ký ngay" styleClass="button-register" onAction="#switchToSignUpView"/>
 </VBox>

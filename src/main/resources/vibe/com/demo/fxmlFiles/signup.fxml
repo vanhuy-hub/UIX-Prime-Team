@@ -21,8 +21,8 @@
     <StackPane>
       <Circle radius="35" styleClass="logo-circle"/>
       <ImageView fitWidth="45" fitHeight="45"
-                                                                       pickOnBounds="true" preserveRatio="true"
-                                                                       styleClass="logo-icon"/>
+                                                                                   pickOnBounds="true" preserveRatio="true"
+                                                                                   styleClass="logo-icon"/>
     </StackPane>
     <!-- Title Sign Up -->
     <Label text="Đăng Kí" styleClass="signup-title"/>
@@ -30,12 +30,12 @@
   </VBox>
   <!-- Show Error -->
   <VBox fx:id="errorContainer"
-                      alignment="CENTER"
-                      visible="false" managed="false"
-                      styleClass="error-container">
+                          alignment="CENTER"
+                          visible="false" managed="false"
+                          styleClass="error-container">
     <Label fx:id="errorMessageLabel"
-                                           styleClass="error-message"
-                                           />
+                                                   styleClass="error-message"
+                                                   />
   </VBox>
   <!-- Nhập field -->
   <VBox spacing="6" alignment="CENTER" styleClass="margin-bottom">
@@ -57,13 +57,13 @@
     </VBox>
   </VBox>
   <!-- Button -->
-  <Button text="TẠO TÀI KHOẢN"
-                            styleClass="button-register"
-                            onAction="#handleSignup"
-                            maxWidth="400"/>
+  <Button text="TẠO TÀI KHOẢN" fx:id="registerButton"
+                                styleClass="button-register"
+                                onAction="#handleForm"
+                                maxWidth="400"/>
   <Label text="Đã có tài khoản?" styleClass="link-label"/>
   <Button fx:id="switchToLoginButton"
-                            text="Đăng nhập ngay"
-                            styleClass="button-switch-login"
-                            onAction="#switchToLoginView"/>
+                                text="Đăng nhập ngay"
+                                styleClass="button-switch-login"
+                                onAction="#switchToLoginView"/>
 </VBox>
