@@ -1,0 +1,140 @@
+.login-box {
+    -fx-background-color: linear-gradient(to bottom, #1a1a2e, #16213e);
+    -fx-padding: 30;
+   
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 20, 0.3, 0, 8);
+
+
+    -fx-pref-width: 400;
+    -fx-pref-height: 500;
+    -fx-max-width: 400;
+    -fx-max-height: 500;
+    -fx-border-color: #3b82f6;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-border-width: 1;
+
+
+}
+/* Logo tròn */
+.logo-circle {
+    -fx-fill: linear-gradient(to bottom right, #6A11CB, #2575FC);
+}
+
+
+/* Icon logo */
+.logo-icon {
+    -fx-image: url("../img/icon_game_login.png");
+}
+
+
+/* Title */
+.login-title {
+    -fx-text-fill: white;
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+
+
+}
+.login-subtitle {
+    -fx-text-fill: #cccccc;
+    -fx-font-size: 16px;
+     -fx-padding: 0 0 20 0 ;
+}
+
+
+/* Label cho input */
+.field-label {
+    -fx-text-fill: #bbbbbb;
+    -fx-font-size: 16px;
+}
+
+
+/* Input field */
+.input-field {
+    -fx-pref-width: 300;
+    -fx-padding: 8;
+    -fx-background-color: #2d2d44;
+    -fx-text-fill: white;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: transparent;
+    -fx-font-size: 15px;
+}
+
+.input-field:focused {
+    -fx-border-color: linear-gradient(to right, #00C853, #0091FF);   /* đổi viền xanh */
+    -fx-border-width: 1;
+    -fx-background-color: #2d2d44;
+}
+.margin-bottom{
+        -fx-padding: 0 0 15 0 ;
+}
+
+
+/* Nút login */
+.button-login {
+    -fx-pref-width: 400;
+   -fx-padding: 10 0;
+    -fx-background-radius: 8;
+    -fx-background-color: linear-gradient(to right, #6A11CB, #2575FC);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 16px;
+}
+.button-login:hover{
+        -fx-cursor: hand;
+}
+/* Link */
+.link-label {
+    -fx-text-fill: #aaaaaa;
+    -fx-font-size: 15px;
+}
+
+ 
+
+/* Nút đăng ký */
+.button-register {
+    -fx-pref-width: 320;
+    -fx-background-color: transparent;
+    -fx-border-color: #444;
+    -fx-border-radius: 8;
+    -fx-text-fill: #ffffff;
+
+
+    -fx-font-size: 16px;
+}
+
+
+.button-register:hover{
+        -fx-cursor: hand;
+        -fx-background-color:rgb(50, 66, 89);
+}
+/* ERROR STYLES */
+/* ERROR STYLES */
+.error-container {
+    -fx-background-color: #ffebee;
+    -fx-border-color: #f44336;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 8 8; /* gọn hơn */
+    -fx-alignment: center;
+    -fx-spacing: 3;
+    -fx-min-width: 350;
+}
+
+.error-message {
+    -fx-text-fill: #d32f2f;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-wrap-text: true; /* xuống dòng khi tràn  */
+    -fx-text-alignment: center;
+}
+
+/* Khi error container ẩn ~ visble=false*/
+.error-container:hidden {
+    -fx-padding: 0px; /* Giảm padding khi ẩn */
+    -fx-min-height: 0px; /* Chiều cao tối thiểu = 0 khi ẩn */
+    -fx-pref-height: 0px; /* Chiều cao ưu tiên = 0 khi ẩn */
+}

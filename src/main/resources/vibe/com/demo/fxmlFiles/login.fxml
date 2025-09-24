@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.shape.Circle?>
+<!-- Form Login đặt ở giữa -->
+
+<VBox fx:id="loginBox"
+    xmlns="http://javafx.com/javafx"
+    xmlns:fx="http://javafx.com/fxml"
+    fx:controller="vibe.com.demo.controller.LoginController"
+    alignment="CENTER" 
+    spacing="5"
+    prefWidth="400" 
+    prefHeight="500"
+    maxWidth="400" 
+    maxHeight="500"
+    styleClass="login-box">
+  <!-- Logo -->
+  <StackPane alignment="CENTER">
+    <Circle radius="40" styleClass="logo-circle"/>
+    <ImageView fitWidth="40" fitHeight="40" pickOnBounds="true" preserveRatio="true" styleClass="logo-icon"/>
+  </StackPane>
+  <Label text="ARKANOID" styleClass="login-title"/>
+  <Label text="Đăng nhập để chơi game" styleClass="login-subtitle"/>
+  <!-- Show Error-->
+  <VBox alignment="CENTER" fx:id="errorContainer" visible="false" managed="false" styleClass="error-container">
+    <Label fx:id="errorMessageLabel" styleClass="error-message" text="Error"/>
+  </VBox>
+  <!-- Input field-->
+  <VBox spacing="5" alignment="CENTER_LEFT" prefWidth="300">
+    <Label text="Tên đăng nhập" styleClass="field-label"/>
+    <TextField fx:id="usernameField" promptText="Nhập tên đăng nhập" styleClass="input-field"/>
+  </VBox>
+  <VBox spacing="5" alignment="CENTER_LEFT" prefWidth="300" styleClass="margin-bottom">
+    <Label text="Mật khẩu" styleClass="field-label"/>
+    <PasswordField fx:id="passwordField" promptText="Nhập mật khẩu" styleClass="input-field"/>
+  </VBox>
+  <Button text="ĐĂNG NHẬP" styleClass="button-login" onAction="#handleLogin"/>
+  <Label text="Chưa có tài khoản?" styleClass="link-label"/>
+  <Button fx:id="switchToSignUpButton" text="Đăng ký ngay" styleClass="button-register" onAction="#switchToSignUpView"/>
+</VBox>

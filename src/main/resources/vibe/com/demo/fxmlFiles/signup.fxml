@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.shape.Circle?>
+<!-- Form-SignUp -->
+
+<VBox fx:id="signUpBox"
+      xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="vibe.com.demo.controller.SignupController"
+      alignment="CENTER"
+      spacing="5"
+      prefWidth="400" prefHeight="500"
+      maxWidth="400" maxHeight="500"
+      styleClass="signup-box">
+  <!-- Title -->
+  <VBox alignment="CENTER" spacing="8">
+    <!-- Logo -->
+    <StackPane>
+      <Circle radius="35" styleClass="logo-circle"/>
+      <ImageView fitWidth="45" fitHeight="45"
+                                                                       pickOnBounds="true" preserveRatio="true"
+                                                                       styleClass="logo-icon"/>
+    </StackPane>
+    <!-- Title Sign Up -->
+    <Label text="Đăng Kí" styleClass="signup-title"/>
+    <Label text="Tạo tài khoản mới để bắt đầu chơi" styleClass="signup-subtitle"/>
+  </VBox>
+  <!-- Show Error -->
+  <VBox fx:id="errorContainer"
+                      alignment="CENTER"
+                      visible="false" managed="false"
+                      styleClass="error-container">
+    <Label fx:id="errorMessageLabel"
+                                           styleClass="error-message"
+                                           />
+  </VBox>
+  <!-- Nhập field -->
+  <VBox spacing="6" alignment="CENTER" styleClass="margin-bottom">
+    <VBox alignment="CENTER_LEFT" spacing="5" prefWidth="280">
+      <Label text="Tên đăng nhập" styleClass="field-label"/>
+      <TextField fx:id="usernameField" promptText="Nhập tên đăng nhập" styleClass="input-field"/>
+    </VBox>
+    <VBox alignment="CENTER_LEFT" spacing="5" prefWidth="280">
+      <Label text="Tên trong game" styleClass="field-label"/>
+      <TextField fx:id="playerNameField" promptText="Nhập tên trong game" styleClass="input-field"/>
+    </VBox>
+    <VBox alignment="CENTER_LEFT" spacing="5" prefWidth="280">
+      <Label text="Mật khẩu" styleClass="field-label"/>
+      <PasswordField fx:id="passwordField" promptText="Nhập mật khẩu" styleClass="input-field"/>
+    </VBox>
+    <VBox alignment="CENTER_LEFT" spacing="5" prefWidth="280">
+      <Label text="Nhập lại mật khẩu" styleClass="field-label"/>
+      <PasswordField fx:id="confirmPasswordField" promptText="Nhập lại mật khẩu" styleClass="input-field"/>
+    </VBox>
+  </VBox>
+  <!-- Button -->
+  <Button text="TẠO TÀI KHOẢN"
+                            styleClass="button-register"
+                            onAction="#handleSignup"
+                            maxWidth="400"/>
+  <Label text="Đã có tài khoản?" styleClass="link-label"/>
+  <Button fx:id="switchToLoginButton"
+                            text="Đăng nhập ngay"
+                            styleClass="button-switch-login"
+                            onAction="#switchToLoginView"/>
+</VBox>
