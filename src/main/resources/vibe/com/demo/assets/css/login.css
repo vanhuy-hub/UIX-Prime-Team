@@ -4,7 +4,6 @@
    
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 20, 0.3, 0, 8);
 
-
     -fx-pref-width: 400;
     -fx-pref-height: 500;
     -fx-max-width: 400;

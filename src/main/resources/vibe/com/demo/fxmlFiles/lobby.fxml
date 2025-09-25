@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.media.MediaView?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="vibe.com.demo.controller.LobbyController"
+            prefWidth="1300" prefHeight="800"
+            styleClass="lobby-root">
+  <!-- Video nền -->
+  <MediaView fx:id="backgroundVideo"
+               fitWidth="1300"
+               fitHeight="800"
+               preserveRatio="false"
+               AnchorPane.topAnchor="0"
+               AnchorPane.bottomAnchor="0"
+               AnchorPane.leftAnchor="0"
+               AnchorPane.rightAnchor="0"/>
+  <!-- Overlay tối -->
+  <AnchorPane style="-fx-background-color: rgba(0,0,0,0.4);"
+                AnchorPane.topAnchor="0"
+                AnchorPane.bottomAnchor="0"
+                AnchorPane.leftAnchor="0"
+                AnchorPane.rightAnchor="0">
+    <!-- Main menu -->
+    <VBox alignment="CENTER" spacing="25"
+              AnchorPane.leftAnchor="0"
+              AnchorPane.rightAnchor="0"
+              AnchorPane.topAnchor="0"
+              AnchorPane.bottomAnchor="0">
+      <Button fx:id="playButton" text="🎮 Chơi Game" styleClass="menu-btn"/>
+      <Button fx:id="shopButton" text="🛒 Cửa Hàng" styleClass="menu-btn"/>
+      <Button fx:id="rankButton" text="🏆 Bảng Xếp Hạng" styleClass="menu-btn"/>
+      <Button fx:id="helpButton" text="❓ Hướng Dẫn" styleClass="menu-btn"/>
+    </VBox>
+  </AnchorPane>
+  <!-- User info -->
+  <StackPane fx:id="userInfoContainer" styleClass="user-info-box"
+               AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20">
+    <GridPane hgap="15" vgap="8" alignment="CENTER_LEFT">
+      <!-- Avatar -->
+      <Label fx:id="avatarLabel" 
+                   styleClass="avatar-label"
+                   GridPane.rowIndex="0" GridPane.columnIndex="0"
+                   GridPane.rowSpan="2"/>
+      <!-- Username -->
+      <Label fx:id="usernameLabel" text="vanhuytnt238"
+                   styleClass="username"
+                   GridPane.rowIndex="0" GridPane.columnIndex="1"
+                   GridPane.columnSpan="2"/>
+      <!-- Coin -->
+      <Label fx:id="coinLabel" text="💰 1,000"
+                   styleClass="coin-label"
+                   GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+      <!-- Trophy -->
+      <Label fx:id="trophyLabel" text="🏆 0"
+                   styleClass="trophy-label"
+                   GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+    </GridPane>
+  </StackPane>
+  <!-- Profile / Logout buttons -->
+  <HBox spacing="10" alignment="CENTER_RIGHT"
+          AnchorPane.topAnchor="20"
+          AnchorPane.rightAnchor="20">
+    <Button fx:id="profileButton" text="👤 Profile" styleClass="profile-btn"/>
+    <Button fx:id="logoutButton" text="⏻ Logout" styleClass="logout-btn" onAction="#switchToLoginView"/>
+  </HBox>
+</AnchorPane>

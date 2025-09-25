@@ -70,6 +70,7 @@ public class LoginController extends FormController {
             //chuyển loginButton về trạng thái đầu
             loginButton.setText("ĐĂNG NHẬP");
             loginButton.setDisable(false);
+            this.mainApp.loadLobbyView();
             //chuyển cảnh 
 
         });

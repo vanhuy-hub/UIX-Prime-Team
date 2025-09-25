@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import vibe.com.demo.controller.LobbyController;
 import vibe.com.demo.controller.LoginController;
 import vibe.com.demo.controller.SignupController;
 
@@ -28,10 +29,25 @@ public class MainApp extends Application {
 
         Scene mainScene = new Scene(contentPane, 1300, 800);
         stage.setScene(mainScene);
-        loadLoginView();
         stage.show();
 
         //load Login scene đầu tiên 
+        loadLobbyView();
+    }
+
+    public void loadLobbyView() {
+        try {
+            contentPane.getChildren().clear();//xoa cac phan tu truoc
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxmlFiles/lobby.fxml"));
+            Parent view = loader.load();
+            view.getStylesheets().add(getClass().getResource("assets/css/lobby.css").toExternalForm());
+            contentPane.getChildren().setAll(view);
+
+            //Pass reference this to LobbyController
+            LobbyController lobbyController = loader.getController();
+            lobbyController.setMainApp(this);
+        } catch (IOException e) {
+        }
     }
 
     public void loadLoginView() {
