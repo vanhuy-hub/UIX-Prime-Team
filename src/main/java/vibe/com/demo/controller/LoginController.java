@@ -56,11 +56,13 @@ public class LoginController extends FormController {
         if (!isValidateLogin(username, password)) {
             return;
         }
+
         if (!this.authService.login(username, password)) {
             showError("Tên đăng nhập hoặc mật khẩu không đúng ❌!");
             return;
         }
 
+        //Lấy index của User vừa đăng nhập để truyền vào loadLobbyView 
         // Delay 1.5 giây để user đọc message trước khi chuyển trang
         loginButton.setText("ĐANG ĐĂNG NHẬP ...");
         loginButton.setDisable(true);//vô hiệu hóa bằng việc setDisable 

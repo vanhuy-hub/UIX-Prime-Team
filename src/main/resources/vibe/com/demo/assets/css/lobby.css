@@ -3,8 +3,8 @@
     -fx-background-color: linear-gradient(to bottom, #1a1a2e, #16213e);
 }
 
-#backgroundPane {
-    -fx-background-image: url("../img/background.jpg");
+.backgroundPane {
+    -fx-background-image: url("../img/lobby.jpg");
     -fx-background-size: cover;
     -fx-background-position: center;
 }
@@ -62,7 +62,10 @@
     -fx-padding: 4 10;
     -fx-background-radius: 8;
 }
-
+/* VBox chua menu main ~ day xuong duoi*/
+.margin-top{
+    -fx-padding: 100 0 0 0 ;
+}
 /* Menu button chung */
 .menu-btn {
     -fx-pref-width: 320;

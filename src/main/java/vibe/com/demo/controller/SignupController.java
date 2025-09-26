@@ -40,13 +40,21 @@ public class SignupController extends FormController {
         if (!isValidateSignUp(username, playerName, password, confirmPassword)) {
             return;
         }
-        if (!this.authService.signup(username, password)) {
+        if (this.authService.isUsernameExists(username)) {
             showError("Tên đăng nhập đã tồn tại ❌!");
             return;
         }
+        if (this.authService.isPlayerNameExists(playerName)) {
+            showError("Tên trong game đã có người dùng ❌!");
+            return;
+        }
+
         //thỏa mãn hết điều kiện ~ lưu 
-// Thỏa mãn hết điều kiện ~ lưu 
-        registerButton.setText("ĐANG TẠO TÀI KHOẢN...");
+        this.authService.addUser(username, password, playerName);
+        // Thỏa mãn hết điều kiện ~ lưu 
+        {
+            registerButton.setText("ĐANG TẠO TÀI KHOẢN...");
+        }
         registerButton.setDisable(true); // Vô hiệu hóa button trong khi xử lý
 
         // Bước 1: Hiển thị success message NGAY LẬP TỨC
@@ -58,7 +66,7 @@ public class SignupController extends FormController {
             // Reset button text trước khi chuyển trang
             registerButton.setText("ĐĂNG KÝ");
             registerButton.setDisable(false);
-            this.switchToLoginView(event);
+            this.mainApp.loadLobbyView();
         });
         switchDelay.play();
     }
