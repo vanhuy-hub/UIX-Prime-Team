@@ -5,13 +5,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import vibe.com.demo.MainApp;
+import vibe.com.demo.audio.AudioManager;
 import vibe.com.demo.service.AuthService;
 
-public abstract class FormController {
+public abstract class FormController implements BaseController {
 
     protected MainApp mainApp;
     protected AuthService authService;
-
+    protected AudioManager audioManager = AudioManager.getInstance();
     @FXML
     protected VBox errorContainer;
     @FXML
@@ -23,6 +24,7 @@ public abstract class FormController {
     }
 
     //setMainApp do dùng ở package khác nên cần khai báo public 
+    @Override //ghi de tu BaseController
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }

@@ -25,6 +25,8 @@ public class LoginController extends FormController {
 
     @FXML
     private void switchToSignUpView(ActionEvent event) {
+        //play am thanh click
+        audioManager.playSoundEffect("clicksound");
         if (this.mainApp != null) {
             PauseTransition delay = new PauseTransition(Duration.millis(130));
             delay.setOnFinished(e -> this.mainApp.loadSignUpView());
@@ -50,6 +52,8 @@ public class LoginController extends FormController {
     @Override
     @FXML
     protected void handleForm(ActionEvent event) {
+        //play am thanh click
+        audioManager.playSoundEffect("clicksound");
         // TODO Auto-generated method stub
         String username = this.usernameField.getText().trim();
         String password = this.passwordField.getText().trim();

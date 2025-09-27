@@ -9,76 +9,67 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import vibe.com.demo.controller.LobbyController;
-import vibe.com.demo.controller.LoginController;
-import vibe.com.demo.controller.SignupController;
+import vibe.com.demo.audio.AudioManager;
+import vibe.com.demo.controller.BaseController;
 
 public class MainApp extends Application {
 
     private Stage stage;
     private StackPane contentPane;//vung chua SubScene
+    private AudioManager audioManager = AudioManager.getInstance();
 
     @Override
     public void start(Stage stage) {
+
         this.stage = stage;//gán stage của chương trình trong start Method là giá trị của trường stage ~ stage của đối tượng MainApp, đẻ khi import sang Controller còn dùng được stage này truy cập vào Stage chính của ứng dụng hiển thị lên  
         Image icon = new Image(getClass().getResourceAsStream("assets/img/arkanoidLogo2.png"));
         stage.getIcons().add(icon);
         contentPane = new StackPane();
         contentPane.getStyleClass().add("root-background");
         contentPane.getStylesheets().add(getClass().getResource("assets/css/general.css").toExternalForm());
-
         Scene mainScene = new Scene(contentPane, 1300, 800);
         stage.setScene(mainScene);
         stage.show();
-
         //load Login scene đầu tiên 
         loadLoginView();
+
+    }
+
+    public <T extends BaseController> void loadView(String pathFxmlFile, String pathCssFile, String musicName) {
+        try {
+            audioManager.playBackgroundMusic(musicName);
+            contentPane.getChildren().clear();//xoa cac phan tu truoc
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(pathFxmlFile));
+            Parent view = loader.load();
+            view.getStylesheets().add(getClass().getResource(pathCssFile).toExternalForm());
+            contentPane.getChildren().setAll(view);
+            //Lấy controller ~ chỉ những lớp được implements từ interface BaseController 
+            //Pass reference this to LobbyController
+            T controller = loader.getController();
+            controller.setMainApp(this);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void loadLobbyView() {
-        try {
-            contentPane.getChildren().clear();//xoa cac phan tu truoc
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxmlFiles/lobby.fxml"));
-            Parent view = loader.load();
-            view.getStylesheets().add(getClass().getResource("assets/css/lobby.css").toExternalForm());
-            contentPane.getChildren().setAll(view);
+        //Do cơ chế của Java Generic nó tự suy luận là kiểu gì 
+        loadView("fxmlFiles/lobby.fxml", "assets/css/lobby.css", "lobbyMusic");
 
-            //Pass reference this to LobbyController
-            LobbyController lobbyController = loader.getController();
-            lobbyController.setMainApp(this);
-        } catch (IOException e) {
-        }
     }
 
     public void loadLoginView() {
-        try {
-            contentPane.getChildren().clear();//xóa các node trước để chỉ hiển thị Login-Form 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxmlFiles/login.fxml"));
-            Parent loginContent = loader.load();
-            loginContent.getStylesheets().add(getClass().getResource("assets/css/login.css").toExternalForm());
-            contentPane.getChildren().setAll(loginContent);
-            //Pass Reference cho controller 
-            LoginController loginController = loader.getController(); // Lấy controller ĐÃ ĐƯỢC TẠO
-            loginController.setMainApp(this); // Truyền reference
-            //Truyền tham chiếu đối tượng MainApp hiện tại đến hàm khởi tạo của LoginController để có thể switch 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadView("fxmlFiles/login.fxml", "assets/css/login.css", "nhacnen");
     }
 
     public void loadSignUpView() {
-        try {
-            contentPane.getChildren().clear();//xóa các node trước để chỉ hiển thị SignUp-Form 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("fxmlFiles/signup.fxml"));
-            Parent signUpContent = loader.load();
-            signUpContent.getStylesheets().add(getClass().getResource("assets/css/signup.css").toExternalForm());
-            contentPane.getChildren().add(signUpContent);
-            //Truyền tham chiếu đối tượng MainApp hiện tại đến hàm khởi tạo của LoginController để có thể switch 
-            SignupController signupController = loader.getController();
-            signupController.setMainApp(this);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        loadView("fxmlFiles/signup.fxml", "assets/css/signup.css", null);
+    }
+
+    public void loadGameHelpView() {
+        loadView("fxmlFiles/gameHelp.fxml", "assets/css/signup.css", null);
+
     }
 
     // day la ham main

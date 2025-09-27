@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="vibe.com.demo.controller.GameHelpController"
+            prefWidth="1300" prefHeight="800"
+>
+  <HBox alignment="CENTER" spacing="30" prefWidth="800" prefHeight="400" styleClass="help-item">
+    <VBox>
+      <Label text="Bắt đầu nhanh"/>
+    </VBox>
+  </HBox>
+</VBox>
