@@ -72,11 +72,14 @@ public class AudioManager {
     // === BACKGROUND MUSIC CONTROLS ===
     public void playBackgroundMusic(String key) {//chỉ cần truyền vào key là lấy được MediaPlayer tương ứng 
         if (currentMusic != null && key != null) {
-            currentMusic.stop();
+            if (currentMusic != backGroundMusic.get(key)) {//nếu nhạc khác thì đổi 
+                currentMusic.stop();
+            } else {//nếu vẫn nhạc đó thì không đổi 
+                return;
+            }
         }
 
         if (key == null) {
-
             return;//chạy nhạc tiếp nếu không truyền vào gì 
         }
         MediaPlayer music = backGroundMusic.get(key);

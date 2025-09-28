@@ -31,7 +31,7 @@ public class MainApp extends Application {
         stage.setScene(mainScene);
         stage.show();
         //load Login scene đầu tiên 
-        loadLoginView();
+        loadLobbyView();
 
     }
 
@@ -68,7 +68,8 @@ public class MainApp extends Application {
     }
 
     public void loadGameHelpView() {
-        loadView("fxmlFiles/gameHelp.fxml", "assets/css/signup.css", null);
+
+        loadView("fxmlFiles/gameHelp.fxml", "assets/css/gamehelp.css", null);
 
     }
 
