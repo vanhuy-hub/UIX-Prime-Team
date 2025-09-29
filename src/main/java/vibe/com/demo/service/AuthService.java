@@ -10,6 +10,7 @@ public class AuthService {
     private static AuthService instance;//tạo 1 static AuthService để dùng chung cho login và signup để chúng cùng trỏ đến 1 dữ liệu 
     private List<User> users;
     private User currentUser;//lưu đối tượng hiện tại sau khi signUp/login thành công
+    private int completedLevels;//lưu số level đã hoàn thành 
 
     public User getCurrentUser() {//trả về currentUser khi ở lobby
         return currentUser;
@@ -77,5 +78,13 @@ public class AuthService {
     public void addUser(String username, String password, String playerName) {
         setCurrentUser(new User(username, password, playerName));//lưu luôn currentUser khi đăng kí 
         this.users.add(new User(username, password, playerName));
+    }
+
+    public int getCompletedLevels() {
+        return completedLevels;
+    }
+
+    public void getCompletedLevels(int completedLevels) {
+        this.completedLevels = completedLevels;
     }
 }
