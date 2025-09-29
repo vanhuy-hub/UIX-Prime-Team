@@ -1,0 +1,115 @@
+.root-pane {
+    -fx-background-color: linear-gradient(to right, #2c2e8a, #501f87);
+}
+
+/* Nút quay lại */
+.back-btn {
+    -fx-background-color: linear-gradient(to right, #3a6186, #89253e); /* màu nền đẹp, chuyển sắc */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;              /* chữ to hơn */
+    -fx-font-weight: bold;
+    -fx-padding: 10 20;
+    -fx-background-radius: 12;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.3, 0, 2);
+    -fx-transition: all 0.2s ease-in-out; /* (JavaFX không hỗ trợ trực tiếp transition, nhưng mình làm hover scale bằng scaleX/scaleY) */
+}
+
+.back-btn:hover {
+    -fx-background-color: linear-gradient(to right, #4e54c8, #8f94fb); /* đổi màu khi hover */
+    -fx-scale-x: 1.08;   /* phóng to nhẹ khi hover */
+    -fx-scale-y: 1.08;
+    -fx-effect: dropshadow(gaussian, rgba(78,84,200,0.5), 12, 0.3, 0, 4);
+}
+
+
+/* Tiêu đề */
+.title {
+   -fx-font-size: 34px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #00eaff; /* xanh neon */
+    -fx-effect: dropshadow(gaussian, rgba(0,234,255,0.8), 8, 0.6, 0, 0);
+}
+.subtitle {
+    -fx-font-size: 17px;
+    -fx-text-fill: #cfcfcf;
+}
+
+/* Tiến độ */
+.progress-label {
+    -fx-font-weight: bold;
+    -fx-font-size: 17px;
+    -fx-text-fill: #00cfff;
+    -fx-background-color: rgba(0,0,0,0.4);
+    -fx-background-radius: 10;
+    -fx-border-color: #4cc9f0;
+    -fx-border-width: 1;
+     -fx-border-radius: 10;
+     -fx-padding: 5 10;
+}
+
+
+/* Grid level */
+.level-grid {
+    -fx-padding: 20 0 20 0;
+}
+
+/* Nút level chung */
+.level-button {
+    -fx-pref-width: 70px;
+    -fx-pref-height: 70px;
+    -fx-background-radius: 10;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0.3, 0, 2);
+    -fx-transition: all 0.2s ease-in-out;
+}
+.level-button:hover{
+-fx-scale-x: 1.08;   /* phóng to nhẹ khi hover */
+-fx-scale-y: 1.08;
+-fx-font-weight: bold;
+}
+/* Trạng thái */
+.playable {
+    -fx-background-color: linear-gradient(to bottom right, #3a86ff, #4361ee);
+    -fx-border-color: #4cc9f0;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+}
+.locked {
+    -fx-background-color: rgba(0,0,0,0.5);
+    -fx-text-fill: #aaaaaa;
+}
+.completed {
+    -fx-background-color:rgba(87, 199, 133, 1);
+    -fx-text-fill: black;
+}
+
+/* Chú thích */
+.legend-box {
+    -fx-padding: 10 0 20 0;
+}
+.legend-playable, .legend-locked, .legend-complete {
+    -fx-pref-width: 20px;
+    -fx-pref-height: 20px;
+    -fx-background-radius: 4;
+}
+.legend-playable {
+    -fx-background-color: #3a86ff;
+}
+.legend-locked {
+    -fx-background-color: rgba(0,0,0,0.5);
+    -fx-text-fill: #aaaaaa;
+    -fx-pref-width: 28px;
+    -fx-pref-height: 28px;
+}
+.legend-complete {
+    -fx-background-color:rgba(87, 199, 133, 1);
+
+}
+.legend-text {
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+}

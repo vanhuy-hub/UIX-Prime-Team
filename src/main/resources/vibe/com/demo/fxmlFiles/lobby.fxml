@@ -3,6 +3,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.media.MediaView?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
@@ -10,59 +12,94 @@
             prefWidth="1300" prefHeight="800"
             styleClass="lobby-root">
   <Label  styleClass="backgroundPane"
-                                             prefWidth="1300" prefHeight="800"
-                                             AnchorPane.topAnchor="0"
-                                             AnchorPane.bottomAnchor="0"
-                                             AnchorPane.leftAnchor="0"
-                                             AnchorPane.rightAnchor="0"/>
+                                                                       prefWidth="1300" prefHeight="800"
+                                                                       AnchorPane.topAnchor="0"
+                                                                       AnchorPane.bottomAnchor="0"
+                                                                       AnchorPane.leftAnchor="0"
+                                                                       AnchorPane.rightAnchor="0"/>
   <!-- Overlay tối -->
   <AnchorPane style="-fx-background-color: rgba(0,0,0,0.3);"
-                                              AnchorPane.topAnchor="0"
-                                              AnchorPane.bottomAnchor="0"
-                                              AnchorPane.leftAnchor="0"
-                                              AnchorPane.rightAnchor="0">
+                                                                        AnchorPane.topAnchor="0"
+                                                                        AnchorPane.bottomAnchor="0"
+                                                                        AnchorPane.leftAnchor="0"
+                                                                        AnchorPane.rightAnchor="0">
     <!-- Main menu -->
-    <VBox alignment="CENTER" spacing="25" 
-                                      styleClass="margin-top"
-                                      
-                                                                          AnchorPane.leftAnchor="0"
-                                                                          AnchorPane.rightAnchor="0"
-                                                                          AnchorPane.topAnchor="0"
-                                                                          AnchorPane.bottomAnchor="0">
-      <Button fx:id="playButton" text="🎮 Chơi Game" styleClass="menu-btn"/>
-      <Button fx:id="shopButton" text="🛒 Cửa Hàng" styleClass="menu-btn"/>
-      <Button fx:id="rankButton" text="🏆 Bảng Xếp Hạng" styleClass="menu-btn"/>
-      <Button fx:id="helpButton" text="❓ Hướng Dẫn" styleClass="menu-btn" onAction="#openGameHelp"/>
+    <VBox alignment="CENTER" spacing="25"
+            styleClass="margin-top"
+                                 AnchorPane.topAnchor="0"
+                                  AnchorPane.leftAnchor="0"
+                                  AnchorPane.rightAnchor="0"
+                                  AnchorPane.bottomAnchor="0">
+      <!-- Nút Chơi Game -->
+      <Button fx:id="playButton" text="Chơi Game" styleClass="menu-btn" onAction="#openLevelMenu">
+        <graphic>
+          <ImageView fitWidth="24" fitHeight="24" preserveRatio="true">
+            <image>
+              <Image url="@../assets/img/game.png"/>
+            </image>
+          </ImageView>
+        </graphic>
+      </Button>
+      <!-- Nút Cửa Hàng -->
+      <Button fx:id="shopButton" text="Cửa Hàng" styleClass="menu-btn">
+        <graphic>
+          <ImageView fitWidth="24" fitHeight="24" preserveRatio="true">
+            <image>
+              <Image url="@../assets/img/shopping-cart.png"/>
+            </image>
+          </ImageView>
+        </graphic>
+      </Button>
+      <!-- Nút Bảng Xếp Hạng -->
+      <Button fx:id="rankButton" text="Bảng Xếp Hạng" styleClass="menu-btn">
+        <graphic>
+          <ImageView fitWidth="24" fitHeight="24" preserveRatio="true">
+            <image>
+              <Image url="@../assets/img/ranking.png"/>
+            </image>
+          </ImageView>
+        </graphic>
+      </Button>
+      <!-- Nút Hướng Dẫn -->
+      <Button fx:id="helpButton" text="Hướng Dẫn" styleClass="menu-btn" onAction="#openGameHelp">
+        <graphic>
+          <ImageView fitWidth="24" fitHeight="24" preserveRatio="true">
+            <image>
+              <Image url="@../assets/img/user-guide.png"/>
+            </image>
+          </ImageView>
+        </graphic>
+      </Button>
     </VBox>
   </AnchorPane>
   <!-- User info -->
   <StackPane fx:id="userInfoContainer" styleClass="user-info-box"
-                                             AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20">
+                                                                       AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20">
     <GridPane hgap="15" vgap="8" alignment="CENTER_LEFT">
       <!-- Avatar -->
       <Label fx:id="avatarLabel" 
-                                                                                                             styleClass="avatar-label"
-                                                                                                             GridPane.rowIndex="0" GridPane.columnIndex="0"
-                                                                                                             GridPane.rowSpan="2"/>
+                                                                                                                                                                                           styleClass="avatar-label"
+                                                                                                                                                                                           GridPane.rowIndex="0" GridPane.columnIndex="0"
+                                                                                                                                                                                           GridPane.rowSpan="2"/>
       <!-- Username -->
       <Label fx:id="usernameLabel" 
-                                                                                                             styleClass="username"
-                                                                                                             GridPane.rowIndex="0" GridPane.columnIndex="1"
-                                                                                                             GridPane.columnSpan="2"/>
+                                                                                                                                                                                           styleClass="username"
+                                                                                                                                                                                           GridPane.rowIndex="0" GridPane.columnIndex="1"
+                                                                                                                                                                                           GridPane.columnSpan="2"/>
       <!-- Coin -->
       <Label fx:id="coinLabel" text="💰 1,000"
-                                                                                                             styleClass="coin-label"
-                                                                                                             GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                                                                                                                                                                                           styleClass="coin-label"
+                                                                                                                                                                                           GridPane.rowIndex="1" GridPane.columnIndex="1"/>
       <!-- Trophy -->
       <Label fx:id="trophyLabel" text="🏆 0"
-                                                                                                             styleClass="trophy-label"
-                                                                                                             GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                                                                                                                                                                                           styleClass="trophy-label"
+                                                                                                                                                                                           GridPane.rowIndex="1" GridPane.columnIndex="2"/>
     </GridPane>
   </StackPane>
   <!-- Profile / Logout buttons -->
   <HBox spacing="10" alignment="CENTER_RIGHT"
-                                        AnchorPane.topAnchor="20"
-                                        AnchorPane.rightAnchor="20">
+                                                                  AnchorPane.topAnchor="20"
+                                                                  AnchorPane.rightAnchor="20">
     <Button fx:id="profileButton" text="👤 Profile" styleClass="profile-btn"/>
     <Button fx:id="logoutButton" text="⏻ Logout" styleClass="logout-btn" onAction="#logout"/>
   </HBox>

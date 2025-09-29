@@ -14,6 +14,12 @@ import vibe.com.demo.service.AuthService;
 public class LobbyController implements BaseController {
 
     @FXML
+    private Label coinLabel;
+
+    @FXML
+    private Label trophyLabel;
+
+    @FXML
     private Button playButton;
 
     @FXML
@@ -38,20 +44,20 @@ public class LobbyController implements BaseController {
 
     @Override // ghi de ham tu BaseController
     public void setMainApp(MainApp mainApp) {
-
         this.mainApp = mainApp;
-        authService = AuthService.getInstance();
-        //tự động lấy USER hiện tại 
-        loadCurrentuserData();
     }
 
     //hàm để load tên trong game của người vừa đăng nhập / tạo tài khoản 
     public void loadCurrentuserData() {
+        // set playerName
         currentUser = authService.getCurrentUser();
         if (currentUser != null) {
             System.out.println("Ten nguoi choi hien tai la: " + currentUser.getPlayerName());
             usernameLabel.setText(currentUser.getPlayerName());
         }
+        //set trophi=countOfCompletedLevel
+        int trophi = authService.getCompletedLevels();
+        trophyLabel.setText("🏆 " + trophi);
 
     }
     @FXML
@@ -76,12 +82,27 @@ public class LobbyController implements BaseController {
     private void initialize() {
         // Hint: initialize() will be called when the associated FXML has been completely loaded.
         audioManager = AudioManager.getInstance();
-
+        authService = AuthService.getInstance();
+        //tự động lấy USER hiện tại 
+        loadCurrentuserData();
     }
 
     @FXML
     public void openGameHelp() {
         System.out.println("Open game help");
-        this.mainApp.loadGameHelpView();
+        if (this.mainApp != null) {
+            PauseTransition delay = new PauseTransition(Duration.millis(50));
+            delay.setOnFinished(e -> this.mainApp.loadGameHelpView());
+            delay.play();
+        }
+    }
+
+    @FXML
+    public void openLevelMenu() {
+        if (this.mainApp != null) {
+            PauseTransition delay = new PauseTransition(Duration.millis(50));
+            delay.setOnFinished(e -> this.mainApp.loadLevelMenuView());
+            delay.play();
+        }
     }
 }

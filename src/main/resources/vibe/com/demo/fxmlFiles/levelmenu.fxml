@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="vibe.com.demo.controller.LevelMenuController"
+            prefWidth="1300" prefHeight="800"
+            styleClass="root-pane">
+  <!-- Nút quay lại -->
+  <Button fx:id="backButton" text="← Quay Lại"
+                                      AnchorPane.leftAnchor="20" AnchorPane.topAnchor="20"
+                                      styleClass="back-btn" onAction="#backToMainMenu"/>
+  <VBox alignment="TOP_CENTER" spacing="15"
+                                    AnchorPane.topAnchor="80"
+                                    AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0">
+    <!-- Tiêu đề -->
+    <Label text="CHỌN LEVEL" styleClass="title"/>
+    <Label text="Hoàn thành level để mở khóa level tiếp theo" styleClass="subtitle"/>
+    <!-- Tiến độ -->
+    <HBox alignment="CENTER" spacing="20">
+      <Label fx:id="completeLabel" text="Hoàn thành: 0/20" styleClass="progress-label"/>
+    </HBox>
+    <!-- Grid level -->
+    <GridPane fx:id="levelGrid" hgap="20" vgap="20"
+                       alignment="CENTER"
+                      styleClass="level-grid"/>
+    <!-- Chú thích -->
+    <HBox alignment="CENTER" spacing="40" styleClass="legend-box">
+      <HBox alignment="CENTER" spacing="5">
+        <Label styleClass="legend-playable"/>
+        <Label text="Có thể chơi" styleClass="legend-text"/>
+      </HBox>
+      <HBox alignment="CENTER" spacing="5">
+        <Label alignment="CENTER" text="🔒" styleClass="legend-locked"/>
+        <Label text="Bị khóa" styleClass="legend-text"/>
+      </HBox>
+      <HBox alignment="CENTER" spacing="5">
+        <Label styleClass="legend-complete"/>
+        <Label text="Hoàn thành" styleClass="legend-text"/>
+      </HBox>
+    </HBox>
+  </VBox>
+</AnchorPane>
