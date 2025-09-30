@@ -8,6 +8,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import vibe.com.demo.service.ServiceLocator;
+import vibe.com.demo.service.audio.AudioService;
+import vibe.com.demo.service.auth.AuthService;
 
 public class LoginController extends FormController {
 
@@ -22,11 +25,12 @@ public class LoginController extends FormController {
 
     @FXML
     private Button loginButton;
-
+    private AudioService audioService = ServiceLocator.getInstance().getAudioService();
+private AuthService authService = ServiceLocator.getInstance().getAuthService();
     @FXML
     private void switchToSignUpView(ActionEvent event) {
         //play am thanh click
-        audioManager.playSoundEffect("clicksound");
+        audioService.playSoundEffect("clicksound");
         if (this.mainApp != null) {
             PauseTransition delay = new PauseTransition(Duration.millis(130));
             delay.setOnFinished(e -> this.mainApp.loadSignUpView());
@@ -53,7 +57,7 @@ public class LoginController extends FormController {
     @FXML
     protected void handleForm(ActionEvent event) {
         //play am thanh click
-        audioManager.playSoundEffect("clicksound");
+        audioService.playSoundEffect("clicksound");
         // TODO Auto-generated method stub
         String username = this.usernameField.getText().trim();
         String password = this.passwordField.getText().trim();

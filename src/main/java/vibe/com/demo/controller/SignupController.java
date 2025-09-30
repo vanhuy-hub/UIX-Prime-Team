@@ -7,6 +7,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.util.Duration;
+import vibe.com.demo.service.ServiceLocator;
+import vibe.com.demo.service.audio.AudioService;
+import vibe.com.demo.service.auth.AuthService;
 
 public class SignupController extends FormController {
 
@@ -24,19 +27,21 @@ public class SignupController extends FormController {
     @FXML
     public void switchToLoginView(ActionEvent event) {
         //play am thanh click
-        audioManager.playSoundEffect("clicksound");
+        audioService.playSoundEffect("clicksound");
         if (this.mainApp != null) {
             PauseTransition delay = new PauseTransition(Duration.millis(150));//0.1s
             delay.setOnFinished(e -> this.mainApp.loadLoginView());
             delay.play();
         }
     }
+    private AuthService authService = ServiceLocator.getInstance().getAuthService();
+    private AudioService audioService = ServiceLocator.getInstance().getAudioService();
 
     @Override
     @FXML
     public void handleForm(ActionEvent event) {
         //play am thanh click
-        audioManager.playSoundEffect("clicksound");
+        audioService.playSoundEffect("clicksound");
         //xu li input 
         String username = this.usernameField.getText().trim();
         String playerName = this.playerNameField.getText().trim();
@@ -45,17 +50,10 @@ public class SignupController extends FormController {
         if (!isValidateSignUp(username, playerName, password, confirmPassword)) {
             return;
         }
-        if (this.authService.isUsernameExists(username)) {
-            showError("Tên đăng nhập đã tồn tại ❌!");
+        if (!this.authService.signUp(username, password, playerName)) {
+            showError("Người dùng đã tồn tại!");
             return;
         }
-        if (this.authService.isPlayerNameExists(playerName)) {
-            showError("Tên trong game đã có người dùng ❌!");
-            return;
-        }
-
-        //thỏa mãn hết điều kiện ~ lưu 
-        this.authService.addUser(username, password, playerName);
         // Thỏa mãn hết điều kiện ~ lưu 
         {
             registerButton.setText("ĐANG TẠO TÀI KHOẢN...");

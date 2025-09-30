@@ -7,7 +7,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import vibe.com.demo.MainApp;
-import vibe.com.demo.service.AuthService;
+import vibe.com.demo.model.user.User;
+import vibe.com.demo.service.ServiceLocator;
+import vibe.com.demo.service.audio.AudioService;
+import vibe.com.demo.service.auth.AuthService;
+import vibe.com.demo.service.game.GameProgressService;
 
 public class LevelMenuController implements BaseController {
 
@@ -23,7 +27,10 @@ public class LevelMenuController implements BaseController {
 
     // ---------------- Internal fields ----------------
     private MainApp mainApp;
-    private AuthService authService;
+    private AudioService audioService = ServiceLocator.getInstance().getAudioService();
+    private AuthService authService = ServiceLocator.getInstance().getAuthService();
+    private User currentUser = authService.getCurrentUser();
+    private GameProgressService gameProgressService = ServiceLocator.getInstance().getGameProgressService();
 
     private int totalLevels;
     private int completedLevels;
@@ -38,12 +45,8 @@ public class LevelMenuController implements BaseController {
 
     @FXML
     private void initialize() {
-        authService = AuthService.getInstance();
-
         totalLevels = 20;
-        authService.setCompletedLevels(10);
-        completedLevels = authService.getCompletedLevels();
-
+        completedLevels = gameProgressService.getTrophies(currentUser);
         renderLevelGrid();
         updateCompleteLabel();
     }
@@ -93,7 +96,7 @@ public class LevelMenuController implements BaseController {
 
     //mở gameview khi chọn level 
     public void handleOpenGameView(int level) {
-        this.authService.setSelectedLevel(level);
+        this.gameProgressService.setSelectedLevel(level);
         this.mainApp.loadGameView();
     }
 

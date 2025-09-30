@@ -5,14 +5,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import vibe.com.demo.MainApp;
-import vibe.com.demo.audio.AudioManager;
-import vibe.com.demo.service.AuthService;
+import vibe.com.demo.service.ServiceLocator;
+import vibe.com.demo.service.audio.AudioService;
+import vibe.com.demo.service.auth.AuthService;
 
 public abstract class FormController implements BaseController {
 
     protected MainApp mainApp;
-    protected AuthService authService;
-    protected AudioManager audioManager = AudioManager.getInstance();
+    protected AuthService authService = ServiceLocator.getInstance().getAuthService();
+    protected AudioService audioManager = ServiceLocator.getInstance().getAudioService();
     @FXML
     protected VBox errorContainer;
     @FXML
@@ -20,7 +21,7 @@ public abstract class FormController implements BaseController {
 
     //hàm khởi tạo phải dùng ở bên ngoài package khác nên public 
     public FormController() {
-        authService = AuthService.getInstance();
+
     }
 
     //setMainApp do dùng ở package khác nên cần khai báo public 
