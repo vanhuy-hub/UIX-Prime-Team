@@ -95,13 +95,21 @@
     -fx-background-radius: 14;
 }
 .next-btn {
-    -fx-background-color: rgba(21, 15, 38,0.5);
-    -fx-border-color: #ccc;
+    
      -fx-border-width: 1;
     -fx-border-radius: 14;
     -fx-font-weight: bold;
-    -fx-text-fill: red;
+    -fx-text-fill: white;
     -fx-font-size: 16px;
     -fx-padding: 12 24;
     -fx-background-radius: 14;
+}
+.next-btn:locked{
+-fx-background-color: linear-gradient(to bottom, #d1d5db, #9ca3af);
+ -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);
+
+}
+.next-btn:unlocked{
+ -fx-background-color: linear-gradient(to bottom, #34d399, #10b981);
+  -fx-effect: dropshadow(gaussian, rgba(16, 185, 129, 0.3), 8, 0, 0, 3);
 }
