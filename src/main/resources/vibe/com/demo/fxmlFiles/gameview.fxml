@@ -68,7 +68,7 @@
       <VBox spacing="10" styleClass="modal">
         <Label text="Quick Tips" styleClass="panel-title-green"/>
         <Label text="• Destroy all blocks to complete level" styleClass="sub-title"/>
-        <Label text="• Hit ball with paddle edges for angles" styleClass="sub-title"/>
+        <Label text="• Hit ball with paddle edges" styleClass="sub-title"/>
         <Label text="• Keep the ball in play" styleClass="sub-title"/>
         <Label text="• Ball will auto-correct if stuck" styleClass="sub-title"/>
       </VBox>
