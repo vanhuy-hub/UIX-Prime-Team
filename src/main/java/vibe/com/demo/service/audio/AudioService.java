@@ -1,4 +1,4 @@
-package vibe.com.demo.audio;
+package vibe.com.demo.service.audio;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -8,24 +8,16 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
-public class AudioManager {
+public class AudioService {
 
-    private static AudioManager instance;//thực thể chung của cả lớp để dùng chung ở mọi nơi 
     private Map<String, MediaPlayer> backGroundMusic;//nhạc nền 
     private Map<String, AudioClip> soundEffects;//hiệu ứng âm thanh 
     private MediaPlayer currentMusic;//để get/set âm thanh nền hiện tại 
 
-    public AudioManager() {
+    public AudioService() {
         backGroundMusic = new HashMap<>();
         soundEffects = new HashMap<>();
         preLoadSounds();
-    }
-
-    public static AudioManager getInstance() {
-        if (instance == null) {
-            instance = new AudioManager();
-        }
-        return instance;
     }
 
     public MediaPlayer getCurrentMusic() {

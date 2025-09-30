@@ -9,14 +9,15 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import vibe.com.demo.audio.AudioManager;
 import vibe.com.demo.controller.BaseController;
+import vibe.com.demo.service.ServiceLocator;
+import vibe.com.demo.service.audio.AudioService;
 
 public class MainApp extends Application {
 
     private Stage stage;
     private StackPane contentPane;//vung chua SubScene
-    private AudioManager audioManager = AudioManager.getInstance();
+    private AudioService audioService = ServiceLocator.getInstance().getAudioService();
 
     @Override
     public void start(Stage stage) {
@@ -31,13 +32,13 @@ public class MainApp extends Application {
         stage.setScene(mainScene);
         stage.show();
         //load Login scene đầu tiên 
-        loadLevelMenuView();
+        loadLoginView();
 
     }
 
     public <T extends BaseController> void loadView(String pathFxmlFile, String pathCssFile, String musicName) {
         try {
-            audioManager.playBackgroundMusic(musicName);
+            audioService.playBackgroundMusic(musicName);
             contentPane.getChildren().clear();//xoa cac phan tu truoc
             FXMLLoader loader = new FXMLLoader(getClass().getResource(pathFxmlFile));
             Parent view = loader.load();
