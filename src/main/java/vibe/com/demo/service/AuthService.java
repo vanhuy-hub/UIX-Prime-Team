@@ -3,6 +3,8 @@ package vibe.com.demo.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import vibe.com.demo.model.User;
 
 public class AuthService {
@@ -11,6 +13,7 @@ public class AuthService {
     private List<User> users;
     private User currentUser;//lưu đối tượng hiện tại sau khi signUp/login thành công
     private int completedLevels;//lưu số level đã hoàn thành 
+    private IntegerProperty selectedLevel = new SimpleIntegerProperty(1);//level mà người chơi đã chọn 
 
     public User getCurrentUser() {//trả về currentUser khi ở lobby
         return currentUser;
@@ -84,7 +87,20 @@ public class AuthService {
         return completedLevels;
     }
 
-    public void getCompletedLevels(int completedLevels) {
+    public void setCompletedLevels(int completedLevels) {
         this.completedLevels = completedLevels;
+    }
+
+    public IntegerProperty getSelectedLevel() {
+        return selectedLevel;
+    }
+
+    public void setSelectedLevel(int selectedLevelInt) {
+        this.selectedLevel.set(selectedLevelInt);
+    }
+
+    // hàm kiểm tra lockedNextBtn 
+    public boolean isLockedNextButton() {
+        return completedLevels + 1 == selectedLevel.get();//khi level chọn = level mà người chơi hoàn thành +1 
     }
 }

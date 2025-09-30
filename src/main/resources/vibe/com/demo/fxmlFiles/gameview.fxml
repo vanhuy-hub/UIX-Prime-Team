@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="vibe.com.demo.controller.GameViewController"
+            prefWidth="1300" prefHeight="800"
+            minWidth="1300" minHeight="800"
+            styleClass="root"
+          >
+  <!-- Main Game Area -->
+  <center>
+    <StackPane styleClass="left-area">
+      <AnchorPane fx:id="gameArea" styleClass="game-area" maxWidth="900" maxHeight="700"/>
+    </StackPane>
+  </center>
+
+  <!-- Right Sidebar -->
+  <right>
+    <VBox spacing="20" styleClass="sidebar" prefWidth="320">
+      <!-- Game Info -->
+      <VBox spacing="12" styleClass="modal">
+        <Label text="Game Info" styleClass="panel-title"/>
+        <HBox spacing="10">
+          <Label text="Coins:" styleClass="sub-title"/>
+          <Label fx:id="scoreLabel" text="0" styleClass="highlight"/>
+          <ImageView fitWidth="20" fitHeight="20">
+            <image>
+              <Image url="@../assets/img/coin.png"/>
+            </image>
+          </ImageView>
+        </HBox>
+        <HBox spacing="10">
+          <Label text="Level:" styleClass="sub-title"/>
+          <Label fx:id="levelLabel" text="1" styleClass="highlight"/>
+        </HBox>
+        <HBox spacing="10">
+          <Label text="Lives:" styleClass="sub-title"/>
+          <HBox fx:id="livesBox" spacing="6">
+            <Label text="❤" styleClass="life"/>
+            <Label text="❤" styleClass="life"/>
+            <Label text="❤" styleClass="life"/>
+          </HBox>
+        </HBox>
+      </VBox>
+      <!-- Controls -->
+      <VBox spacing="12" styleClass="modal">
+        <Label text="Controls" styleClass="panel-title"/>
+        <HBox spacing="10">
+          <Label text="Move:" styleClass="sub-title"/>
+          <Label text="←/→" styleClass="content"/>
+        </HBox>
+        <HBox spacing="10">
+          <Label text="Launch/Pause:" styleClass="sub-title"/>
+          <Label text="SPACE" styleClass="content"/>
+        </HBox>
+      </VBox>
+      <!-- Buttons -->
+      <VBox spacing="12">
+        <Button fx:id="pauseButton" text="⏸ Pause" styleClass="pause-btn" onAction="#pauseGame" alignment="CENTER" minWidth="300"/>
+        <Button fx:id="menuButton" text="⌂ Back to Menu" styleClass="menu-btn" onAction="#backToLevelMenu" alignment="CENTER" minWidth="300"/>
+      </VBox>
+      <!-- Quick Tips -->
+      <VBox spacing="10" styleClass="modal">
+        <Label text="Quick Tips" styleClass="panel-title-green"/>
+        <Label text="• Destroy all blocks to complete level" styleClass="sub-title"/>
+        <Label text="• Hit ball with paddle edges for angles" styleClass="sub-title"/>
+        <Label text="• Keep the ball in play" styleClass="sub-title"/>
+        <Label text="• Ball will auto-correct if stuck" styleClass="sub-title"/>
+      </VBox>
+      <!-- Complete button -->
+      <StackPane styleClass="background-next-btn" minWidth="300">
+        <Button fx:id="nextButton" alignment="CENTER" minWidth="260" onAction="#handleNextLevel"/>
+      </StackPane>
+    </VBox>
+  </right>
+</BorderPane>

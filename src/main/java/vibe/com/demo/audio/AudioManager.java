@@ -41,6 +41,7 @@ public class AudioManager {
         //load music
         loadBackgoundMusic("nhacnen", "/vibe/com/demo/assets/sounds/mu.mp3");
         loadBackgoundMusic("lobbyMusic", "/vibe/com/demo/assets/sounds/lobbyMusic.mp3");
+        loadBackgoundMusic("playgame", "/vibe/com/demo/assets/sounds/playgame.mp3");
         // load audioclip
         loadSoundEffect("clicksound", "/vibe/com/demo/assets/sounds/clickSound.mp3");
 
