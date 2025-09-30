@@ -9,7 +9,7 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="vibe.com.demo.controller.GameHelpController"
             prefWidth="1300" prefHeight="800"
-            stylesheets="@gamehelp.css"
+            
             styleClass="root-pane">
   <!-- NAVIGATION TOP -->
   <top>

@@ -41,6 +41,7 @@ public class LevelMenuController implements BaseController {
         authService = AuthService.getInstance();
 
         totalLevels = 20;
+        authService.setCompletedLevels(10);
         completedLevels = authService.getCompletedLevels();
 
         renderLevelGrid();
@@ -70,6 +71,9 @@ public class LevelMenuController implements BaseController {
                 levelItem.getStyleClass().add(
                         (i == completedLevels + 1) ? "playable" : "completed"
                 );
+                //load gameview khi select level 
+                levelItem.setOnAction(e -> handleOpenGameView(Integer.valueOf(levelItem.getText())));
+                // ...
             } else {
                 levelItem.setText("🔒");
                 levelItem.getStyleClass().add("locked");
@@ -83,7 +87,14 @@ public class LevelMenuController implements BaseController {
                 col = 0;
                 row++;
             }
+
         }
+    }
+
+    //mở gameview khi chọn level 
+    public void handleOpenGameView(int level) {
+        this.authService.setSelectedLevel(level);
+        this.mainApp.loadGameView();
     }
 
     private void updateCompleteLabel() {

@@ -31,7 +31,7 @@ public class MainApp extends Application {
         stage.setScene(mainScene);
         stage.show();
         //load Login scene đầu tiên 
-        loadLoginView();
+        loadLevelMenuView();
 
     }
 
@@ -69,12 +69,16 @@ public class MainApp extends Application {
 
     public void loadGameHelpView() {
 
-        loadView("fxmlFiles/gameHelp.fxml", "assets/css/gamehelp.css", null);
+        loadView("fxmlFiles/gameHelp.fxml", "assets/css/gamehelp.css", "lobbyMusic");
 
     }
 
     public void loadLevelMenuView() {
-        loadView("fxmlFiles/levelmenu.fxml", "assets/css/levelmenu.css", null);
+        loadView("fxmlFiles/levelmenu.fxml", "assets/css/levelmenu.css", "lobbyMusic");
+    }
+
+    public void loadGameView() {
+        loadView("fxmlFiles/gameview.fxml", "assets/css/gameview.css", "playgame");
     }
 
     // day la ham main
