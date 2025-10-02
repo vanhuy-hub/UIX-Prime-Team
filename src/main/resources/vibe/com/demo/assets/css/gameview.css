@@ -7,16 +7,79 @@
 /* Game Area */
 .left-area {
     -fx-background-color: transparent;
+    -fx-padding: 20;
+    -fx-alignment: CENTER;
 }
-.game-area{
-       -fx-background-color:rgb(16, 24, 41);
-    -fx-background-radius: 14;
-    -fx-padding: 18;
+
+.game-area {
+    -fx-border-color: linear-gradient(to bottom, #3b82f6, #1e40af);
+    -fx-border-width: 3;
+    -fx-border-radius: 20;
+   
+    -fx-background-radius: 20;
+    -fx-background-size: cover;
+    -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.3), 20, 0.3, 0, 4);
+    -fx-min-width: 900px;
+    -fx-min-height: 700px;
+    /* -fx-max-width: 900px;
+    -fx-max-height: 700px; */
+}
+
+.over-lay {
+    -fx-background-color: linear-gradient(to bottom, 
+        rgba(0, 0, 0, 0.7), 
+        rgba(30, 41, 59, 0.8));
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 30, 0.5, 0, 8);
+    -fx-min-width: 900px;
+    -fx-min-height: 700px;
+    -fx-max-width: 900px;
+    -fx-max-height: 700px;
+}
+
+.overlay-title {
+    -fx-font-weight: bold;
+    -fx-font-size: 24px;
+    -fx-text-fill: linear-gradient(to bottom, #ffffff, #e2e8f0);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 10, 0.5, 2, 2);
+    -fx-alignment: CENTER;
+    -fx-text-alignment: CENTER;
+    -fx-padding: 20;
+}
+
+/* Elements in game */
+.paddle {
+    -fx-pref-height: 16;
+    -fx-pref-width: 120;
+    -fx-background-color: linear-gradient(to bottom, #ef4444, #dc2626);
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-border-color: #fca5a5;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.4), 8, 0.3, 0, 2);
+}
+
+.ball {
+    -fx-background-color: transparent;
+    -fx-background-image: url("../img/ball.png");
+    -fx-background-size: 20px 20px;
+    /* -background-size: để scale ảnh về đúng kích thước 20*20  */
+    -fx-background-repeat: no-repeat;
+    /* repeat : là thuộc tính để lặp lại ảnh , nếu dùng giá trị repeat thì ảnh sẽ được lặp lại trong label     */
+    -fx-background-position: center;
+    /* position="center để căng vị trí ảnh chính giữa label */
+    -fx-pref-width: 20px;
+    -fx-pref-height: 20px;
+    -fx-min-width: 20px;
+    -fx-min-height: 20px;
+    -fx-max-width: 20px;
+    -fx-max-height: 20px;
     
-       -fx-border-color: #3b82f6;
-     -fx-border-width: 2;
-    -fx-border-radius: 14;
 }
+
 /* Sidebar */
 .sidebar {
     -fx-background-color: linear-gradient(to bottom right, #0b0f1a, #111827);
@@ -76,6 +139,12 @@
     -fx-background-radius: 10;
     -fx-padding: 12 24;
 }
+.pause-btn:hover {
+    -fx-background-color: linear-gradient(to bottom, #d97706, #b45309);
+    -fx-text-fill: #fef3c7;
+    -fx-cursor: hand;
+     -fx-background-radius: 10;
+}
 
 .menu-btn {
     -fx-background-color: linear-gradient(to bottom, #b91c1c, #7f1d1d);
@@ -85,12 +154,18 @@
     -fx-background-radius: 10;
     -fx-padding: 12 24;
 }
-
+.menu-btn:hover {
+       -fx-cursor: hand;
+    -fx-background-color: linear-gradient(to bottom, #b91c1c, #991b1b);
+    -fx-text-fill: #fecaca;
+ -fx-background-radius: 10;
+ 
+}
 .background-next-btn{
     -fx-padding: 13 20;
      -fx-background-color: rgba(21, 15, 38,0.5);
-     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 10, 0, 0, 6);
-    -fx-border-color: rgb(12, 61, 89);
+    
+   
     -fx-border-radius: 14;
     -fx-background-radius: 14;
 }
