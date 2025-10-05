@@ -18,25 +18,24 @@ public class Ball extends MovableObject {
     public Ball(double x, double y, double radius) {
         super(x, y, radius * 2, radius * 2);//do lớp cha chỉ có hàm khởi tạo có tham số, nên lớp con bắt buộc phải có 1 hàm khởi tạo và gọi đến hàm khởi tạo của hàm cha bằng từ khóa super (Params...)
         this.color = Color.WHITE;
-        this.speed = 2;
+        speed = 4;
         this.isActive = false;
     }
 
     @Override
     public void render(GraphicsContext renderer) {
-        if (!isActive) {
-            return;
-        }
-        renderer.setFill(color);
+        renderer.setFill(Color.GRAY);
         renderer.fillOval(x, y, width, height);//vẽ 1 hình tròn 
         // Add a shine effect ~ thêm hiệu ứng ánh sáng  
         renderer.setFill(Color.rgb(255, 255, 255, 0.7));
-        renderer.fillOval(+width * 0.3, y + height * 0.2, width * 0.4, height * 0.4);
+        renderer.fillOval(x + width * 0.3, y + height * 0.2, width * 0.4, height * 0.4);
     }
 
     @Override
     public void update() {
         if (this.isActive) {
+            System.out.println("bal nay");
+            System.out.println("dx: " + this.dx + "- dy: " + this.dy);
             super.update();//gọi đến phương thức update của thằng Movalable 
         }
     }
@@ -53,17 +52,17 @@ public class Ball extends MovableObject {
 
     //phương thức reset(khi chơi lại từ đầu)
     public void reset(Paddle paddle) {
+        System.out.println("reset ball");
         isActive = false;//dừng trạng thái nảy 
         x = paddle.getX() + paddle.getWidth() / 2 - this.width / 2;
-        y = paddle.getY() - this.height / 2;
-        this.dx = 0;
-        this.dy = 0;
+        y = paddle.getY() - this.height - 5;
+
     }
 
     //phuong thuc hoat dong, do quả bóng sẽ nảy liên tùng tục trong game 
     public void launch() {
+        this.setVelocity(speed, -speed);//hàm set cả 2 giá trị dx, dy ở lớp cha MovableObject 
         isActive = true;
-        this.update();
     }
 
     public boolean isIsActive() {

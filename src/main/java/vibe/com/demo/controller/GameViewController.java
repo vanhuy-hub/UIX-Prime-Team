@@ -6,15 +6,15 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import vibe.com.demo.MainApp;
+import vibe.com.demo.game.core.GameManager;
 import vibe.com.demo.model.user.User;
 import vibe.com.demo.service.ServiceLocator;
 import vibe.com.demo.service.audio.AudioService;
@@ -24,16 +24,13 @@ import vibe.com.demo.service.game.GameProgressService;
 public class GameViewController implements BaseController {
 
     @FXML
+    private Button changePaddleBtn;
+
+    @FXML
     private Canvas gameCanvas;
 
     @FXML
     private BorderPane rootPane;
-
-    @FXML
-    private StackPane overlay;
-
-    @FXML
-    private Label overlayTitle;
 
     @FXML
     private StackPane gameArea;
@@ -48,19 +45,21 @@ public class GameViewController implements BaseController {
     private HBox livesBox;
 
     @FXML
-    private Button pauseButton;
-
-    @FXML
     private Button menuButton;
 
     @FXML
     private Button nextButton;
 
+    //các service liên quan 
     private MainApp mainApp;
     private AudioService audioService = ServiceLocator.getInstance().getAudioService();
     private AuthService authService = ServiceLocator.getInstance().getAuthService();
     private User currentUser = authService.getCurrentUser();
     private GameProgressService gameProgressService = ServiceLocator.getInstance().getGameProgressService();
+
+    //Đôi tượng quản lý game session : 
+    private GameManager gameManager;
+    private GraphicsContext renderer;
 
     // level da chon ~ dùng data binding
     private IntegerProperty selectedLevel = gameProgressService.getSelectedLevelProperty();
@@ -72,32 +71,103 @@ public class GameViewController implements BaseController {
         this.mainApp = mainApp;
     }
 
-    @FXML
-    private void initialize() {
+    /**
+     * Hàm khởi tạo các ràng buộc dữ liệu
+     */
+    public void dataBindingInit() {
         //data binding
         levelLabel.textProperty().bind(selectedLevel.asString());
         coinLabel.textProperty().bind(totalCoins.asString());
-        // Hint: initialize() will be called when the associated FXML has been completely loaded.
-        loadCurrentData();
-
-        // xử lý sự kiên bàn phím : 
-        gameArea.setFocusTraversable(true);
-        gameArea.requestFocus();
-        isStopState = false;
-        gameArea.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.SPACE) {
-                if (!isStopState) {
-                    hideOverLay();
-                } else {
-                    showOverLay("Space để tiếp tục");
-                }
-            }
-        });
     }
-    private boolean isStopState;
 
     @FXML
+    private void initialize() {
+        //load phần nằm ngoài game chính 
+        dataBindingInit();
+        loadNextButtonEffect();
+        //hàm khởi tạo gameSession 
+        initializeGameSession();
+        //hàm setup khi gõ phím 
+        setUpKeyHandles();
 
+    }
+
+    /**
+     * Hàm khởi tạo phiên chơi game
+     */
+    public void initializeGameSession() {
+        //Để có thể vẽ lên renderer của canvas , ta cần lấy được đối tượng graphicsContext của nó : 
+        renderer = gameCanvas.getGraphicsContext2D();
+
+        //Lấy chiều dài và chiều rộng gameArea 
+        double gameWidth = gameCanvas.getWidth();
+        double gameHeight = gameCanvas.getHeight();
+
+        //init 
+        gameManager = new GameManager(gameWidth, gameHeight);
+        gameManager.setRenderer(renderer);
+        // TEST: Vẽ hình test trước
+        testCanvas();
+        //Init render 
+        gameManager.render();
+    }
+
+    /**
+     * Test canvas có hoạt động không
+     */
+    private void testCanvas() {
+        System.out.println("🧪 Testing Canvas...");
+
+        // Vẽ test pattern
+        renderer.setFill(javafx.scene.paint.Color.RED);
+        renderer.fillRect(0, 0, 50, 50); // Góc trên trái
+
+        renderer.setFill(javafx.scene.paint.Color.GREEN);
+        renderer.fillRect(gameCanvas.getWidth() - 50, 0, 50, 50); // Góc trên phải
+
+        renderer.setFill(javafx.scene.paint.Color.BLUE);
+        renderer.fillRect(0, gameCanvas.getHeight() - 50, 50, 50); // Góc dưới trái
+
+        renderer.setFill(javafx.scene.paint.Color.YELLOW);
+        renderer.fillRect(gameCanvas.getWidth() - 50, gameCanvas.getHeight() - 50, 50, 50); // Góc dưới phải
+
+        System.out.println("✅ Test pattern drawn");
+    }
+
+    /**
+     * Hàm xử lý sự kiện ấn bàn phím
+     */
+    public void setUpKeyHandles() {
+        //Cần focus vào gameArea ~ vì đó là thằng chịu tác động, có nghĩa là có những thay đổi khi ta ấn bán phím thì đều là thay đổi trên thằng gameArea 
+        gameCanvas.setFocusTraversable(true);//set sự thay đổi chỉ tập trung vào gameCanvas ~ canvas để vẽ đối tượng 
+        gameCanvas.requestFocus();//chấp nhận focus
+
+        // ✅ THÊM FOCUS HANDLER
+        gameArea.focusedProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal) {
+                System.out.println("🎯 GameArea focused - Ready for input");
+            }
+        });
+        //sự kiện ấn phím 
+        gameCanvas.setOnKeyPressed(e -> {
+
+            this.gameManager.handleKeyPressed(e.getCode().toString());
+            e.consume();//phương thức consume để tránh sự kiện bị nổi bọt event bubbling 
+        });
+
+        //sự kiện nhả phím ~ released 
+        gameCanvas.setOnKeyReleased(e -> {
+            gameManager.handleKeyReleased(e.getCode().toString());
+            e.consume();//phương thức consume để tránh sự kiện bị nổi bọt event bubbling 
+        });
+    }
+
+    @FXML
+    public void handleChangePaddle() {
+        this.mainApp.loadLobbyView();
+    }
+
+    @FXML
     public void backToLevelMenu() {
         if (this.mainApp != null) {
             PauseTransition delay = new PauseTransition(Duration.millis(150));//0.1s
@@ -106,35 +176,10 @@ public class GameViewController implements BaseController {
         }
     }
 
-    @FXML
-    public void pauseGame() {
-        if (!isStopState) {
-            hideOverLay();
-        } else {
-            showOverLay("Space để tiếp tục");
-        }
-    }
-
-    public void hideOverLay() {
-        isStopState = !isStopState;
-        this.pauseButton.setText("⏸ Pause");
-        this.overlay.setVisible(false);
-    }
-
-    public void showOverLay(String message) {
-        isStopState = !isStopState;
-        this.pauseButton.setText("▶ Tiếp tục");
-        this.overlayTitle.setText(message);
-        this.overlay.setVisible(true);
-    }
-
-    //lấy dữ liệu level mà người dùng đã chọn và dùng data binding cho label tương ứng 
-    public void loadCurrentData() {
-        // load hiệu ứng cho button next level 
-        loadNextButton();
-    }
-
-    public void loadNextButton() {
+    /**
+     * Load hiệu ứng cho button next-level
+     */
+    public void loadNextButtonEffect() {
 
         if (this.gameProgressService.isLockedNextButton(currentUser)) {
             nextButton.setDisable(true);
@@ -149,6 +194,9 @@ public class GameViewController implements BaseController {
         }
     }
 
+    /**
+     * Hàm xử lý sự kiện khi ấn button next level
+     */
     @FXML
     public void handleNextLevel() {
         if (!nextButton.isDisable()) {

@@ -7,25 +7,32 @@ import vibe.com.demo.game.objects.abstractions.MovableObject;
 
 public class Paddle extends MovableObject {
 
-    private double speed;
+    private double speed = 4;
     private Color color;
-    private boolean isMovingLeft;
-    private boolean isMovingRight;
+    private boolean isMovingLeft = false;
+    private boolean isMovingRight = false;
 
     public Paddle(double x, double y, double width, double height) {
         super(x, y, width, height);
-        this.speed = 4;
+        speed = 4;
         this.color = Color.ANTIQUEWHITE;
     }
 
     public void moveLeft() {
         isMovingLeft = true;
-        isMovingRight = false;//stop move right
     }
 
     public void moveRight() {
         isMovingRight = true;
-        isMovingLeft = false;//stop move left
+    }
+
+    public void stopLeft() {
+        isMovingLeft = false;
+    }
+
+    public void stopRight() {
+        isMovingRight = false;
+
     }
 
     @Override
@@ -40,18 +47,31 @@ public class Paddle extends MovableObject {
 
     @Override
     public void update() {
-        if (isMovingLeft) {
+        this.dx = 0;//reset trước rồi mới cập nhật 
+
+        if (isMovingLeft && !isMovingRight) {
+            System.out.println("move left in update" + speed);
             dx = -speed;
-        } else if (isMovingRight) {
+        } else if (!isMovingLeft && isMovingRight) {
+            System.out.println("move right in update" + speed);
             dx = speed;
-        } else {
-            dx = 0;//dừng di chuyển 
         }
-        super.update();//gọi đến phương thức update của thằng Movalable 
+
+        //gọi đến hàm update của cha để cập nhật vị trí 
+        super.update();
         //giữ để paddle không vượt quá giới hạn 
         if (this.x < 0) {
             this.x = 0;
         }
+    }
+
+    /**
+     * Hàm dừng việc di chuyển của paddle~ điều chỉnh
+     */
+    public void stopMoving() {
+        dx = 0;//gán tốc độ dx bằng 0 chứ đừng gán speed (hằng số vận tôc)
+        stopLeft();
+        stopRight();
     }
 
     public double getSpeed() {

@@ -57,10 +57,11 @@ public abstract class GameObject {
     //Collision detection
     public boolean collidesWith(GameObject other) {
         double minR = Math.min(x + width, other.x + other.getWidth());
-        double maxL = Math.min(x, other.x);
+        double maxL = Math.max(x, other.x);
         double maxT = Math.max(y, other.y);
         double minB = Math.min(y + height, other.y + other.getHeight());
         return minR >= maxL && maxT <= minB;
+
     }
 
     public Rectangle2D getBounds() {

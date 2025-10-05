@@ -19,12 +19,7 @@
     <StackPane styleClass="left-area">
       <!--Elements -->
       <StackPane fx:id="gameArea" styleClass="game-area" maxWidth="900" maxHeight="700">
-        <Canvas fx:id="gameCanvas"/>
-      </StackPane>
-      <!--Overlay -->
-      <StackPane fx:id="overlay"
-                                           maxWidth="900" maxHeight="700" styleClass="over-lay" alignment="CENTER">
-        <Label fx:id="overlayTitle" text="Nhấn Space để bắt đầu ..." styleClass="overlay-title"/>
+        <Canvas fx:id="gameCanvas" width="900" height="700"/>
       </StackPane>
     </StackPane>
   </center>
@@ -68,10 +63,14 @@
           <Label text="Launch/Pause:" styleClass="sub-title"/>
           <Label text="SPACE" styleClass="content"/>
         </HBox>
+        <HBox spacing="10">
+          <Label text="Restart:" styleClass="sub-title"/>
+          <Label text="R" styleClass="content"/>
+        </HBox>
       </VBox>
       <!-- Buttons -->
       <VBox spacing="12">
-        <Button fx:id="pauseButton" text="▶ Start" styleClass="pause-btn" onAction="#pauseGame" alignment="CENTER" minWidth="300"/>
+        <Button fx:id="changePaddleBtn" text="Đổi Paddle" styleClass="pause-btn" onAction="#handleChangePaddle" alignment="CENTER" minWidth="300"/>
         <Button fx:id="menuButton" text="⌂ Back to Menu" styleClass="menu-btn" onAction="#backToLevelMenu" alignment="CENTER" minWidth="300"/>
       </VBox>
       <!-- Quick Tips -->
@@ -85,7 +84,7 @@
       <!-- Complete button -->
       <StackPane styleClass="background-next-btn" minWidth="300">
         <Button fx:id="nextButton" styleClass="next-btn" 
-                                                                                                                                                                                                                                                                  alignment="CENTER" minWidth="260" onAction="#handleNextLevel"/>
+                                                                                                                                                                                                                                                                                                                                          alignment="CENTER" minWidth="260" onAction="#handleNextLevel"/>
       </StackPane>
     </VBox>
   </right>

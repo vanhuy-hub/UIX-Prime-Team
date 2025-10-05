@@ -4,8 +4,8 @@ package vibe.com.demo.game.objects.abstractions;
 
 public abstract class MovableObject extends GameObject {
 
-    protected double dx;//toc do theo phuong x
-    protected double dy;//toc do theo phuong y
+    protected double dx = 0;//toc do theo phuong x
+    protected double dy = 0;//toc do theo phuong y
 
     public MovableObject(double x, double y, double width, double height) {
         super(x, y, width, height);
@@ -29,6 +29,7 @@ public abstract class MovableObject extends GameObject {
         this.dy = dy;
     }
 
+    @Override
     public void update() {
         // TODO Auto-generated method stub
         this.x += dx;

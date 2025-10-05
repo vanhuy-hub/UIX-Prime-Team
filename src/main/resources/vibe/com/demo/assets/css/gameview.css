@@ -25,20 +25,7 @@
     -fx-max-height: 700px; */
 }
 
-.over-lay {
-    -fx-background-color: linear-gradient(to bottom, 
-        rgba(0, 0, 0, 0.7), 
-        rgba(30, 41, 59, 0.8));
-    -fx-background-radius: 20;
-    -fx-border-radius: 20;
-    -fx-border-color: rgba(255, 255, 255, 0.1);
-    -fx-border-width: 1;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 30, 0.5, 0, 8);
-    -fx-min-width: 900px;
-    -fx-min-height: 700px;
-    -fx-max-width: 900px;
-    -fx-max-height: 700px;
-}
+
 
 .overlay-title {
     -fx-font-weight: bold;
