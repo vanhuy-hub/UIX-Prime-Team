@@ -72,4 +72,8 @@ public class Ball extends MovableObject {
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
     }
+
+    public double getSpeed() {
+        return speed;
+    }
 }

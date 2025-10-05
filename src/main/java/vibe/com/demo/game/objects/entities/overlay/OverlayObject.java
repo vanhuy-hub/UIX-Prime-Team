@@ -22,7 +22,6 @@ public class OverlayObject extends GameObject {
 
     public OverlayObject(double x, double y, double width, double height) {
         super(x, y, width, height);
-
         this.textColor = Color.WHITE;
         text = "";
         visible = false;
@@ -31,12 +30,10 @@ public class OverlayObject extends GameObject {
     @Override
     public void render(GraphicsContext renderer) {
         // TODO Auto-generated method stub
-        if (!this.visible) {
-            return;
+        if (this.visible) {
+            renderBackground(renderer);
+            renderText(renderer);
         }
-
-        renderBackground(renderer);
-        renderText(renderer);
 
     }
 

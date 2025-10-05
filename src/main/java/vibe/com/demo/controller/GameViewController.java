@@ -104,34 +104,7 @@ public class GameViewController implements BaseController {
         double gameHeight = gameCanvas.getHeight();
 
         //init 
-        gameManager = new GameManager(gameWidth, gameHeight);
-        gameManager.setRenderer(renderer);
-        // TEST: Vẽ hình test trước
-        testCanvas();
-        //Init render 
-        gameManager.render();
-    }
-
-    /**
-     * Test canvas có hoạt động không
-     */
-    private void testCanvas() {
-        System.out.println("🧪 Testing Canvas...");
-
-        // Vẽ test pattern
-        renderer.setFill(javafx.scene.paint.Color.RED);
-        renderer.fillRect(0, 0, 50, 50); // Góc trên trái
-
-        renderer.setFill(javafx.scene.paint.Color.GREEN);
-        renderer.fillRect(gameCanvas.getWidth() - 50, 0, 50, 50); // Góc trên phải
-
-        renderer.setFill(javafx.scene.paint.Color.BLUE);
-        renderer.fillRect(0, gameCanvas.getHeight() - 50, 50, 50); // Góc dưới trái
-
-        renderer.setFill(javafx.scene.paint.Color.YELLOW);
-        renderer.fillRect(gameCanvas.getWidth() - 50, gameCanvas.getHeight() - 50, 50, 50); // Góc dưới phải
-
-        System.out.println("✅ Test pattern drawn");
+        gameManager = new GameManager(renderer, gameWidth, gameHeight);
     }
 
     /**

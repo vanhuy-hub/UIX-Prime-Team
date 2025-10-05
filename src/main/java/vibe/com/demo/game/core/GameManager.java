@@ -1,6 +1,5 @@
 package vibe.com.demo.game.core;
 
-import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import vibe.com.demo.game.objects.entities.ball.Ball;
@@ -13,19 +12,26 @@ public class GameManager {
     private Paddle paddle;
     private Ball ball;
     private GameState gameState;
-    private AnimationTimer gameLoop;
-    private GraphicsContext renderer;
+
+    private GraphicsContext gc;
     private OverlayObject overlay;
+
+    private Renderer renderer;
+    private GameEngine gameEngine;
 
     //
     private double gameWidth;
     private double gameHeight;
 
-    public GameManager(double gameWidth, double gameHeight) {
+    public GameManager(GraphicsContext gc, double gameWidth, double gameHeight) {
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
         this.gameState = GameState.READY;
+        this.gc = gc;
+        gameEngine = new GameEngine(this);
+        renderer = new Renderer(gc, gameWidth, gameHeight);
         init();
+
     }
 
     public void init() {
@@ -46,15 +52,9 @@ public class GameManager {
         overlay = new OverlayObject(0, 0, gameWidth, gameHeight);
         showOverlay("Nhấn SPACE để bắt đầu");
 
+        //truyền paddle và ball vào setGameObject của gameEngine 
+        gameEngine.setGameObjects(paddle, ball);
         System.out.println("🎯 Paddle position: " + paddleX + "," + paddleY);
-    }
-
-    public GraphicsContext getRenderer() {
-        return renderer;
-    }
-
-    public void setRenderer(GraphicsContext renderer) {
-        this.renderer = renderer;
     }
 
     public void startGame() {
@@ -62,59 +62,13 @@ public class GameManager {
             gameState = GameState.PLAYING;
             ball.launch();
             hideOverlay();
-            startGameLoop();
-        }
-    }
-
-    public void startGameLoop() {
-        gameLoop = new AnimationTimer() {//tach biet voi luong chuong trinh
-            @Override
-            public void handle(long now) {
-                if (gameState == GameState.PLAYING) {
-                    update();
-                    render();
-                }
-            }
-        };
-        gameLoop.start();
-    }
-
-    public void update() {
-        this.paddle.update();
-        this.ball.update();
-        //check collision
-        checkCollision();
-        //check var cham bien
-        checkBoundaties();
-    }
-
-    public void checkCollision() {
-        // System.out.println("ballIsActive: " + ball.isActive());
-        if (ball.collidesWith(paddle) && ball.isIsActive()) {
-            ball.bounceVertical();//dao chieu van toc dy
-        }
-    }
-
-    public void checkBoundaties() {
-        if (ball.getX() <= 0 || ball.getX() + ball.getWidth() >= gameWidth) {
-            ball.bounceHorizontal();
-        }
-        if (ball.getY() <= 0) {
-            ball.bounceVertical();
-        }
-        if (ball.getY() + ball.getHeight() >= gameHeight) {
-            handleBallLost();
-        }
-
-        if (paddle.getX() <= 0) {
-            paddle.setX(0);
-        }
-        if (paddle.getX() + paddle.getWidth() >= gameWidth) {
-            paddle.setX(gameWidth - paddle.getWidth());
+            System.out.println("bat dau");
+            gameEngine.startGameLoop();
         }
     }
 
     public void handleBallLost() {
+        System.out.println("thua");
         restartGame();
         gameState = GameState.READY;
     }
@@ -125,28 +79,13 @@ public class GameManager {
      *
      */
     public void restartGame() {
-        if (this.gameLoop != null) {
-            gameLoop.stop();
-        }
+        gameEngine.stopGameLoop();
         init();
         gameState = GameState.READY;
     }
 
     public void render() {
-        if (renderer == null) {
-            System.out.println("renderer is null");
-            return;
-        }
-        //clear canvas
-        renderer.clearRect(0, 0, gameWidth, gameHeight);
-
-        // Draw background
-        renderer.setFill(javafx.scene.paint.Color.BLACK);
-        renderer.fillRect(0, 0, gameWidth, gameHeight);
-        //render elements
-        this.paddle.render(renderer);
-        this.ball.render(renderer);
-        this.overlay.render(renderer);
+        renderer.render(ball, paddle, overlay);
     }
 
     /**
@@ -188,6 +127,7 @@ public class GameManager {
             case "LEFT" ->
                 this.paddle.moveLeft();
             case "SPACE" -> {
+                System.out.println("Overlay " + overlay.isVisible());
                 if (gameState == GameState.READY) {
                     startGame();//bắt đầu game 
                 } else if (gameState == GameState.PLAYING || gameState == GameState.PAUSED) {
@@ -233,6 +173,14 @@ public class GameManager {
         return this.gameState == GameState.GAME_WIN;
     }
 
+    public GraphicsContext getGc() {
+        return gc;
+    }
+
+    public void setGc(GraphicsContext gc) {
+        this.gc = gc;
+    }
+
     /**
      * GameState ~ Trạng thái của game : là kiểu enum vì chỉ có vài trạng thái
      * nhất định
@@ -267,14 +215,6 @@ public class GameManager {
 
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
-    }
-
-    public AnimationTimer getGameLoop() {
-        return gameLoop;
-    }
-
-    public void setGameLoop(AnimationTimer gameLoop) {
-        this.gameLoop = gameLoop;
     }
 
     public double getGameWidth() {
