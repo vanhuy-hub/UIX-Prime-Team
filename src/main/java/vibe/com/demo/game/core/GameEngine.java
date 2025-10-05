@@ -1,7 +1,10 @@
 package vibe.com.demo.game.core;
 
+import java.util.List;
+
 import javafx.animation.AnimationTimer;
 import vibe.com.demo.game.objects.entities.ball.Ball;
+import vibe.com.demo.game.objects.entities.bricks.Brick;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
 
 /**
@@ -16,7 +19,7 @@ public class GameEngine {
     //các đối tượng trong game 
     private Paddle paddle;
     private Ball ball;
-
+    private List<Brick> bricks;
     //Game state 
     private boolean isRunning = false;
 
@@ -25,9 +28,10 @@ public class GameEngine {
         collisionDetector = new CollisionDetector();
     }
 
-    public void setGameObjects(Paddle paddle, Ball ball) {
+    public void setGameObjects(Paddle paddle, Ball ball, List<Brick> bricks) {
         this.paddle = paddle;
         this.ball = ball;
+        this.bricks = bricks;
     }
 
     /**
@@ -71,6 +75,12 @@ public class GameEngine {
         this.collisionDetector.checkBallPaddleCollision(ball, paddle);
         this.collisionDetector.checkWallCollision(ball, gameManager.getGameWidth(), gameManager.getGameHeight());
         this.collisionDetector.constrainPaddle(paddle, gameManager.getGameWidth());
+        for (Brick brick : bricks) {
+            //chỉ kiểm tra những viên gạch nào không phải null 
+            if (brick != null) {
+                this.collisionDetector.checkBallBrickCollision(ball, brick);
+            }
+        }
     }
 
     public void checkBallLost() {

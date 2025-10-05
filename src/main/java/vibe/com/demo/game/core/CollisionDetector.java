@@ -1,6 +1,9 @@
 package vibe.com.demo.game.core;
 
+import vibe.com.demo.game.objects.abstractions.GameObject;
 import vibe.com.demo.game.objects.entities.ball.Ball;
+import vibe.com.demo.game.objects.entities.bricks.Brick;
+import vibe.com.demo.game.objects.entities.bricks.NormalBrick;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
 
 public class CollisionDetector {
@@ -8,26 +11,59 @@ public class CollisionDetector {
     /**
      * Hàm check va chạm cơ bản
      */
-    public boolean basicCollision(Ball ball, Paddle paddle) {
-        double minR = Math.min(ball.getX() + ball.getWidth(), paddle.getX() + paddle.getWidth());
-        double maxL = Math.max(ball.getX(), paddle.getX());
-        double maxT = Math.max(ball.getY(), paddle.getY());
-        double minB = Math.min(ball.getY() + ball.getHeight(), paddle.getY() + paddle.getHeight());
+    public boolean basicCollision(GameObject obj1, GameObject obj2) {
+        double minR = Math.min(obj1.getX() + obj1.getWidth(), obj2.getX() + obj2.getWidth());
+        double maxL = Math.max(obj1.getX(), obj2.getX());
+        double maxT = Math.max(obj1.getY(), obj2.getY());
+        double minB = Math.min(obj1.getY() + obj1.getHeight(), obj2.getY() + obj2.getHeight());
         return minR >= maxL && maxT <= minB;
+    }
+
+    /**
+     * Enum miền giá trị của CollisionSide
+     */
+    public enum CollisionSide {
+        TOP,
+        RIGHT,
+        LEFT,
+        BOTTOM
     }
 
     /**
      * Hàm check+xử lí nếu có va chạm giữa bóng và paddle
      */
-    public boolean checkBallPaddleCollision(Ball ball, Paddle paddle) {
+    public void checkBallPaddleCollision(Ball ball, Paddle paddle) {
         if (!ball.isActive() || !basicCollision(ball, paddle)) {
-            return false;
+            return;
         }
         //tính toán vi trí va chạm để xác định góc bật 
         double hitPosition = calculateHitPosition(ball, paddle);
         //gọi hàm xử lý khi 
         handlePaddleCollision(ball, paddle, hitPosition);
-        return true;
+    }
+
+    /**
+     * Hàm check + goi đến hàm xử lí nếu có va chạm giữa bóng và brick
+     */
+    public void checkBallBrickCollision(Ball ball, Brick brick) {
+        if (!ball.isActive() || !basicCollision(ball, brick) || brick.isDestroyed()) {
+            return;
+        }
+        CollisionSide side = determineCollisionSide(ball, brick);
+        handleBrickCollision(ball, brick, side);
+    }
+
+    /**
+     * Ham xác định hướng va chạm
+     */
+    public CollisionSide determineCollisionSide(Ball ball, GameObject other) {
+        double overlapLeft = ball.getX() + ball.getWidth() - other.getX();
+        double overlapRight = other.getX() + other.getWidth() - ball.getX();
+        double overlapTop = ball.getY() + ball.getHeight() - other.getY();
+        double overlapBottom = other.getY() + other.getHeight() - ball.getY();
+
+        double minOverlap = Math.min(overlapBottom, Math.min(overlapLeft, Math.min(overlapRight, overlapTop)));
+        return minOverlap == overlapLeft ? CollisionSide.LEFT : (minOverlap == overlapBottom ? CollisionSide.BOTTOM : (minOverlap == overlapTop ? CollisionSide.TOP : CollisionSide.RIGHT));
     }
 
     /**
@@ -45,7 +81,7 @@ public class CollisionDetector {
      */
     public void handlePaddleCollision(Ball ball, Paddle paddle, double hitPosition) {
         //Điều chỉnh vị trí bắt đầu nảy của ball để tránh bị stuck ~ kẹt trong paddle 
-        ball.setY(paddle.getY() - ball.getHeight() - 5);
+        ball.setY(paddle.getY() - ball.getHeight() - 2);
 
         //Tính góc bật dựa trên vị trí va chạm 
         //-0.5 - 0.5 : trai -> phải , nhân với hệ số góc 
@@ -59,6 +95,20 @@ public class CollisionDetector {
         double newDy = -ball.getDy();
         //setVec
         ball.setVelocity(newDx, newDy);
+    }
+
+    /**
+     * Hàm xử lí khi va chạm với gạch
+     */
+    public void handleBrickCollision(Ball ball, Brick brick, CollisionSide side) {
+        if (side == CollisionSide.BOTTOM || side == CollisionSide.TOP) {
+            ball.bounceVertical();
+        } else if (side == CollisionSide.LEFT || side == CollisionSide.RIGHT) {
+            ball.bounceHorizontal();
+        }
+        brick = brick.takeHit();
+        System.out.println("brick thuoc normal brick:");
+        System.out.println(brick instanceof NormalBrick);
     }
 
     /**
@@ -94,4 +144,7 @@ public class CollisionDetector {
             paddle.setX(gameWidth - paddle.getWidth());
         }
     }
+    /**
+     * Hàm check
+     */
 }

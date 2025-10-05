@@ -54,16 +54,6 @@ public abstract class GameObject {
         this.height = height;
     }
 
-    //Collision detection
-    public boolean collidesWith(GameObject other) {
-        double minR = Math.min(x + width, other.x + other.getWidth());
-        double maxL = Math.max(x, other.x);
-        double maxT = Math.max(y, other.y);
-        double minB = Math.min(y + height, other.y + other.getHeight());
-        return minR >= maxL && maxT <= minB;
-
-    }
-
     public Rectangle2D getBounds() {
         return new Rectangle2D(x, y, width, height);//trả về hình chữ nhật 
     }

@@ -1,8 +1,13 @@
 package vibe.com.demo.game.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import vibe.com.demo.game.levels.LevelDesigner;
 import vibe.com.demo.game.objects.entities.ball.Ball;
+import vibe.com.demo.game.objects.entities.bricks.Brick;
 import vibe.com.demo.game.objects.entities.overlay.OverlayObject;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
 //lớp GameManager quản lý tất cả các đối tương trong game session 
@@ -11,6 +16,8 @@ public class GameManager {
 
     private Paddle paddle;
     private Ball ball;
+    private List<Brick> bricks = new ArrayList<>();
+    ;
     private GameState gameState;
 
     private GraphicsContext gc;
@@ -35,6 +42,19 @@ public class GameManager {
     }
 
     public void init() {
+        initializeGameObjects();
+        initializeLevel();
+        //truyền paddle và ball vào setGameObject của gameEngine 
+        gameEngine.setGameObjects(paddle, ball, bricks);
+        //render lần đầu 
+        renderer.render(ball, paddle, overlay, bricks);
+
+    }
+
+    /**
+     * Khởi tạo vị trí các phần tử : ball, paddle, overlay
+     */
+    public void initializeGameObjects() {
         // Initialize paddle at bottom center
         double paddleWidth = 100;
         double paddleHeight = 20;
@@ -52,9 +72,18 @@ public class GameManager {
         overlay = new OverlayObject(0, 0, gameWidth, gameHeight);
         showOverlay("Nhấn SPACE để bắt đầu");
 
-        //truyền paddle và ball vào setGameObject của gameEngine 
-        gameEngine.setGameObjects(paddle, ball);
-        System.out.println("🎯 Paddle position: " + paddleX + "," + paddleY);
+    }
+
+    /**
+     * Khởi tạo lại map, lưu ý cần phải xóa hết phần tử cũ trong bricks trước
+     * rồi mới addAll , không sẽ bị sai khi restartGame , (nghĩa là dữ liệu
+     * bricks cũ vẫn còn , rồi nó add thêm map mới lấy từ LevelDesign)
+     */
+    public void initializeLevel() {
+        bricks.clear();//xóa map cũ đi 
+        //load map 
+        bricks.addAll(LevelDesigner.createLevel1(gameWidth));
+
     }
 
     public void startGame() {
@@ -85,7 +114,7 @@ public class GameManager {
     }
 
     public void render() {
-        renderer.render(ball, paddle, overlay);
+        renderer.render(ball, paddle, overlay, bricks);
     }
 
     /**

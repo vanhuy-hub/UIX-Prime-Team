@@ -7,7 +7,7 @@ import vibe.com.demo.game.objects.abstractions.MovableObject;
 
 public class Paddle extends MovableObject {
 
-    private double speed = 4;
+    private double speed = 6;
     private Color color;
     private boolean isMovingLeft = false;
     private boolean isMovingRight = false;

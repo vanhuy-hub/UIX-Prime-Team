@@ -40,12 +40,16 @@ public class Ball extends MovableObject {
         }
     }
 
-    //phương thức khi nảy vào biên ngang 
+    /**
+     * Đảo chiều vận tốc theo phương ngang x
+     */
     public void bounceHorizontal() {
         dx = -dx;//dx sẽ =-dx
     }
 
-    //phương thức khi nảy vào biên dọc
+    /**
+     * Đảo chiều vận tốc theo phương thẳng đứng y
+     */
     public void bounceVertical() {
         dy = -dy;//đổi chiều dy
     }
