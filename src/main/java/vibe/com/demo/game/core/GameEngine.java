@@ -38,7 +38,6 @@ public class GameEngine {
      * Bắt đầu gameLoop
      */
     public void startGameLoop() {
-
         isRunning = true;
         gameLoop = new AnimationTimer() {
             @Override

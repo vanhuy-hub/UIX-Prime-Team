@@ -38,7 +38,7 @@ public class PlayerProgress {
 
     // level suy ra từ trophies hiện tại : 
     public int getCurrentLevel() {
-        return trophies + 1;
+        return (trophies + 1) <= 20 ? trophies + 1 : 20;
     }
 
     @Override

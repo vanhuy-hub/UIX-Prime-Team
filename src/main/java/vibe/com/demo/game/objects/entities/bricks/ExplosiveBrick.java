@@ -1,5 +1,18 @@
 package vibe.com.demo.game.objects.entities.bricks;
 
-public class ExplosiveBrick {
+import javafx.scene.paint.Color;
 
+public class ExplosiveBrick extends Brick {
+
+    public ExplosiveBrick(double x, double y, double width, double height) {
+        super(x, y, width, height, 1, Color.ORANGERED);
+    }
+
+    /**
+     * Ghi de ham degredeBrick
+     */
+    @Override
+    public Brick degradeBrick() {
+        return null;
+    }
 }

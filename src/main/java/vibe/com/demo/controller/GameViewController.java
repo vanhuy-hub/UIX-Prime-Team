@@ -98,11 +98,9 @@ public class GameViewController implements BaseController {
     public void initializeGameSession() {
         //Để có thể vẽ lên renderer của canvas , ta cần lấy được đối tượng graphicsContext của nó : 
         renderer = gameCanvas.getGraphicsContext2D();
-
         //Lấy chiều dài và chiều rộng gameArea 
         double gameWidth = gameCanvas.getWidth();
         double gameHeight = gameCanvas.getHeight();
-
         //init 
         gameManager = new GameManager(renderer, gameWidth, gameHeight);
     }
@@ -176,6 +174,8 @@ public class GameViewController implements BaseController {
             System.out.println("Khong bi khoa");
             nextButton.setText("Next Level ...");
             nextButton.setDisable(true);
+            this.gameManager.togglePauseGame();
+            this.gameManager.showOverlay("Đang chuyển tiếp ...");
             PauseTransition delay = new PauseTransition(Duration.millis(800));
             delay.setOnFinished(e -> {
                 gameProgressService.setSelectedLevel(this.selectedLevel.get() + 1);

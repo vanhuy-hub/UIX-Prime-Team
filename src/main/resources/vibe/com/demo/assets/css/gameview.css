@@ -152,7 +152,8 @@
     -fx-padding: 13 20;
      -fx-background-color: rgba(21, 15, 38,0.5);
     
-   
+     -fx-border-color: rgb(12, 61, 89);
+     -fx-border-width: 1;
     -fx-border-radius: 14;
     -fx-background-radius: 14;
 }

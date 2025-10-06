@@ -6,18 +6,21 @@ import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import vibe.com.demo.game.levels.LevelDesigner;
+import vibe.com.demo.game.levels.LevelManager;
 import vibe.com.demo.game.objects.entities.ball.Ball;
 import vibe.com.demo.game.objects.entities.bricks.Brick;
 import vibe.com.demo.game.objects.entities.overlay.OverlayObject;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
+import vibe.com.demo.service.ServiceLocator;
+import vibe.com.demo.service.auth.AuthService;
+import vibe.com.demo.service.game.GameProgressService;
 //lớp GameManager quản lý tất cả các đối tương trong game session 
 
 public class GameManager {
 
     private Paddle paddle;
     private Ball ball;
-    private List<Brick> bricks = new ArrayList<>();
-    ;
+
     private GameState gameState;
 
     private GraphicsContext gc;
@@ -25,10 +28,13 @@ public class GameManager {
 
     private Renderer renderer;
     private GameEngine gameEngine;
-
+    private LevelManager levelManager;//quản lý level , thằng List<Brick>do ông này quản lý 
     //
     private double gameWidth;
     private double gameHeight;
+
+    //GameProgressService ~ đối tượng quản lý cả game 
+    private GameProgressService gameProgressService = ServiceLocator.getInstance().getGameProgressService();
 
     public GameManager(GraphicsContext gc, double gameWidth, double gameHeight) {
         this.gameWidth = gameWidth;
@@ -37,6 +43,8 @@ public class GameManager {
         this.gc = gc;
         gameEngine = new GameEngine(this);
         renderer = new Renderer(gc, gameWidth, gameHeight);
+        levelManager = new LevelManager(gameProgressService.getSelectedLevel(), gameWidth);
+
         init();
 
     }
@@ -45,9 +53,9 @@ public class GameManager {
         initializeGameObjects();
         initializeLevel();
         //truyền paddle và ball vào setGameObject của gameEngine 
-        gameEngine.setGameObjects(paddle, ball, bricks);
+        gameEngine.setGameObjects(paddle, ball, levelManager.getCurrentBricks());
         //render lần đầu 
-        renderer.render(ball, paddle, overlay, bricks);
+        renderer.render(ball, paddle, overlay, levelManager.getCurrentBricks());
 
     }
 
@@ -80,10 +88,7 @@ public class GameManager {
      * bricks cũ vẫn còn , rồi nó add thêm map mới lấy từ LevelDesign)
      */
     public void initializeLevel() {
-        bricks.clear();//xóa map cũ đi 
-        //load map 
-        bricks.addAll(LevelDesigner.createLevel1(gameWidth));
-
+        levelManager.resetCurrentLevel();//phải reset lại (giống như clear)
     }
 
     public void startGame() {
@@ -114,7 +119,7 @@ public class GameManager {
     }
 
     public void render() {
-        renderer.render(ball, paddle, overlay, bricks);
+        renderer.render(ball, paddle, overlay, levelManager.getCurrentBricks());
     }
 
     /**

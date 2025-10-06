@@ -47,6 +47,10 @@ public class GameProgressService {
         return selectedLevel;
     }
 
+    public int getSelectedLevel() {
+        return selectedLevel.get();
+    }
+
     public void setSelectedLevel(int level) {
         this.selectedLevel.set(level);
     }
@@ -64,6 +68,6 @@ public class GameProgressService {
 
     // kiem tra 
     public boolean isLockedNextButton(User user) {
-        return selectedLevel.get() == getCurrentLevel(user);
+        return getCurrentLevel(user) == 20 || selectedLevel.get() == getCurrentLevel(user);
     }
 }
