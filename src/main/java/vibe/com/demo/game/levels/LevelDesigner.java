@@ -16,7 +16,7 @@ public class LevelDesigner {
     /**
      * Hàm dùng chung để chuyển từ modal -> ListBrick
      */
-    public static List<Brick> createLevelFromModal(Character[][] map, double gameWidth) {
+    public static List<Brick> createMapFromModal(Character[][] map, double gameWidth) {
         int cols = map[0].length;
         int rows = map.length;
         double mapWidth = cols * brickWidth + (cols - 1) * colGap;
@@ -44,7 +44,7 @@ public class LevelDesigner {
      */
     public static List<Brick> createLevel1(double gameWidth) {
         System.out.println("Tao map");
-        Character[][] level1 = {{'1', '2', '1', '0', '1', '2', '1'}, {'1', '2', '1', '0', '1', '2', '1'}, {'1', '2', '1', '0', '1', '1', '1'}, {'1', '1', '1', '0', '1', '1', '1'}};
-        return createLevelFromModal(level1, gameWidth);
+        Character[][] level1 = {{'1', '2', 'U', '0', '1', '2', 'U'}, {'1', '2', 'U', '0', '1', '2', 'U'}, {'1', '2', 'U', '0', '1', '1', 'U'}, {'1', '1', 'U', '0', '1', '1', 'U'}};
+        return createMapFromModal(level1, gameWidth);
     }
 }

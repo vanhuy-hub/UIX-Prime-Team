@@ -3,7 +3,6 @@ package vibe.com.demo.game.core;
 import vibe.com.demo.game.objects.abstractions.GameObject;
 import vibe.com.demo.game.objects.entities.ball.Ball;
 import vibe.com.demo.game.objects.entities.bricks.Brick;
-import vibe.com.demo.game.objects.entities.bricks.NormalBrick;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
 
 public class CollisionDetector {
@@ -43,14 +42,10 @@ public class CollisionDetector {
     }
 
     /**
-     * Hàm check + goi đến hàm xử lí nếu có va chạm giữa bóng và brick
+     * Hàm check nếu có va chạm giữa bóng và brick
      */
-    public void checkBallBrickCollision(Ball ball, Brick brick) {
-        if (!ball.isActive() || !basicCollision(ball, brick) || brick.isDestroyed()) {
-            return;
-        }
-        CollisionSide side = determineCollisionSide(ball, brick);
-        handleBrickCollision(ball, brick, side);
+    public boolean isBallBrickCollision(Ball ball, Brick brick) {
+        return (ball.isActive() && !brick.isDestroyed() && basicCollision(ball, brick));
     }
 
     /**
@@ -100,15 +95,14 @@ public class CollisionDetector {
     /**
      * Hàm xử lí khi va chạm với gạch
      */
-    public void handleBrickCollision(Ball ball, Brick brick, CollisionSide side) {
+    public Brick getDeradeBrick(Ball ball, Brick brick, CollisionSide side) {
         if (side == CollisionSide.BOTTOM || side == CollisionSide.TOP) {
             ball.bounceVertical();
         } else if (side == CollisionSide.LEFT || side == CollisionSide.RIGHT) {
             ball.bounceHorizontal();
         }
-        brick = brick.takeHit();
-        System.out.println("brick thuoc normal brick:");
-        System.out.println(brick instanceof NormalBrick);
+        return brick.takeHit();
+
     }
 
     /**

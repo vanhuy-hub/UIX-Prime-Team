@@ -8,4 +8,11 @@ public class UnbreakableBrick extends Brick {
         super(x, y, width, height, Integer.MAX_VALUE, Color.DARKGRAY);
     }
 
+    /**
+     * Ghi de ham degredeBrick
+     */
+    @Override
+    public Brick degradeBrick() {
+        return this;
+    }
 }

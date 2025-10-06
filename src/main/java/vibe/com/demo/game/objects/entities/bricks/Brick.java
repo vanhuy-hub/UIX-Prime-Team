@@ -9,14 +9,13 @@ public abstract class Brick extends GameObject {
     private boolean destroyed;
     private Color color;
     private int maxHitPoints;
-    private int hitPoint;
+    private int hitCount;
 
     public Brick(double x, double y, double width, double height, int maxHitPoints, Color color) {
         super(x, y, width, height);
-
         this.destroyed = false;
         this.maxHitPoints = maxHitPoints;
-        this.hitPoint = 0;
+        this.hitCount = 0;
         this.color = color;
     }
 
@@ -58,14 +57,12 @@ public abstract class Brick extends GameObject {
      * Xử lý khi bị ball đánh trúng - TRẢ VỀ BRICK MỚI NẾU CÓ DEGRADATION
      */
     public Brick takeHit() {
-        this.hitPoint++;
-        if (hitPoint == maxHitPoints) {
+        this.hitCount++;
+        if (hitCount == maxHitPoints) {
             destroy();
-            return null;
-        } else {
-            System.out.println("ha thap brick");
-            return (degradeBrick() != null) ? degradeBrick() : this;
+
         }
+        return degradeBrick();
     }
 
     /**
@@ -112,12 +109,12 @@ public abstract class Brick extends GameObject {
         this.maxHitPoints = maxHitPoints;
     }
 
-    public int getHitPoint() {
-        return hitPoint;
+    public int getHitCount() {
+        return hitCount;
     }
 
-    public void setHitPoint(int hitPoint) {
-        this.hitPoint = hitPoint;
+    public void setHitCount(int hitCount) {
+        this.hitCount = hitCount;
     }
 
 }

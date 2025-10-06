@@ -75,10 +75,21 @@ public class GameEngine {
         this.collisionDetector.checkBallPaddleCollision(ball, paddle);
         this.collisionDetector.checkWallCollision(ball, gameManager.getGameWidth(), gameManager.getGameHeight());
         this.collisionDetector.constrainPaddle(paddle, gameManager.getGameWidth());
-        for (Brick brick : bricks) {
-            //chỉ kiểm tra những viên gạch nào không phải null 
-            if (brick != null) {
-                this.collisionDetector.checkBallBrickCollision(ball, brick);
+        checkBrickCollision();
+    }
+
+    /**
+     * xử lý chi tiết va chạm với gạch
+     */
+    public void checkBrickCollision() {
+        for (int i = bricks.size() - 1; i >= 0; i--) {
+            if (this.collisionDetector.isBallBrickCollision(ball, bricks.get(i))) {//kiểm tra va chạm 
+                Brick newBrick = this.collisionDetector.getDeradeBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
+                if (newBrick == null) {//kiểm tra degradeBrick xem là gì , nếu null thì xóa luôn , ko null thì gán 
+                    bricks.remove(i);
+                } else {
+                    bricks.set(i, newBrick);//sửa phần tử thứ i thành newBrick 
+                }
             }
         }
     }
