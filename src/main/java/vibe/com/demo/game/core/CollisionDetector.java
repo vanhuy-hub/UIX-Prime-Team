@@ -132,10 +132,10 @@ public class CollisionDetector {
      * Hàm giới hạnh paddle trong màn hình
      */
     public void constrainPaddle(Paddle paddle, double gameWidth) {
-        if (paddle.getX() < 0) {
-            paddle.setX(0);
-        } else if (paddle.getX() + paddle.getWidth() >= gameWidth) {
-            paddle.setX(gameWidth - paddle.getWidth());
+        if (paddle.getX() < 10) {
+            paddle.setX(10);
+        } else if (paddle.getX() + paddle.getWidth() >= gameWidth - 10) {
+            paddle.setX(gameWidth - paddle.getWidth() - 10);
         }
     }
     /**

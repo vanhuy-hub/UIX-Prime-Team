@@ -86,13 +86,12 @@ public class GameViewController implements BaseController {
             updateLivesDisplay(newVal.intValue());
         });
         //binding + listener khi giá trị boolean isUnclock ở gameData thay đổi từ false sang true  
-        gameDataModel.nextLevelUnlockedProperty().addListener((obs, oldVal, newVal) -> {
-            System.out.println(newVal.booleanValue());
-            if (newVal) {
-                unlockNextButton();
-            }
+        // gameDataModel.nextLevelUnlockedProperty().addListener((obs, oldVal, newVal) -> {
+        //     if (newVal) {
+        //         unlockNextButton();
+        //     }                            =>BỊ LỖI 
 
-        });
+        // });
     }
 
     @FXML
@@ -118,7 +117,7 @@ public class GameViewController implements BaseController {
         double gameWidth = gameCanvas.getWidth();
         double gameHeight = gameCanvas.getHeight();
         //init 
-        gameManager = new GameManager(renderer, gameWidth, gameHeight);
+        gameManager = new GameManager(renderer, gameWidth, gameHeight, this);
         gameDataModel = gameManager.getGameDataModel();
     }
 
@@ -205,12 +204,12 @@ public class GameViewController implements BaseController {
             System.out.println("Khong bi khoa");
             nextButton.setText("Next Level ...");
             nextButton.setDisable(true);
-            this.gameManager.togglePauseGame();
+
             this.gameManager.showOverlay("Đang chuyển tiếp ...");
             PauseTransition delay = new PauseTransition(Duration.millis(800));
             delay.setOnFinished(e -> {
                 gameProgressService.setSelectedLevel(this.selectedLevel.get() + 1);
-                this.mainApp.loadGameView();
+                this.mainApp.loadGameView();//vẽ UI trước , như vậy vẫn là level cũ 
             }
             );
             delay.play();
@@ -242,7 +241,6 @@ public class GameViewController implements BaseController {
     public void playLifeLostAnimation() {
         // Thêm hiệu ứng rung hoặc flash cho livesBox
         livesBox.getStyleClass().add("life-lost-animation");
-
         PauseTransition pause = new PauseTransition(Duration.millis(500));
         pause.setOnFinished(e -> livesBox.getStyleClass().remove("life-lost-animation"));
         pause.play();

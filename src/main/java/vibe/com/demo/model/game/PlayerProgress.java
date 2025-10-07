@@ -28,7 +28,9 @@ public class PlayerProgress {
 
     // Hoàn thành 1 level : 
     public void addTrophy() {
-        this.trophies++;
+        if (trophies < 20) {
+            this.trophies++;
+        }
     }
 
     // them tien : 

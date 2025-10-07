@@ -34,8 +34,7 @@ public class Ball extends MovableObject {
     @Override
     public void update() {
         if (this.isActive) {
-            System.out.println("bal nay");
-            System.out.println("dx: " + this.dx + "- dy: " + this.dy);
+
             super.update();//gọi đến phương thức update của thằng Movalable 
         }
     }
@@ -55,8 +54,11 @@ public class Ball extends MovableObject {
     }
 
     //phương thức reset(khi chơi lại từ đầu)
+    /**
+     * Gọi isActive=false, đồng thời chỉnh lại vị trí của ball
+     */
     public void reset(Paddle paddle) {
-        System.out.println("reset position ball");
+
         isActive = false;//dừng trạng thái nảy 
         x = paddle.getX() + paddle.getWidth() / 2 - this.width / 2;
         y = paddle.getY() - this.height - 5;
@@ -68,6 +70,9 @@ public class Ball extends MovableObject {
     }
 
     //phuong thuc hoat dong, do quả bóng sẽ nảy liên tùng tục trong game 
+    /**
+     * Kích hoạt trạng thái hoạt động của quả bóng
+     */
     public void launch() {
         setRandomVeclocity();
         isActive = true;

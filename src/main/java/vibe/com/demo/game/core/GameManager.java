@@ -1,13 +1,16 @@
 package vibe.com.demo.game.core;
 
+import javafx.animation.PauseTransition;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-
+import javafx.util.Duration;
+import vibe.com.demo.controller.GameViewController;
 import vibe.com.demo.game.levels.LevelManager;
 import vibe.com.demo.game.objects.entities.ball.Ball;
 
 import vibe.com.demo.game.objects.entities.overlay.OverlayObject;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
+import vibe.com.demo.model.user.User;
 import vibe.com.demo.service.ServiceLocator;
 import vibe.com.demo.service.game.GameProgressService;
 //lớp GameManager quản lý tất cả các đối tương trong game session 
@@ -32,23 +35,25 @@ public class GameManager {
 
     //GameProgressService ~ đối tượng quản lý cả game 
     private GameProgressService gameProgressService = ServiceLocator.getInstance().getGameProgressService();
+    private User currentUser = ServiceLocator.getInstance().getAuthService().getCurrentUser();
+    private GameViewController gameView;
 
-    public GameManager(GraphicsContext gc, double gameWidth, double gameHeight) {
-
+    public GameManager(GraphicsContext gc, double gameWidth, double gameHeight, GameViewController gameView) {
+        System.out.println("Khoi tao lai");
+        System.out.println(gameProgressService.getSelectedLevel());
         this.gameWidth = gameWidth;
         this.gameHeight = gameHeight;
         this.gameState = GameState.READY;
         this.gc = gc;
         gameEngine = new GameEngine(this);
         renderer = new Renderer(gc, gameWidth, gameHeight);
-
         gameDataModel = new GameDataModel();
+        this.gameView = gameView;
         init();
 
     }
 
     public void init() {
-
         levelManager = new LevelManager(gameProgressService.getSelectedLevel(), gameWidth);
         initializeGameObjects();
         //truyền paddle và ball vào setGameObject của gameEngine  
@@ -73,11 +78,23 @@ public class GameManager {
         // Initialize ball on top of paddle
         double ballRadius = 10;
         ball = new Ball(0, 0, ballRadius);
-        resetballPosition();
+        ball.reset(paddle);
         //OverlayInit
         overlay = new OverlayObject(0, 0, gameWidth, gameHeight);
         showOverlay("Nhấn SPACE để bắt đầu");
+        delayHideOverLay(1700);
 
+    }
+
+    public void delayHideOverLay(long ms) {
+        PauseTransition pause = new PauseTransition(Duration.millis(ms));
+        pause.setOnFinished(e -> {
+            System.out.println("an");
+            this.hideOverlay();
+            gameState = GameState.PLAYING;
+            gameEngine.startGameLoop();
+        });
+        pause.play();
     }
 
     public void resetballPosition() {
@@ -93,26 +110,25 @@ public class GameManager {
         levelManager.resetCurrentLevel();//phải reset lại (giống như clear)
     }
 
-    public void startGame() {
-        if (gameState == GameState.READY) {
-            gameState = GameState.PLAYING;
-            ball.launch();
-            hideOverlay();
-            System.out.println("bat dau");
-            gameEngine.startGameLoop();
-        }
-    }
-
     public void handleBallLost() {
         this.gameDataModel.decreaseSessionLives();//gọi hàm giảm mạng sống 
         if (this.gameDataModel.getSessionLives() == 0) {
             gameState = GameState.GAME_OVER;
-            gameDataModel.setNextLevelUnlocked(true);
             System.out.println("thua");
             showOverlay(" ~ Nhấn R để chơi lại nào ~ ");
         } else {//dừng game 
-            resetballPosition();//chỉ reset lại vị trí quả bóng 
+            ball.reset(paddle);//chỉ reset lại vị trí quả bóng 
         }
+    }
+
+    /**
+     * Hàm xử lý sự kiện
+     */
+    public void handleLevelComplete() {
+        gameView.unlockNextButton();
+        this.gameProgressService.completeLevel(currentUser, levelManager.getCurrentLevel());
+        showOverlay("Chúc mừng bạn đã hoàn thành level " + this.levelManager.getCurrentLevel());
+        gameState = GameState.GAME_WIN;
     }
 
     /**
@@ -135,16 +151,12 @@ public class GameManager {
      * ✅ OVERLAY MANAGEMENT METHODS
      */
     public void showOverlay(String message) {
-
         overlay.show(message, Color.WHITE);
-        render(); // Re-render ngay lập tức, nếu chỉ overlay.show (message) mà không render thì sẽ không vẽ lại đâu 
+
     }
 
     public void hideOverlay() {
-
         overlay.hide();
-
-        // render();
     }
 
     /**
@@ -176,11 +188,7 @@ public class GameManager {
                 this.paddle.moveLeft();
             case "SPACE" -> {
                 System.out.println("Overlay " + overlay.isVisible());
-                if (gameState == GameState.READY) {
-                    startGame();//bắt đầu game 
-                } else if (gameState == GameState.PLAYING || gameState == GameState.PAUSED) {
-                    togglePauseGame();
-                }
+                togglePauseGame();
             }
             case "R" -> {
                 gameState = GameState.READY;

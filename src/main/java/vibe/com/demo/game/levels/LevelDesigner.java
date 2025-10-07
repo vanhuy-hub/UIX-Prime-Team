@@ -8,10 +8,7 @@ import java.util.Map;
  */
 public class LevelDesigner {
 
-    private static final double colGap = 15;
-    private static final double rowGap = 20;
-    private static final double brickWidth = 90;
-    private static final double brickHeight = 20;
+
 
     private static final Map<Integer, Character[][]> LEVEL_DESIGNS = new HashMap<>();
 
@@ -28,23 +25,17 @@ public class LevelDesigner {
     public static void initialize() {
         // Level 1 - Cơ bản (Easy)
         LEVEL_DESIGNS.put(1, new Character[][]{
-            {'1', '1', '1', '1', '1', '1', '1'},
-            {'1', '1', '1', '1', '1', '1', '1'},
-            {'1', '1', '1', '1', '1', '1', '1'}
+            {'1'}
         });
 
         // Level 2 - Hàng rào (Easy)
         LEVEL_DESIGNS.put(2, new Character[][]{
-            {'1', '2', '1', '2', '1', '2', '1'},
-            {'2', '1', '2', '1', '2', '1', '2'},
-            {'1', '2', '1', '2', '1', '2', '1'}
+            {'1', '1'}
         });
 
         // Level 3 - Pyramid (Easy)
         LEVEL_DESIGNS.put(3, new Character[][]{
-            {'0', '0', '1', '1', '1', '0', '0'},
-            {'0', '1', '1', '1', '1', '1', '0'},
-            {'1', '1', '1', '1', '1', '1', '1'}
+            {'1', '1', '1'}
         });
 
         // Level 4 - Checkerboard (Easy-Medium)

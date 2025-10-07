@@ -27,10 +27,10 @@ public class GameProgressService {
 
     // logic add coin khi hoan thanh level : 
     public void completeLevel(User user, int level) {
-        if (user != null && level == user.getPlayerProgress().getCurrentLevel()) {
+        if (user != null) {
+            System.out.println("hoan thanh 1");
             // Chỉ +1 trophy nếu hoàn thành level hiện tại
             user.getPlayerProgress().addTrophy();
-
             // Thưởng coins
             int coinsReward = level * 50;
             user.getPlayerProgress().addCoins(coinsReward);
@@ -70,6 +70,8 @@ public class GameProgressService {
 
     // kiem tra 
     public boolean isLockedNextButton(User user) {
+        System.out.println("selected: " + selectedLevel);
+        System.out.println("currentLevel: " + getCurrentLevel(user));
         return getSelectedLevel() == 20 || selectedLevel.get() == getCurrentLevel(user);
     }
 

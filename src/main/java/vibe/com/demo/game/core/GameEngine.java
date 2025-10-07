@@ -5,6 +5,7 @@ import java.util.List;
 import javafx.animation.AnimationTimer;
 import vibe.com.demo.game.objects.entities.ball.Ball;
 import vibe.com.demo.game.objects.entities.bricks.Brick;
+import vibe.com.demo.game.objects.entities.bricks.UnbreakableBrick;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
 
 /**
@@ -40,27 +41,20 @@ public class GameEngine {
      * Bắt đầu gameLoop
      */
     public void startGameLoop() {
+        if (gameLoop != null) {
+            stopGameLoop();
+        }
         isRunning = true;
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
                 if (gameManager.isOnGoingGame()) {
                     update();
-                    System.out.println("chay");
                     gameManager.render();
                 }
             }
         };
         gameLoop.start();
-    }
-
-    /**
-     *
-     */
-    public void playGameLoop() {
-        if (this.gameLoop != null) {
-            gameLoop.start();
-        }
     }
 
     /**
@@ -80,10 +74,29 @@ public class GameEngine {
         if (ball.isActive()) {
             ball.update();
         } else {
-            this.gameManager.resetballPosition();
+            ball.reset(paddle);
         }
         checkCollision();
         checkBallLost();
+        checkLevelCompletion();
+    }
+
+    /**
+     * logic kiểm tra level đã hoàn thành hay chưa , kiểm tra tất cả viên gạch
+     * đã bị phá hủy trừ gạch không thể phá hủy
+     */
+    private void checkLevelCompletion() {
+        // TODO Auto-generated method stub
+        boolean isCompleted = true;
+        for (Brick brickItem : bricks) {
+            if (!brickItem.isDestroyed() && !(brickItem instanceof UnbreakableBrick)) {
+                isCompleted = false;
+                break;
+            }
+        }
+        if (isCompleted) {
+            gameManager.handleLevelComplete();
+        }
     }
 
     public void checkCollision() {

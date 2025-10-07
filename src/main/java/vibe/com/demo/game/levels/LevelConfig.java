@@ -2,7 +2,7 @@ package vibe.com.demo.game.levels;
 
 public class LevelConfig {
 
-    public static final double BRICK_WIDTH = 80; // Giảm nhẹ để fit 20 levels
+    public static final double BRICK_WIDTH = 200; // Giảm nhẹ để fit 20 levels
     public static final double BRICK_HEIGHT = 18;
 
     // Khoảng cách

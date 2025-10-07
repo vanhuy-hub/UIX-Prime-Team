@@ -88,8 +88,9 @@ public class GameDataModel {
     public void resetGameSession() {
         this.sessionCoinEarned.set(0);
         this.sessionLivesProperty.set(3);
+
     }
-    private final BooleanProperty nextLevelUnlockedProperty = new SimpleBooleanProperty(false);
+    private BooleanProperty nextLevelUnlockedProperty = new SimpleBooleanProperty(false);
 
     public BooleanProperty nextLevelUnlockedProperty() {
         return nextLevelUnlockedProperty;
