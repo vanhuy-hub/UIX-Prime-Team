@@ -56,16 +56,20 @@ public class Ball extends MovableObject {
 
     //phương thức reset(khi chơi lại từ đầu)
     public void reset(Paddle paddle) {
-        System.out.println("reset ball");
+        System.out.println("reset position ball");
         isActive = false;//dừng trạng thái nảy 
         x = paddle.getX() + paddle.getWidth() / 2 - this.width / 2;
         y = paddle.getY() - this.height - 5;
 
     }
 
+    public void setRandomVeclocity() {
+        setVelocity((Math.random() * 8) - 4, -4);
+    }
+
     //phuong thuc hoat dong, do quả bóng sẽ nảy liên tùng tục trong game 
     public void launch() {
-        this.setVelocity(speed, -speed);//hàm set cả 2 giá trị dx, dy ở lớp cha MovableObject 
+        setRandomVeclocity();
         isActive = true;
     }
 

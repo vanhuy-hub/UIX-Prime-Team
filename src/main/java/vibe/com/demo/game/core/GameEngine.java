@@ -20,6 +20,7 @@ public class GameEngine {
     private Paddle paddle;
     private Ball ball;
     private List<Brick> bricks;
+
     //Game state 
     private boolean isRunning = false;
 
@@ -32,6 +33,7 @@ public class GameEngine {
         this.paddle = paddle;
         this.ball = ball;
         this.bricks = bricks;
+
     }
 
     /**
@@ -53,6 +55,15 @@ public class GameEngine {
     }
 
     /**
+     *
+     */
+    public void playGameLoop() {
+        if (this.gameLoop != null) {
+            gameLoop.start();
+        }
+    }
+
+    /**
      * Dừng gameLoop
      */
     public void stopGameLoop() {
@@ -64,8 +75,13 @@ public class GameEngine {
     }
 
     public void update() {
-        ball.update();
+
         paddle.update();
+        if (ball.isActive()) {
+            ball.update();
+        } else {
+            this.gameManager.resetballPosition();
+        }
         checkCollision();
         checkBallLost();
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import javafx.scene.canvas.GraphicsContext;
 import vibe.com.demo.game.objects.entities.ball.Ball;
 import vibe.com.demo.game.objects.entities.bricks.Brick;
+
 import vibe.com.demo.game.objects.entities.overlay.OverlayObject;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
 
@@ -27,6 +28,7 @@ public class Renderer {
         for (Brick brick : bricks) {
             brick.render(gc);
         }
+
         overlay.render(gc);
 
     }

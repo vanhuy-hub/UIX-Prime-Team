@@ -32,7 +32,7 @@ public class MainApp extends Application {
         stage.setScene(mainScene);
         stage.show();
         //load Login scene đầu tiên 
-        loadLoginView();
+        loadGameView();
 
     }
 

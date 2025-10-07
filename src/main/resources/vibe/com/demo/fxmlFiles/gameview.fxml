@@ -70,7 +70,7 @@
       </VBox>
       <!-- Buttons -->
       <VBox spacing="12">
-        <Button fx:id="changePaddleBtn" text="Đổi Paddle" styleClass="pause-btn" onAction="#handleChangePaddle" alignment="CENTER" minWidth="300"/>
+        <Button fx:id="changePaddleBtn" text="🛒 Go to Shop" styleClass="pause-btn" onAction="#handleChangePaddle" alignment="CENTER" minWidth="300"/>
         <Button fx:id="menuButton" text="⌂ Back to Menu" styleClass="menu-btn" onAction="#backToLevelMenu" alignment="CENTER" minWidth="300"/>
       </VBox>
       <!-- Quick Tips -->
@@ -79,12 +79,11 @@
         <Label text="• Destroy all blocks to complete level" styleClass="sub-title"/>
         <Label text="• Hit ball with paddle edges" styleClass="sub-title"/>
         <Label text="• Keep the ball in play" styleClass="sub-title"/>
-        <Label text="• Ball will auto-correct if stuck" styleClass="sub-title"/>
       </VBox>
       <!-- Complete button -->
       <StackPane styleClass="background-next-btn" minWidth="300">
         <Button fx:id="nextButton" styleClass="next-btn" 
-                                                                                                                                                                                                                                                                                                                                          alignment="CENTER" minWidth="260" onAction="#handleNextLevel"/>
+                                                                                                                                                                                                                                                                                                                                                                  alignment="CENTER" minWidth="260" onAction="#handleNextLevel"/>
       </StackPane>
     </VBox>
   </right>

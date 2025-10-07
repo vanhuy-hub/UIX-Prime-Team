@@ -125,7 +125,7 @@ public class CollisionDetector {
     }
 
     public boolean checkBallLost(Ball ball, double gameHeight) {
-        return ball.getY() + ball.getHeight() >= gameHeight;
+        return ball.getY() + ball.getHeight() >= gameHeight + 50;
     }
 
     /**

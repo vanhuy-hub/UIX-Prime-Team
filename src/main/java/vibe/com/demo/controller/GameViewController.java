@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import vibe.com.demo.MainApp;
+import vibe.com.demo.game.core.GameDataModel;
 import vibe.com.demo.game.core.GameManager;
 import vibe.com.demo.model.user.User;
 import vibe.com.demo.service.ServiceLocator;
@@ -60,6 +61,7 @@ public class GameViewController implements BaseController {
     //Đôi tượng quản lý game session : 
     private GameManager gameManager;
     private GraphicsContext renderer;
+    private GameDataModel gameDataModel;
 
     // level da chon ~ dùng data binding
     private IntegerProperty selectedLevel = gameProgressService.getSelectedLevelProperty();
@@ -78,17 +80,31 @@ public class GameViewController implements BaseController {
         //data binding
         levelLabel.textProperty().bind(selectedLevel.asString());
         coinLabel.textProperty().bind(totalCoins.asString());
+        //databinding + listener (khi có sự thay đổi dữ liệu thì tự động gọi hàm được định nghĩa )
+        gameDataModel.getSessionLivesProperty().addListener((obs, oldVal, newVal) -> {
+            playLifeLostAnimation();
+            updateLivesDisplay(newVal.intValue());
+        });
+        //binding + listener khi giá trị boolean isUnclock ở gameData thay đổi từ false sang true  
+        gameDataModel.nextLevelUnlockedProperty().addListener((obs, oldVal, newVal) -> {
+            System.out.println(newVal.booleanValue());
+            if (newVal) {
+                unlockNextButton();
+            }
+
+        });
     }
 
     @FXML
     private void initialize() {
-        //load phần nằm ngoài game chính 
-        dataBindingInit();
-        loadNextButtonEffect();
+
         //hàm khởi tạo gameSession 
         initializeGameSession();
         //hàm setup khi gõ phím 
         setUpKeyHandles();
+        //load phần nằm ngoài game chính 
+        dataBindingInit();
+        loadNextButtonEffect();
 
     }
 
@@ -103,6 +119,7 @@ public class GameViewController implements BaseController {
         double gameHeight = gameCanvas.getHeight();
         //init 
         gameManager = new GameManager(renderer, gameWidth, gameHeight);
+        gameDataModel = gameManager.getGameDataModel();
     }
 
     /**
@@ -153,16 +170,30 @@ public class GameViewController implements BaseController {
     public void loadNextButtonEffect() {
 
         if (this.gameProgressService.isLockedNextButton(currentUser)) {
-            nextButton.setDisable(true);
-            nextButton.setText("🔒 Complete this level");
-            nextButton.pseudoClassStateChanged(PseudoClass.getPseudoClass("unlocked"), false);
-            nextButton.pseudoClassStateChanged(PseudoClass.getPseudoClass("locked"), true);
+            lockNextButton();
         } else {
-            nextButton.setDisable(false);
-            nextButton.setText("Next Level ->");
-            nextButton.pseudoClassStateChanged(PseudoClass.getPseudoClass("locked"), false);
-            nextButton.pseudoClassStateChanged(PseudoClass.getPseudoClass("unlocked"), true);
+            unlockNextButton();
         }
+    }
+
+    /**
+     * Unlock nextButton
+     */
+    public void lockNextButton() {
+        nextButton.setDisable(true);
+        nextButton.setText("🔒 Complete this level");
+        nextButton.pseudoClassStateChanged(PseudoClass.getPseudoClass("unlocked"), false);
+        nextButton.pseudoClassStateChanged(PseudoClass.getPseudoClass("locked"), true);
+    }
+
+    /**
+     * Lock nextButton
+     */
+    public void unlockNextButton() {
+        nextButton.setDisable(false);
+        nextButton.setText("Next Level ->");
+        nextButton.pseudoClassStateChanged(PseudoClass.getPseudoClass("locked"), false);
+        nextButton.pseudoClassStateChanged(PseudoClass.getPseudoClass("unlocked"), true);
     }
 
     /**
@@ -184,6 +215,37 @@ public class GameViewController implements BaseController {
             );
             delay.play();
         }
+    }
+
+    /**
+     * Cập nhật số mạng
+     */
+    public void updateLivesDisplay(int lives) {
+        livesBox.getChildren().clear();//xóa tất cả heartItem đi 
+        for (int i = 1; i <= lives; i++) {
+            Label heart = new Label("❤");
+            heart.getStyleClass().add("life");
+            livesBox.getChildren().add(heart);
+        }
+
+        //hiển thị mất mạng ~ trái tim không màu 
+        for (int i = 3; i > lives; i--) {
+            Label emptyHeart = new Label("❤");
+            emptyHeart.getStyleClass().add("life-empty");
+            livesBox.getChildren().add(emptyHeart);
+        }
+    }
+
+    /**
+     * Hiệu ứng mất mạng
+     */
+    public void playLifeLostAnimation() {
+        // Thêm hiệu ứng rung hoặc flash cho livesBox
+        livesBox.getStyleClass().add("life-lost-animation");
+
+        PauseTransition pause = new PauseTransition(Duration.millis(500));
+        pause.setOnFinished(e -> livesBox.getStyleClass().remove("life-lost-animation"));
+        pause.play();
     }
 
 }

@@ -38,24 +38,23 @@ public class OverlayObject extends GameObject {
     }
 
     public void renderBackground(GraphicsContext renderer) {
-        // Background gradient
+        // Lớp nền tối chính (đen đậm hơn)
         LinearGradient gradient = new LinearGradient(
                 0, 0, 0, 1, true, CycleMethod.NO_CYCLE,
-                new Stop(0, Color.rgb(0, 0, 0, 0.7)),
-                new Stop(1, Color.rgb(30, 41, 59, 0.8))
+                new Stop(0, Color.rgb(0, 0, 0, 0.85)), // Đen đậm hơn
+                new Stop(1, Color.rgb(30, 41, 59, 0.9)) // Xanh than đậm
         );
 
         renderer.setFill(gradient);
-        renderer.fillRoundRect(x, y, width, height, 20, 20);
+        renderer.fillRoundRect(x + 5, y + 5, width - 10, height - 10, 35, 35);
 
-        // Border
-        renderer.setStroke(Color.rgb(255, 255, 255, 0.1));
-        renderer.setLineWidth(1);
-        renderer.strokeRoundRect(x, y, width, height, 20, 20);
-
-        // Shadow effect
-        renderer.setFill(Color.rgb(0, 0, 0, 0.3));
-        renderer.fillRoundRect(x + 4, y + 8, width, height, 20, 20);
+        // Vẽ thêm vài lớp mờ nhẹ (tạo hiệu ứng blur nhẹ)
+        for (int i = 1; i <= 3; i++) {
+            renderer.setGlobalAlpha(0.1 / i);
+            renderer.setFill(gradient);
+            renderer.fillRoundRect(x + 5 - i, y + 5 - i, width - 10 + 2 * i, height - 10 + 2 * i, 35, 35);
+        }
+        renderer.setGlobalAlpha(1.0); // trả lại alpha gốc
     }
 
     public void renderText(GraphicsContext renderer) {

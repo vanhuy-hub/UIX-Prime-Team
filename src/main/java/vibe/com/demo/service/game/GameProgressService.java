@@ -2,8 +2,10 @@ package vibe.com.demo.service.game;
 //quản lí tiến trình game 
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import vibe.com.demo.model.user.User;
+import javafx.beans.property.BooleanProperty;
 
 public class GameProgressService {
 
@@ -68,6 +70,7 @@ public class GameProgressService {
 
     // kiem tra 
     public boolean isLockedNextButton(User user) {
-        return getCurrentLevel(user) == 20 || selectedLevel.get() == getCurrentLevel(user);
+        return getSelectedLevel() == 20 || selectedLevel.get() == getCurrentLevel(user);
     }
+
 }
