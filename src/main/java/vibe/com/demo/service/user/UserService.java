@@ -24,8 +24,9 @@ public class UserService {
         users = new ArrayList<>();
         users.add(new User("vanhuy", "12345678", "pro1234"));
         users.get(0).getPlayerProgress().setTrophies(20);
-        users.get(0).getPlayerProgress().setCoins(200);
-        users.add(new User("vanhuytnt", "12345678", "pro123"));
+        users.get(0).getPlayerProgress().setCoins(20000);
+        users.add(new User("huybui", "12345678", "pro123"));
+        users.get(1).getPlayerProgress().setCoins(100000);
     }
 
     //=====Tìm kiếm username  

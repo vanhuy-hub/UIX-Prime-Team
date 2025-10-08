@@ -39,7 +39,6 @@ public class Paddle extends MovableObject {
     public void render(GraphicsContext renderer) {
         renderer.setFill(color);//xét màu
         renderer.fillRoundRect(x, y, width, height, 15, 15); //2 giá trị cuối cùng là giá trị bor góc (bán kính bo tròn theo chiều ngang và dọc) 
-
         renderer.setStroke(Color.WHITE);//màu border
         renderer.setLineWidth(2);//độ dày viền 
         renderer.strokeRoundRect(x, y, width, height, 15, 15);//để xét đúng vị trí hình chữ nhật mà ta phủ màu trước đó 

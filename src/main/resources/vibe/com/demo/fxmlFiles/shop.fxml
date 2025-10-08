@@ -28,7 +28,7 @@ xmlns:fx="http://javafx.com/fxml"
       <HBox fx:id="coinBox" alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
         <HBox styleClass="coin-container" alignment="CENTER" spacing="8">
           <ImageView fitHeight="20" fitWidth="20" preserveRatio="true" styleClass="coin-icon"/>
-          <Label fx:id="coinLabel" text="1,000" styleClass="coin-label"/>
+          <Label fx:id="coinLabel" styleClass="coin-label"/>
         </HBox>
       </HBox>
     </HBox>
@@ -37,15 +37,16 @@ xmlns:fx="http://javafx.com/fxml"
   <!-- 🔹 Danh sách item - Giới hạn độ rộng 900px -->
   <center>
     <ScrollPane fitToWidth="true" fitToHeight="true" vbarPolicy="NEVER" hbarPolicy="NEVER" 
-                                    styleClass="scroll-pane" prefWidth="900" prefHeight="740">
-      <VBox spacing="30" alignment="TOP_CENTER" styleClass="items-container" prefWidth="900">
+                                                                                    styleClass="scroll-pane" prefWidth="900" prefHeight="740">
+      <VBox fx:id="shopGroup" spacing="30" alignment="TOP_CENTER" styleClass="items-container" prefWidth="900">
         <!-- Hàng 1 chứa 3 item -->
         <HBox spacing="25" alignment="CENTER" prefWidth="900">
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
             <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#f87171"/>
             <Label text="Classic Paddle" styleClass="item-title"/>
             <Label text="The standard paddle. Reliable and balanced." styleClass="item-desc" wrapText="true" prefWidth="240"/>
-            <Button text="Free" styleClass="btn-free" prefWidth="120"/>
+            <Label text="Free" styleClass="item-price-free"/>
+            <Button id="item1" text="Equiped" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
             <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#facc15"/>
@@ -55,7 +56,7 @@ xmlns:fx="http://javafx.com/fxml"
               <Label text="150" styleClass="item-price"/>
               <ImageView fitHeight="16" fitWidth="16" preserveRatio="true" styleClass="coin-icon"/>
             </HBox>
-            <Button text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
+            <Button id="item2" text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
             <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#38bdf8"/>
@@ -65,7 +66,7 @@ xmlns:fx="http://javafx.com/fxml"
               <Label text="250" styleClass="item-price"/>
               <ImageView fitHeight="16" fitWidth="16" preserveRatio="true" styleClass="coin-icon"/>
             </HBox>
-            <Button text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
+            <Button id="item3" text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
         </HBox>
         <!-- Hàng 2 chứa 3 item -->
@@ -78,7 +79,7 @@ xmlns:fx="http://javafx.com/fxml"
               <Label text="350" styleClass="item-price"/>
               <ImageView fitHeight="16" fitWidth="16" preserveRatio="true" styleClass="coin-icon"/>
             </HBox>
-            <Button text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
+            <Button id="item4" text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
             <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#a78bfa"/>
@@ -88,7 +89,7 @@ xmlns:fx="http://javafx.com/fxml"
               <Label text="450" styleClass="item-price"/>
               <ImageView fitHeight="16" fitWidth="16" preserveRatio="true" styleClass="coin-icon"/>
             </HBox>
-            <Button text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
+            <Button id="item5" text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
             <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#4ade80"/>
@@ -98,7 +99,7 @@ xmlns:fx="http://javafx.com/fxml"
               <Label text="500" styleClass="item-price"/>
               <ImageView fitHeight="16" fitWidth="16" preserveRatio="true" styleClass="coin-icon"/>
             </HBox>
-            <Button text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
+            <Button id="item6" text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
         </HBox>
         <!-- Hàng 3 chứa 3 item để có thể cuộn -->
@@ -111,7 +112,7 @@ xmlns:fx="http://javafx.com/fxml"
               <Label text="600" styleClass="item-price"/>
               <ImageView fitHeight="16" fitWidth="16" preserveRatio="true" styleClass="coin-icon"/>
             </HBox>
-            <Button text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
+            <Button id="item7" text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
             <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#60a5fa"/>
@@ -121,7 +122,7 @@ xmlns:fx="http://javafx.com/fxml"
               <Label text="700" styleClass="item-price"/>
               <ImageView fitHeight="16" fitWidth="16" preserveRatio="true" styleClass="coin-icon"/>
             </HBox>
-            <Button text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
+            <Button id="item8" text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
             <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#f59e0b"/>
@@ -131,7 +132,7 @@ xmlns:fx="http://javafx.com/fxml"
               <Label text="1000" styleClass="item-price"/>
               <ImageView fitHeight="16" fitWidth="16" preserveRatio="true" styleClass="coin-icon"/>
             </HBox>
-            <Button text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
+            <Button id="item9" text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
         </HBox>
       </VBox>

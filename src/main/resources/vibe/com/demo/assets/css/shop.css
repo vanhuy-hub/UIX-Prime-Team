@@ -1,6 +1,6 @@
 /* ========== ROOT PANE - MÀU NỀN TƯƠNG PHẢN ========== */
 .root-pane {
-     -fx-background-color: linear-gradient(to right, #3E1E68, #2C1250, #1F0C3E);
+     -fx-background-color: linear-gradient(to right, #2c2e8a, #501f87);
 }
 
 /* ========== NAVIGATION ========== */
@@ -174,7 +174,27 @@
     -fx-scale-x: 1.08;
     -fx-scale-y: 1.08;
 }
+/* ========== TRẠNG THÁI ĐÃ MUA (EQUIP) ========== */
+.btn-buy:equip {
+    -fx-background-color: linear-gradient(to bottom, #3b82f6, #2563eb);
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
 
+.btn-buy:equip:hover {
+    -fx-background-color: linear-gradient(to bottom, #60a5fa, #3b82f6);
+}
+
+/* ========== TRẠNG THÁI ĐANG DÙNG (EQUIPED) ========== */
+.btn-buy:equiped {
+    -fx-background-color: linear-gradient(to bottom, #10b981, #059669);
+    -fx-text-fill: white;
+    -fx-cursor: default;
+}
+
+.btn-buy:equiped:hover {
+    -fx-background-color: linear-gradient(to bottom, #10b981, #059669); /* Giữ nguyên màu */
+}
 .btn-free {
     -fx-background-color: linear-gradient(to bottom, #22c55e, #16a34a);
     -fx-text-fill: white;
@@ -192,4 +212,15 @@
     -fx-effect: dropshadow(gaussian, rgba(34, 197, 94, 0.6), 12, 0, 0, 4);
     -fx-scale-x: 1.08;
     -fx-scale-y: 1.08;
+}
+.btn-equip{
+    -fx-pref-width: 120;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10 0;
+    -fx-background-radius: 10;
+     -fx-transition: all 0.2s ease-in-out; 
+-fx-background-color: linear-gradient(to bottom, #d1d5db, #9ca3af);
+-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);
 }

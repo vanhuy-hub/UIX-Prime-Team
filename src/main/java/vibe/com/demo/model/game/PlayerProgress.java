@@ -1,13 +1,22 @@
 package vibe.com.demo.model.game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlayerProgress {
 
     private int coins;
     private int trophies;
 
+    private List<String> idPurchasedPaddles;
+    private String idCurrentPaddle;
+
     public PlayerProgress() {
         coins = 0;
         trophies = 0;
+        idPurchasedPaddles = new ArrayList<>();
+        idPurchasedPaddles.add("item1");
+        idCurrentPaddle = "item1";
     }
 
     public int getCoins() {
@@ -33,9 +42,13 @@ public class PlayerProgress {
         }
     }
 
-    // them tien : 
+    // helper ~ them tien : 
     public void addCoins(int coin) {
         this.coins += coin;
+    }
+
+    public void subtractCoin(int amount) {
+        this.coins -= amount;
     }
 
     // level suy ra từ trophies hiện tại : 
@@ -46,5 +59,27 @@ public class PlayerProgress {
     @Override
     public String toString() {
         return "PlayerProgress [coins=" + coins + ", trophies=" + trophies + "]";
+    }
+    //
+
+    public List<String> getIdPurchasedPaddles() {
+        return idPurchasedPaddles;
+    }
+
+    public void setIdPurchasedPaddles(List<String> idPurchasedPaddles) {
+        this.idPurchasedPaddles = idPurchasedPaddles;
+    }
+
+    public String getIdCurrentPaddle() {
+        return idCurrentPaddle;
+    }
+
+    public void setIdCurrentPaddle(String idCurrentPaddle) {
+        this.idCurrentPaddle = idCurrentPaddle;
+    }
+
+    //helper list purchaedPaddle
+    public void addIdNewPaddleI(String id) {
+        idPurchasedPaddles.add(id);
     }
 }

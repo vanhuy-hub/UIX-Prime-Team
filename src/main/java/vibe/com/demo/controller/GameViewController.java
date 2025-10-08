@@ -2,7 +2,6 @@ package vibe.com.demo.controller;
 
 import javafx.animation.PauseTransition;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.css.PseudoClass;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -65,7 +64,6 @@ public class GameViewController implements BaseController {
 
     // level da chon ~ dùng data binding
     private IntegerProperty selectedLevel = gameProgressService.getSelectedLevelProperty();
-    private IntegerProperty totalCoins = new SimpleIntegerProperty(gameProgressService.getCoins(currentUser));
 
     @Override
     public void setMainApp(MainApp mainApp) {
@@ -79,7 +77,8 @@ public class GameViewController implements BaseController {
     public void dataBindingInit() {
         //data binding
         levelLabel.textProperty().bind(selectedLevel.asString());
-        coinLabel.textProperty().bind(totalCoins.asString());
+        gameProgressService.setCoins(gameProgressService.getCoins(currentUser));
+        coinLabel.textProperty().bind(gameProgressService.getCoinsProperty().asString());
         //databinding + listener (khi có sự thay đổi dữ liệu thì tự động gọi hàm được định nghĩa )
         gameDataModel.getSessionLivesProperty().addListener((obs, oldVal, newVal) -> {
             playLifeLostAnimation();
