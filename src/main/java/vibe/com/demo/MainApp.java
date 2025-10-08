@@ -32,13 +32,14 @@ public class MainApp extends Application {
         stage.setScene(mainScene);
         stage.show();
         //load Login scene đầu tiên 
+
         loadLoginView();
 
     }
 
     public <T extends BaseController> void loadView(String pathFxmlFile, String pathCssFile, String musicName) {
         try {
-            audioService.playBackgroundMusic(musicName);
+            // audioService.playBackgroundMusic(musicName);
             contentPane.getChildren().clear();//xoa cac phan tu truoc
             FXMLLoader loader = new FXMLLoader(getClass().getResource(pathFxmlFile));
             Parent view = loader.load();
@@ -79,6 +80,11 @@ public class MainApp extends Application {
 
     public void loadGameView() {
         loadView("fxmlFiles/gameview.fxml", "assets/css/gameview.css", "playgame");
+    }
+
+    public void loadShopView() {
+        loadView("fxmlFiles/shop.fxml", "assets/css/shop.css", "playgame");
+
     }
 
     // day la ham main

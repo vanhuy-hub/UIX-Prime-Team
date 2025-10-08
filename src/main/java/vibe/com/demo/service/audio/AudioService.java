@@ -93,7 +93,7 @@ public class AudioService {
         System.out.println(soundEffects.get(key));
         AudioClip clip = soundEffects.get(key);
         if (clip != null) {
-            clip.play();
+            // clip.play();
             System.out.println("🔊 Playing sound: " + key);
         }
     }

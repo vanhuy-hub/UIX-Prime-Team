@@ -113,4 +113,9 @@ public class LobbyController implements BaseController {
             delay.play();
         }
     }
+
+    @FXML
+    public void goToShop() {
+        this.mainApp.loadShopView();
+    }
 }
