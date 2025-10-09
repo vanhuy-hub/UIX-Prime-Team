@@ -34,7 +34,6 @@ public class MainApp extends Application {
         //load Login scene đầu tiên 
 
         loadLoginView();
-
     }
 
     public <T extends BaseController> void loadView(String pathFxmlFile, String pathCssFile, String musicName) {
