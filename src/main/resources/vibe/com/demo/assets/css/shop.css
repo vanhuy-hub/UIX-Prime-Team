@@ -224,3 +224,31 @@
 -fx-background-color: linear-gradient(to bottom, #d1d5db, #9ca3af);
 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 4, 0, 0, 2);
 }
+
+.paddle1{
+    -fx-image: url("../img/paddle1.png");
+}
+.paddle2{
+    -fx-image: url("../img/paddle2.png");
+}
+.paddle3{
+    -fx-image: url("../img/paddle3.png");
+}
+.paddle4{
+    -fx-image: url("../img/paddle4.png");
+}
+.paddle5{
+    -fx-image: url("../img/paddle5.png");
+}
+.paddle6{
+    -fx-image: url("../img/paddle6.png");
+}
+.paddle7{
+    -fx-image: url("../img/paddle7.png");
+}
+.paddle8{
+    -fx-image: url("../img/paddle8.png");
+}
+.paddle9{
+    -fx-image: url("../img/paddle9.png");
+}

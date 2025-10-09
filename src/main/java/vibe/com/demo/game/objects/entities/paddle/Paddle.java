@@ -1,6 +1,7 @@
 package vibe.com.demo.game.objects.entities.paddle;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import vibe.com.demo.game.objects.abstractions.MovableObject;
 //paddle chỉ di truyển sang trái hoặc phải nên chỉ cần tác động vào giá trị dx, t cộng speed / -speed 
@@ -12,10 +13,13 @@ public class Paddle extends MovableObject {
     private boolean isMovingLeft = false;
     private boolean isMovingRight = false;
 
+    private Image paddleImg;
+
     public Paddle(double x, double y, double width, double height) {
         super(x, y, width, height);
         speed = 4;
         this.color = Color.ANTIQUEWHITE;
+        paddleImg = new Image(getClass().getResourceAsStream("/vibe/com/demo/assets/img/paddle3.png"));
     }
 
     public void moveLeft() {
@@ -37,11 +41,8 @@ public class Paddle extends MovableObject {
 
     @Override
     public void render(GraphicsContext renderer) {
-        renderer.setFill(color);//xét màu
-        renderer.fillRoundRect(x, y, width, height, 15, 15); //2 giá trị cuối cùng là giá trị bor góc (bán kính bo tròn theo chiều ngang và dọc) 
-        renderer.setStroke(Color.WHITE);//màu border
-        renderer.setLineWidth(2);//độ dày viền 
-        renderer.strokeRoundRect(x, y, width, height, 15, 15);//để xét đúng vị trí hình chữ nhật mà ta phủ màu trước đó 
+        renderer.clearRect(x, y, getWidth(), getHeight());
+        renderer.drawImage(paddleImg, x, y);
     }
 
     @Override
@@ -103,6 +104,15 @@ public class Paddle extends MovableObject {
 
     public void setMovingRight(boolean isMovingRight) {
         this.isMovingRight = isMovingRight;
+    }
+
+    public Image getPaddleImg() {
+        return paddleImg;
+    }
+
+    public void setPaddleImgFromURL(String url) {
+        this.paddleImg = new Image(getClass().getResourceAsStream("/vibe/com/demo/assets/img/" + url + ""));
+
     }
 
 }

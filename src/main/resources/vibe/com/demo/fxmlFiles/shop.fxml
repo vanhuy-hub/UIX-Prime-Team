@@ -37,19 +37,19 @@ xmlns:fx="http://javafx.com/fxml"
   <!-- 🔹 Danh sách item - Giới hạn độ rộng 900px -->
   <center>
     <ScrollPane fitToWidth="true" fitToHeight="true" vbarPolicy="NEVER" hbarPolicy="NEVER" 
-                                                                                    styleClass="scroll-pane" prefWidth="900" prefHeight="740">
+                                                                                                                                styleClass="scroll-pane" prefWidth="900" prefHeight="740">
       <VBox fx:id="shopGroup" spacing="30" alignment="TOP_CENTER" styleClass="items-container" prefWidth="900">
         <!-- Hàng 1 chứa 3 item -->
         <HBox spacing="25" alignment="CENTER" prefWidth="900">
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
-            <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#f87171"/>
+            <ImageView fitHeight="600" fitWidth="150" preserveRatio="true" styleClass="paddle1"/>
             <Label text="Classic Paddle" styleClass="item-title"/>
             <Label text="The standard paddle. Reliable and balanced." styleClass="item-desc" wrapText="true" prefWidth="240"/>
             <Label text="Free" styleClass="item-price-free"/>
             <Button id="item1" text="Equiped" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
-            <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#facc15"/>
+            <ImageView fitHeight="600" fitWidth="150" preserveRatio="true" styleClass="paddle2"/>
             <Label text="Lightning Bolt" styleClass="item-title"/>
             <Label text="Enhanced speed and electric effects. Move 25% faster!" styleClass="item-desc" wrapText="true" prefWidth="240"/>
             <HBox alignment="CENTER" spacing="5">
@@ -59,7 +59,7 @@ xmlns:fx="http://javafx.com/fxml"
             <Button id="item2" text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
-            <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#38bdf8"/>
+            <ImageView fitHeight="600" fitWidth="150" preserveRatio="true" styleClass="paddle3"/>
             <Label text="Ice Crystal" styleClass="item-title"/>
             <Label text="Freezes blocks temporarily. Special ice power!" styleClass="item-desc" wrapText="true" prefWidth="240"/>
             <HBox alignment="CENTER" spacing="5">
@@ -72,7 +72,7 @@ xmlns:fx="http://javafx.com/fxml"
         <!-- Hàng 2 chứa 3 item -->
         <HBox spacing="25" alignment="CENTER" prefWidth="900">
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
-            <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#fb923c"/>
+            <ImageView fitHeight="600" fitWidth="150" preserveRatio="true" styleClass="paddle4"/>
             <Label text="Flame Master" styleClass="item-title"/>
             <Label text="Burns through blocks easier. Fire trail effect!" styleClass="item-desc" wrapText="true" prefWidth="240"/>
             <HBox alignment="CENTER" spacing="5">
@@ -82,7 +82,7 @@ xmlns:fx="http://javafx.com/fxml"
             <Button id="item4" text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
-            <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#a78bfa"/>
+            <ImageView fitHeight="600" fitWidth="150" preserveRatio="true" styleClass="paddle5"/>
             <Label text="Shadow Blade" styleClass="item-title"/>
             <Label text="Slices through blocks. Shadow dash effect!" styleClass="item-desc" wrapText="true" prefWidth="240"/>
             <HBox alignment="CENTER" spacing="5">
@@ -92,7 +92,7 @@ xmlns:fx="http://javafx.com/fxml"
             <Button id="item5" text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
-            <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#4ade80"/>
+            <ImageView fitHeight="600" fitWidth="150" preserveRatio="true" styleClass="paddle6"/>
             <Label text="Nature Spirit" styleClass="item-title"/>
             <Label text="Regenerates slowly. Eco-friendly vibes!" styleClass="item-desc" wrapText="true" prefWidth="240"/>
             <HBox alignment="CENTER" spacing="5">
@@ -105,7 +105,7 @@ xmlns:fx="http://javafx.com/fxml"
         <!-- Hàng 3 chứa 3 item để có thể cuộn -->
         <HBox spacing="25" alignment="CENTER" prefWidth="900">
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
-            <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#f472b6"/>
+            <ImageView fitHeight="600" fitWidth="150" preserveRatio="true" styleClass="paddle7"/>
             <Label text="Cosmic Ray" styleClass="item-title"/>
             <Label text="Shoots cosmic energy. Space-themed effects!" styleClass="item-desc" wrapText="true" prefWidth="240"/>
             <HBox alignment="CENTER" spacing="5">
@@ -115,7 +115,7 @@ xmlns:fx="http://javafx.com/fxml"
             <Button id="item7" text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
-            <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#60a5fa"/>
+            <ImageView fitHeight="600" fitWidth="150" preserveRatio="true" styleClass="paddle8"/>
             <Label text="Ocean Wave" styleClass="item-title"/>
             <Label text="Creates wave patterns. Water splash effects!" styleClass="item-desc" wrapText="true" prefWidth="240"/>
             <HBox alignment="CENTER" spacing="5">
@@ -125,7 +125,7 @@ xmlns:fx="http://javafx.com/fxml"
             <Button id="item8" text="Buy Now" styleClass="btn-buy" prefWidth="120"/>
           </VBox>
           <VBox styleClass="shop-item" alignment="CENTER" prefWidth="280" prefHeight="300">
-            <Rectangle width="140" height="35" arcWidth="15" arcHeight="15" fill="#f59e0b"/>
+            <ImageView fitHeight="600" fitWidth="150" preserveRatio="true" styleClass="paddle9"/>
             <Label text="Golden Paddle" styleClass="item-title"/>
             <Label text="Premium golden paddle. Exclusive design!" styleClass="item-desc" wrapText="true" prefWidth="240"/>
             <HBox alignment="CENTER" spacing="5">

@@ -111,4 +111,29 @@ public class GameProgressService {
         user.getPlayerProgress().setIdCurrentPaddle(newId);
     }
 
+    //get imgURL với id item tương ứng 
+    public String getCurrentPaddleImageURL(User user) {
+        switch (user.getPlayerProgress().getIdCurrentPaddle()) {
+            case "item1":
+                return "paddle1.png";
+            case "item2":
+                return "paddle2.png";
+            case "item3":
+                return "paddle3.png";
+            case "item4":
+                return "paddle4.png";
+            case "item5":
+                return "paddle5.png";
+            case "item6":
+                return "paddle6.png";
+            case "item7":
+                return "paddle7.png";
+            case "item8":
+                return "paddle8.png";
+            case "item9":
+                return "paddle9.png";
+            default:
+                return "paddle1.png";
+        }
+    }
 }

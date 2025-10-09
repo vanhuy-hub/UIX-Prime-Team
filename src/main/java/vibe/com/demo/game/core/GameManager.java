@@ -7,7 +7,6 @@ import javafx.util.Duration;
 import vibe.com.demo.controller.GameViewController;
 import vibe.com.demo.game.levels.LevelManager;
 import vibe.com.demo.game.objects.entities.ball.Ball;
-
 import vibe.com.demo.game.objects.entities.overlay.OverlayObject;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
 import vibe.com.demo.model.user.User;
@@ -68,13 +67,14 @@ public class GameManager {
      */
     public void initializeGameObjects() {
         // Initialize paddle at bottom center
-        double paddleWidth = 100;
-        double paddleHeight = 20;
+        double paddleWidth = 140;
+        double paddleHeight = 40;
         double paddleX = (gameWidth - paddleWidth) / 2;
         double paddleY = gameHeight - paddleHeight - 30;
 
         paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight);
-
+        System.out.println(gameProgressService.getIdCurrentPaddle(currentUser));
+        paddle.setPaddleImgFromURL(gameProgressService.getCurrentPaddleImageURL(currentUser));
         // Initialize ball on top of paddle
         double ballRadius = 10;
         ball = new Ball(0, 0, ballRadius);
@@ -152,7 +152,7 @@ public class GameManager {
      */
     public void showOverlay(String message) {
         overlay.show(message, Color.WHITE);
-
+        render();
     }
 
     public void hideOverlay() {

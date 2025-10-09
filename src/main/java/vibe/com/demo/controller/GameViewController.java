@@ -128,12 +128,6 @@ public class GameViewController implements BaseController {
         gameCanvas.setFocusTraversable(true);//set sự thay đổi chỉ tập trung vào gameCanvas ~ canvas để vẽ đối tượng 
         gameCanvas.requestFocus();//chấp nhận focus
 
-        // ✅ THÊM FOCUS HANDLER
-        gameArea.focusedProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal) {
-                System.out.println("🎯 GameArea focused - Ready for input");
-            }
-        });
         //sự kiện ấn phím 
         gameCanvas.setOnKeyPressed(e -> {
 
@@ -150,7 +144,7 @@ public class GameViewController implements BaseController {
 
     @FXML
     public void handleChangePaddle() {
-        this.mainApp.loadLobbyView();
+        this.mainApp.loadShopView();
     }
 
     @FXML
