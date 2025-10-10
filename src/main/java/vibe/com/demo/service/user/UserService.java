@@ -26,6 +26,7 @@ public class UserService {
         users.get(0).getPlayerProgress().setTrophies(20);
         users.get(0).getPlayerProgress().setCoins(20000);
         users.add(new User("huybui", "12345678", "pro123"));
+        users.get(1).getPlayerProgress().setTrophies(20);
         users.get(1).getPlayerProgress().setCoins(100000);
     }
 
