@@ -1,6 +1,7 @@
 package vibe.com.demo.game.objects.entities.ball;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import vibe.com.demo.game.objects.abstractions.MovableObject;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
@@ -10,6 +11,7 @@ public class Ball extends MovableObject {
     private Color color;
     private double speed;
     private boolean isActive;//kiểm tra trạng thái của bóng có hoạt động hay không 
+    private Image img;
 
     public boolean isActive() {
         return isActive;
@@ -20,15 +22,13 @@ public class Ball extends MovableObject {
         this.color = Color.WHITE;
         speed = 4;
         this.isActive = false;
+        this.img = new Image(getClass().getResourceAsStream("/vibe/com/demo/assets/img/ball2.png"));
     }
 
     @Override
     public void render(GraphicsContext renderer) {
-        renderer.setFill(Color.GRAY);
-        renderer.fillOval(x, y, width, height);//vẽ 1 hình tròn 
-        // Add a shine effect ~ thêm hiệu ứng ánh sáng  
-        renderer.setFill(Color.rgb(255, 255, 255, 0.7));
-        renderer.fillOval(x + width * 0.3, y + height * 0.2, width * 0.4, height * 0.4);
+        renderer.clearRect(0, 0, width, height);
+        renderer.drawImage(img, x, y);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class Ball extends MovableObject {
 
         isActive = false;//dừng trạng thái nảy 
         x = paddle.getX() + paddle.getWidth() / 2 - this.width / 2;
-        y = paddle.getY() - this.height - 5;
+        y = paddle.getY() - this.height - 1;
 
     }
 

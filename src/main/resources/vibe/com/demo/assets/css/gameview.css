@@ -21,10 +21,11 @@
     -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.3), 20, 0.3, 0, 4);
     -fx-min-width: 900px;
     -fx-min-height: 700px;
+     -fx-background-image: url("../img/bkGame.png");
+     -fx-background-radius: 20;
     /* -fx-max-width: 900px;
     -fx-max-height: 700px; */
 }
-
 
 
 .overlay-title {

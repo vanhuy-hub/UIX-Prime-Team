@@ -19,7 +19,7 @@
     <StackPane styleClass="left-area">
       <!--Elements -->
       <StackPane fx:id="gameArea" styleClass="game-area" maxWidth="900" maxHeight="700">
-        <Canvas fx:id="gameCanvas" width="900" height="700"/>
+        <Canvas fx:id="gameCanvas" width="900" height="700" styleClass="game-canvas"/>
       </StackPane>
     </StackPane>
   </center>
@@ -83,7 +83,7 @@
       <!-- Complete button -->
       <StackPane styleClass="background-next-btn" minWidth="300">
         <Button fx:id="nextButton" styleClass="next-btn" 
-                                                                                                                                                                                                                                                                                                                                                                  alignment="CENTER" minWidth="260" onAction="#handleNextLevel"/>
+                                                                                                                                                                                                                                                                                                                                                                          alignment="CENTER" minWidth="260" onAction="#handleNextLevel"/>
       </StackPane>
     </VBox>
   </right>

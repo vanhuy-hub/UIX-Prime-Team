@@ -55,4 +55,18 @@ public class User {
     public void setPlayerProgress(PlayerProgress playerProgress) {
         this.playerProgress = playerProgress;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        System.out.println(password.hashCode());
+        return result;
+    }
+
+    public static void main(String[] args) {
+        User user = new User("huy", "12345", "Pro");
+        System.out.println(user.hashCode());
+    }
 }

@@ -112,7 +112,6 @@ public class Paddle extends MovableObject {
 
     public void setPaddleImgFromURL(String url) {
         this.paddleImg = new Image(getClass().getResourceAsStream("/vibe/com/demo/assets/img/" + url + ""));
-
     }
 
 }

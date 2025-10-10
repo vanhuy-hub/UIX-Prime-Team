@@ -1,6 +1,7 @@
 package vibe.com.demo.game.objects.entities.bricks;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import vibe.com.demo.game.objects.abstractions.GameObject;
 
@@ -10,6 +11,7 @@ public abstract class Brick extends GameObject {
     private Color color;
     private int maxHitPoints;
     private int hitCount;
+    private Image img;
 
     public Brick(double x, double y, double width, double height, int maxHitPoints, Color color) {
         super(x, y, width, height);
@@ -22,8 +24,8 @@ public abstract class Brick extends GameObject {
     @Override
     public void render(GraphicsContext gc) {
         if (!destroyed) {
-            drawBrick(gc);
-            drawBorder(gc);
+            gc.clearRect(x, y, getWidth(), getHeight());
+            gc.drawImage(img, x, y);
         }
     }
 
@@ -115,6 +117,15 @@ public abstract class Brick extends GameObject {
 
     public void setHitCount(int hitCount) {
         this.hitCount = hitCount;
+    }
+
+    public void setImg(String path) {
+        try {
+            this.img = new Image(getClass().getResourceAsStream(path));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 }

@@ -83,7 +83,6 @@ public class GameManager {
         overlay = new OverlayObject(0, 0, gameWidth, gameHeight);
         showOverlay("Nhấn SPACE để bắt đầu");
         delayHideOverLay(1700);
-
     }
 
     public void delayHideOverLay(long ms) {

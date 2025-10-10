@@ -6,12 +6,14 @@ public class NormalBrick extends Brick {
 
     public NormalBrick(double x, double y, double width, double height) {
         super(x, y, width, height, 1, Color.RED);
+        this.setImg("/vibe/com/demo/assets/img/brick_normal.png");
     }
+
     /**
-     * Ghi de ham degredeBrick 
+     * Ghi de ham degredeBrick
      */
     @Override
-     public Brick degradeBrick() {
+    public Brick degradeBrick() {
         return null;
     }
 }

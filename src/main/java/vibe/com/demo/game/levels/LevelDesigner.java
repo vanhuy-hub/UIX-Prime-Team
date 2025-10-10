@@ -8,8 +8,6 @@ import java.util.Map;
  */
 public class LevelDesigner {
 
-
-
     private static final Map<Integer, Character[][]> LEVEL_DESIGNS = new HashMap<>();
 
     /**
@@ -94,9 +92,9 @@ public class LevelDesigner {
 
         // Level 10 - Explosive Intro (Medium-Hard)
         LEVEL_DESIGNS.put(10, new Character[][]{
-            {'1', 'E', '1', 'E', '1', 'E', '1'},
+            {'1', 'E', 'U', 'E', 'U', 'E', '1'},
             {'E', '2', 'E', '2', 'E', '2', 'E'},
-            {'1', 'E', '1', 'E', '1', 'E', '1'},
+            {'1', 'E', 'U', 'E', 'U', 'E', '1'},
             {'E', '2', 'E', '2', 'E', '2', 'E'}
         });
 
