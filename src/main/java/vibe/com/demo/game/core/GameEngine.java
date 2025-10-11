@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Queue;
 
 import javafx.animation.AnimationTimer;
+import vibe.com.demo.game.animations.BrickDestroyAnimation;
 import vibe.com.demo.game.levels.LevelConfig;
 import vibe.com.demo.game.objects.entities.ball.Ball;
 import vibe.com.demo.game.objects.entities.bricks.Brick;
@@ -110,6 +111,13 @@ public class GameEngine {
         checkBrickCollision();
     }
 
+    public void createExplosionAnimation(Brick explosiveBrick) {
+        BrickDestroyAnimation anim = new BrickDestroyAnimation();
+        anim.start(explosiveBrick.getX(), explosiveBrick.getY());
+        anim.update();
+        anim.render(gameManager.getGc());
+    }
+
     /**
      * xử lý chi tiết va chạm với gạch
      */
@@ -120,6 +128,7 @@ public class GameEngine {
                 if (bricks.get(i) instanceof ExplosiveBrick) {
                     collisionDetector.handleCollisionBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
                     addAdjacentBrick(bricks.get(i), bricksToRemove);
+
                     continue;
                 }
 
@@ -139,10 +148,11 @@ public class GameEngine {
         explosiveQueue.offer(explosiveBrick);//thêm bằng offer
         //while thay vì đệ quy 
         while (!explosiveQueue.isEmpty()) {
-            //lấy viên gạch nổ  đầu tiên đồng thời xóa 
+            //lấy viên gạch  đầu tiên đồng thời xóa 
             Brick currentBrick = explosiveQueue.poll();
+            createExplosionAnimation(currentBrick);
             if (bricksToRemove.contains(currentBrick)) {
-                //while tiếp nối bricksToRemove đã tồn tại gạch nổ này 
+                //dừng lại nếu có trong mảng remove rồi tránh bị đẹ quy vô hạn lần 
                 continue;
             }
             bricksToRemove.add(currentBrick);
@@ -160,11 +170,11 @@ public class GameEngine {
                 double checkY = brickY + direction[1];
                 Brick adjacentBrick = findBrickAtPosition(checkX, checkY);
                 if (adjacentBrick != null) {
+
                     if (adjacentBrick instanceof UnbreakableBrick) {
                         continue;//bỏ qua nếu là gạch cứng 
                     } //đệ quy nếu gạch liền kề lại là Explosive
                     else if (adjacentBrick instanceof ExplosiveBrick) {
-                        //thêm gạch nổ liền kề với gạch 
                         explosiveQueue.offer(adjacentBrick);
                     } else {
                         bricksToRemove.add(adjacentBrick);

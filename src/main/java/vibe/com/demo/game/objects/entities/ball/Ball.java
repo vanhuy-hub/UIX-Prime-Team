@@ -3,6 +3,7 @@ package vibe.com.demo.game.objects.entities.ball;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import vibe.com.demo.game.animations.BallTrailAnimation;
 import vibe.com.demo.game.objects.abstractions.MovableObject;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
 
@@ -12,6 +13,7 @@ public class Ball extends MovableObject {
     private double speed;
     private boolean isActive;//kiểm tra trạng thái của bóng có hoạt động hay không 
     private Image img;
+    private BallTrailAnimation ballTrail;
 
     public boolean isActive() {
         return isActive;
@@ -23,30 +25,39 @@ public class Ball extends MovableObject {
         speed = 4;
         this.isActive = false;
         this.img = new Image(getClass().getResourceAsStream("/vibe/com/demo/assets/img/ball2.png"));
+        ballTrail = new BallTrailAnimation();
+        ballTrail.start(x, y);
     }
 
     @Override
     public void render(GraphicsContext renderer) {
         renderer.clearRect(0, 0, width, height);
         renderer.drawImage(img, x, y);
-        renderTrail(renderer);
-    }
-
-    public void renderTrail(GraphicsContext renderer) {
-        //b1 : phủ 1 lớp bán trong suốt để làm mờ dần hình cũ 
-        renderer.setFill(Color.rgb(1, 1, 1, 1));
-        renderer.fillRect(0, 0, width, height);
-
-        //B2 : Vẽ lại quả bóng ở vị trí hiện tại 
-        renderer.setFill(Color.rgb(1, 1, 1, 1));
-        renderer.fillOval(x, y, width / 2, width / 2);
+        ballTrail.render(renderer);
     }
 
     @Override
     public void update() {
         if (this.isActive) {
-            super.update();//gọi đến phương thức update của thằng Movalable 
+            super.update();//gọi đến phương thức update của thằng Movalable
+            ballTrail.updateBallPosition(this);
         }
+    }
+
+    public boolean isUpState() {
+        return dy < 0;
+    }
+
+    public boolean isDownState() {
+        return dy > 0;
+    }
+
+    public boolean isRightState() {
+        return dx > 0;
+    }
+
+    public boolean isLeftState() {
+        return dx < 0;
     }
 
     /**
