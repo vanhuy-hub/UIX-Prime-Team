@@ -96,13 +96,17 @@ public class CollisionDetector {
      * Hàm xử lí khi va chạm với gạch
      */
     public Brick getDeradeBrick(Ball ball, Brick brick, CollisionSide side) {
+        handleCollisionBrick(ball, brick, side);
+        return brick.takeHit();
+
+    }
+
+    public void handleCollisionBrick(Ball ball, Brick brick, CollisionSide side) {
         if (side == CollisionSide.BOTTOM || side == CollisionSide.TOP) {
             ball.bounceVertical();
         } else if (side == CollisionSide.LEFT || side == CollisionSide.RIGHT) {
             ball.bounceHorizontal();
         }
-        return brick.takeHit();
-
     }
 
     /**

@@ -1,10 +1,15 @@
 package vibe.com.demo.game.core;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import javafx.animation.AnimationTimer;
+import vibe.com.demo.game.levels.LevelConfig;
 import vibe.com.demo.game.objects.entities.ball.Ball;
 import vibe.com.demo.game.objects.entities.bricks.Brick;
+import vibe.com.demo.game.objects.entities.bricks.ExplosiveBrick;
 import vibe.com.demo.game.objects.entities.bricks.UnbreakableBrick;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
 
@@ -34,7 +39,6 @@ public class GameEngine {
         this.paddle = paddle;
         this.ball = ball;
         this.bricks = bricks;
-
     }
 
     /**
@@ -110,8 +114,15 @@ public class GameEngine {
      * xử lý chi tiết va chạm với gạch
      */
     public void checkBrickCollision() {
+        List<Brick> bricksToRemove = new ArrayList<>();
         for (int i = bricks.size() - 1; i >= 0; i--) {
             if (this.collisionDetector.isBallBrickCollision(ball, bricks.get(i))) {//kiểm tra va chạm 
+                if (bricks.get(i) instanceof ExplosiveBrick) {
+                    collisionDetector.handleCollisionBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
+                    addAdjacentBrick(bricks.get(i), bricksToRemove);
+                    continue;
+                }
+
                 Brick newBrick = this.collisionDetector.getDeradeBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
                 if (newBrick == null) {//kiểm tra degradeBrick xem là gì , nếu null thì xóa luôn , ko null thì gán 
                     bricks.remove(i);
@@ -120,6 +131,60 @@ public class GameEngine {
                 }
             }
         }
+        bricks.removeAll(bricksToRemove);
+    }
+
+    public void addAdjacentBrick(Brick explosiveBrick, List<Brick> bricksToRemove) {
+        Queue<Brick> explosiveQueue = new LinkedList<>();
+        explosiveQueue.offer(explosiveBrick);//thêm bằng offer
+        //while thay vì đệ quy 
+        while (!explosiveQueue.isEmpty()) {
+            //lấy viên gạch nổ  đầu tiên đồng thời xóa 
+            Brick currentBrick = explosiveQueue.poll();
+            if (bricksToRemove.contains(currentBrick)) {
+                //while tiếp nối bricksToRemove đã tồn tại gạch nổ này 
+                continue;
+            }
+            bricksToRemove.add(currentBrick);
+            double brickX = currentBrick.getX();//vị trí hiện tại ở trong cha của nó (game canvas)
+            double brickY = currentBrick.getY();
+            double brickWidth = LevelConfig.BRICK_WIDTH;
+            double brickHeight = LevelConfig.BRICK_HEIGHT;
+            double colGap = LevelConfig.COL_GAP;
+            double rowGap = LevelConfig.ROW_GAP;
+            //direction~ vị trí tương đối so với gạch hiện tại : Trên , Dưới , Trái Phải  
+            double[][] directions = {{0, -(brickHeight + rowGap)}, {0, (brickHeight + rowGap)}, {-(brickWidth + colGap), 0}, {(brickWidth + colGap), 0}};
+
+            for (double[] direction : directions) {
+                double checkX = brickX + direction[0];
+                double checkY = brickY + direction[1];
+                Brick adjacentBrick = findBrickAtPosition(checkX, checkY);
+                if (adjacentBrick != null) {
+                    if (adjacentBrick instanceof UnbreakableBrick) {
+                        continue;//bỏ qua nếu là gạch cứng 
+                    } //đệ quy nếu gạch liền kề lại là Explosive
+                    else if (adjacentBrick instanceof ExplosiveBrick) {
+                        //thêm gạch nổ liền kề với gạch 
+                        explosiveQueue.offer(adjacentBrick);
+                    } else {
+                        bricksToRemove.add(adjacentBrick);
+                    }
+                }
+            }
+        }
+    }
+
+    public Brick findBrickAtPosition(double x, double y) {
+        for (Brick brick : bricks) {
+            if (Math.abs(brick.getX() - x) < 1 && Math.abs(brick.getY() - y) < 1) {
+                return brick;
+            }
+            // Hoặc kiểm tra collision bounds chính xác hơn
+            if (brick.getX() == x && brick.getY() == y) {
+                return brick;
+            }
+        }
+        return null;
     }
 
     public void checkBallLost() {

@@ -38,10 +38,10 @@ public class LevelDesigner {
 
         // Level 4 - Checkerboard (Easy-Medium)
         LEVEL_DESIGNS.put(4, new Character[][]{
-            {'1', '2', '1', '2', '1', '2', '1'},
-            {'2', '1', '2', '1', '2', '1', '2'},
-            {'1', '2', '1', '2', '1', '2', '1'},
-            {'2', '1', '2', '1', '2', '1', '2'}
+            {'E', 'E', 'E', 'E', 'E', 'E', 'E'},
+            {'E', 'E', 'E', 'E', 'E', 'E', 'E'},
+            {'E', 'E', 'E', 'E', 'E', 'E', 'E'},
+            {'E', 'E', 'E', 'E', 'E', 'E', 'E'}
         });
 
         // Level 5 - Strong Foundation (Medium)
