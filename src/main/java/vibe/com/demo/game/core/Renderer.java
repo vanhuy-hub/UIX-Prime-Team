@@ -3,6 +3,7 @@ package vibe.com.demo.game.core;
 import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
+import vibe.com.demo.game.animations.AnimationManager;
 import vibe.com.demo.game.objects.entities.ball.Ball;
 import vibe.com.demo.game.objects.entities.bricks.Brick;
 import vibe.com.demo.game.objects.entities.overlay.OverlayObject;
@@ -20,14 +21,14 @@ public class Renderer {
         this.gameWidth = gameWidth;
     }
 
-    public void render(Ball ball, Paddle paddle, OverlayObject overlay, List<Brick> bricks) {
+    public void render(Ball ball, Paddle paddle, OverlayObject overlay, List<Brick> bricks, AnimationManager animationManager) {
         gc.clearRect(0, 0, gameWidth, gameHeight);//clear canvas 
         ball.render(gc);
         paddle.render(gc);
         for (Brick brick : bricks) {
             brick.render(gc);
         }
-
+        animationManager.render(gc);
         overlay.render(gc);
 
     }

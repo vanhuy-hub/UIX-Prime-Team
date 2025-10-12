@@ -41,8 +41,8 @@ public class OverlayObject extends GameObject {
         // Lớp nền tối chính (đen đậm hơn)
         LinearGradient gradient = new LinearGradient(
                 0, 0, 0, 1, true, CycleMethod.NO_CYCLE,
-                new Stop(0, Color.rgb(0, 0, 0, 0.85)), // Đen đậm hơn
-                new Stop(1, Color.rgb(30, 41, 59, 0.9)) // Xanh than đậm
+                new Stop(0, Color.rgb(0, 0, 0, 0.35)), // Đen đậm hơn
+                new Stop(1, Color.rgb(30, 41, 59, 0.4)) // Xanh than đậm
         );
 
         renderer.setFill(gradient);

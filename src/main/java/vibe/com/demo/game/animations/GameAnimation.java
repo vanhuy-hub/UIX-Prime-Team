@@ -35,7 +35,7 @@ public abstract class GameAnimation {
         if (!isActive) {
             return;
         }
-        // elapsedTime += 1 / 60;//giả sử 60FPS ~ 1 giây tải được 60 frame ~mỗi frame tăng thêm ~ 0.0167s
+        elapsedTime += 1 / 60;//giả sử 60FPS ~ 1 giây tải được 60 frame ~mỗi frame tăng thêm ~ 0.0167s
         particles.forEach(Particle::update);//từng hạt được update thông qua foreach 
         particles.removeIf(Particle::isDead);//dọn dẹp particle khi hết tuổi thọ 
     }
@@ -47,6 +47,7 @@ public abstract class GameAnimation {
         if (!isActive) {
             return;
         }
+
         for (Particle particle : particles) {
             double alpha = particle.getLife();//lấy độ trong suốt ~ chính là vòng đời của hạt 
             gc.setGlobalAlpha(alpha);

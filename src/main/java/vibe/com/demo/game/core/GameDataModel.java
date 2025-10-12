@@ -67,7 +67,9 @@ public class GameDataModel {
      * giảm 1 mạng sống
      */
     public void decreaseSessionLives() {
-        this.sessionLivesProperty.set(this.sessionLivesProperty.get() - 1);
+        if (this.sessionLivesProperty.get() >= 1) {
+            this.sessionLivesProperty.set(this.sessionLivesProperty.get() - 1);
+        }
     }
 
     public void increaseSessionLives() {

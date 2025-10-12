@@ -10,7 +10,6 @@ public class BallTrailAnimation extends GameAnimation {
 
     private static final int MAX_PARTICLES = 20;
     private double lastX, lastY;
-    private boolean ballActive;
 
     public BallTrailAnimation() {
         super(AnimationType.BALL_TRAIL, 0); // Duration 0 = vĩnh viễn
@@ -19,9 +18,9 @@ public class BallTrailAnimation extends GameAnimation {
     public void updateBallPosition(Ball ball) {
         double centerX = ball.getX() + ball.getWidth() / 2;
         double centerY = ball.getY() + ball.getHeight() / 2;
-        this.ballActive = ball.isActive();
+        this.isActive = ball.isActive();
 
-        if (ball.isActive()) {
+        if (this.isActive()) {
             double distance = Math.sqrt(
                     Math.pow(centerX - lastX, 2) + Math.pow(centerY - lastY, 2)
             );
@@ -67,7 +66,7 @@ public class BallTrailAnimation extends GameAnimation {
 
     @Override
     public void update() {
-        if (!ballActive) {
+        if (!this.isActive) {
             particles.clear();
             return;
         }
@@ -84,7 +83,7 @@ public class BallTrailAnimation extends GameAnimation {
 
     @Override
     public void stop() {
-        this.ballActive = false;
+        this.isActive = false;
         super.stop();
     }
 }

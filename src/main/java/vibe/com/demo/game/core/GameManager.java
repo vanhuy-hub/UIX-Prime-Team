@@ -5,6 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import vibe.com.demo.controller.GameViewController;
+import vibe.com.demo.game.animations.AnimationManager;
 import vibe.com.demo.game.levels.LevelManager;
 import vibe.com.demo.game.objects.entities.ball.Ball;
 import vibe.com.demo.game.objects.entities.overlay.OverlayObject;
@@ -24,6 +25,7 @@ public class GameManager {
     private GraphicsContext gc;
     private OverlayObject overlay;
 
+    private AnimationManager animationManager;
     private Renderer renderer;
     private GameEngine gameEngine;
     private LevelManager levelManager;//quản lý level , thằng List<Brick>do ông này quản lý 
@@ -44,9 +46,11 @@ public class GameManager {
         this.gameHeight = gameHeight;
         this.gameState = GameState.READY;
         this.gc = gc;
+        animationManager = new AnimationManager();
         gameEngine = new GameEngine(this);
         renderer = new Renderer(gc, gameWidth, gameHeight);
         gameDataModel = new GameDataModel();
+
         this.gameView = gameView;
         init();
 
@@ -58,7 +62,7 @@ public class GameManager {
         //truyền paddle và ball vào setGameObject của gameEngine  
         gameEngine.setGameObjects(paddle, ball, levelManager.getCurrentBricks());
         //render lần đầu 
-        renderer.render(ball, paddle, overlay, levelManager.getCurrentBricks());
+        render();
 
     }
 
@@ -82,7 +86,7 @@ public class GameManager {
         //OverlayInit
         overlay = new OverlayObject(0, 0, gameWidth, gameHeight);
         showOverlay("Nhấn SPACE để bắt đầu");
-        delayHideOverLay(1700);
+        delayHideOverLay(1300);
     }
 
     public void delayHideOverLay(long ms) {
@@ -92,6 +96,16 @@ public class GameManager {
             this.hideOverlay();
             gameState = GameState.PLAYING;
             gameEngine.startGameLoop();
+        });
+        pause.play();
+    }
+
+    public void delayShowOverLay(String message, long ms, GameState gameState) {
+        PauseTransition pause = new PauseTransition(Duration.millis(ms));
+        pause.setOnFinished(e -> {
+            animationManager.stopAll();
+            this.showOverlay(message);
+            this.gameState = gameState;
         });
         pause.play();
     }
@@ -111,10 +125,12 @@ public class GameManager {
 
     public void handleBallLost() {
         this.gameDataModel.decreaseSessionLives();//gọi hàm giảm mạng sống 
+
         if (this.gameDataModel.getSessionLives() == 0) {
-            gameState = GameState.GAME_OVER;
+
             System.out.println("thua");
-            showOverlay(" ~ Nhấn R để chơi lại nào ~ ");
+            delayShowOverLay(" ~ Nhấn R để chơi lại nào ~ ", 600, GameState.GAME_OVER);
+
         } else {//dừng game 
             ball.reset(paddle);//chỉ reset lại vị trí quả bóng 
         }
@@ -126,8 +142,8 @@ public class GameManager {
     public void handleLevelComplete() {
         gameView.unlockNextButton();
         this.gameProgressService.completeLevel(currentUser, levelManager.getCurrentLevel());
-        showOverlay("Chúc mừng bạn đã hoàn thành level " + this.levelManager.getCurrentLevel());
-        gameState = GameState.GAME_WIN;
+
+        delayShowOverLay("Chúc mừng bạn đã hoàn thành level " + this.levelManager.getCurrentLevel(), 500, GameState.GAME_WIN);
     }
 
     /**
@@ -143,7 +159,7 @@ public class GameManager {
     }
 
     public void render() {
-        renderer.render(ball, paddle, overlay, levelManager.getCurrentBricks());
+        renderer.render(ball, paddle, overlay, levelManager.getCurrentBricks(), animationManager);
     }
 
     /**
@@ -238,6 +254,14 @@ public class GameManager {
 
     public GameDataModel getGameDataModel() {
         return gameDataModel;
+    }
+
+    public AnimationManager getAnimationManager() {
+        return animationManager;
+    }
+
+    public void setAnimationManager(AnimationManager animationManager) {
+        this.animationManager = animationManager;
     }
 
     /**
