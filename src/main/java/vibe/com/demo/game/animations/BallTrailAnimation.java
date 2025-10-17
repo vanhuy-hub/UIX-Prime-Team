@@ -55,9 +55,9 @@ public class BallTrailAnimation extends GameAnimation {
     }
 
     private Color getTrailColor(double speed) {
-        if (speed > 8) {
+        if (speed >= 6.5) {
             return Color.rgb(255, 100, 100, 0.7); // Đỏ - tốc độ cao
-        } else if (speed > 4) {
+        } else if (speed > 5) {
             return Color.rgb(255, 200, 100, 0.6); // Cam - tốc độ trung bình
         } else {
             return Color.rgb(255, 255, 255, 0.5); // Trắng - tốc độ thấp

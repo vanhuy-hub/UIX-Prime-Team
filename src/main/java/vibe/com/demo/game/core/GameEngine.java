@@ -14,6 +14,8 @@ import vibe.com.demo.game.objects.entities.bricks.Brick;
 import vibe.com.demo.game.objects.entities.bricks.ExplosiveBrick;
 import vibe.com.demo.game.objects.entities.bricks.UnbreakableBrick;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
+import vibe.com.demo.game.objects.entities.powerups.PowerUpManager;
+import vibe.com.demo.game.objects.entities.powerups.PowerUpType;
 
 /**
  * Logic xử lí logic game chính (update, game loop)
@@ -24,18 +26,21 @@ public class GameEngine {
     private GameManager gameManager;
     private CollisionDetector collisionDetector;
     private AnimationTimer gameLoop;
-
+    private PowerUpManager powerUpManager;
     //các đối tượng trong game 
     private Paddle paddle;
     private Ball ball;
     private List<Brick> bricks;
-
+    private double elapsedTime;
+    private final int duration = 2;
     //Game state 
     private boolean isRunning = false;
 
     public GameEngine(GameManager gameManager) {
+        elapsedTime = 0;
         this.gameManager = gameManager;
         this.animationManager = gameManager.getAnimationManager();
+        this.powerUpManager = gameManager.getPowerUpManager();
         collisionDetector = new CollisionDetector();
     }
 
@@ -79,7 +84,15 @@ public class GameEngine {
     public void update() {
         animationManager.update(ball);
         paddle.update();
+        powerUpManager.update();
         if (ball.isActive()) {
+            elapsedTime += (double) 1 / 60;
+            System.out.println(elapsedTime);
+            if (elapsedTime >= duration) {
+                ball.increaseVeclocity(1.02);
+                System.out.println("ball: " + ball.getDx() + ":" + ball.getDy());
+                elapsedTime = 0;
+            }
             ball.update();
         } else {
             ball.reset(paddle);
@@ -123,13 +136,13 @@ public class GameEngine {
             if (this.collisionDetector.isBallBrickCollision(ball, bricks.get(i))) {//kiểm tra va chạm 
                 if (bricks.get(i) instanceof UnbreakableBrick) {
                     collisionDetector.handleCollisionBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
-
+                    powerUpManager.addPowerUp(PowerUpType.COIN, bricks.get(i).getX(), bricks.get(i).getY());
                     continue;
                 }
                 if (bricks.get(i) instanceof ExplosiveBrick) {
                     collisionDetector.handleCollisionBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
                     addAdjacentBrick(bricks.get(i), bricksToRemove);
-                    animationManager.addSpriteAnimation(AnimationType.BRICK_DESTROY, bricks.get(i).getX(), bricks.get(i).getY());
+
                     continue;
                 }
 
@@ -152,11 +165,12 @@ public class GameEngine {
             //lấy viên gạch  đầu tiên đồng thời xóa 
             Brick currentBrick = explosiveQueue.poll();
             System.out.println("gach no tai: " + currentBrick.getX() + "-" + currentBrick.getY());
-
             if (bricksToRemove.contains(currentBrick)) {
                 //dừng lại nếu có trong mảng remove rồi tránh bị đẹ quy vô hạn lần 
                 continue;
             }
+            animationManager.addSpriteAnimation(AnimationType.BRICK_DESTROY, currentBrick.getX() - 70, currentBrick.getY() - 80);
+
             bricksToRemove.add(currentBrick);
             double brickX = currentBrick.getX();//vị trí hiện tại ở trong cha của nó (game canvas)
             double brickY = currentBrick.getY();
@@ -172,7 +186,6 @@ public class GameEngine {
                 double checkY = brickY + direction[1];
                 Brick adjacentBrick = findBrickAtPosition(checkX, checkY);
                 if (adjacentBrick != null) {
-
                     if (adjacentBrick instanceof UnbreakableBrick) {
                         continue;//bỏ qua nếu là gạch cứng 
                     } //đệ quy nếu gạch liền kề lại là Explosive

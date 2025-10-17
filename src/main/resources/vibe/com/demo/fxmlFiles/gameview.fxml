@@ -28,7 +28,7 @@
   <right>
     <VBox spacing="20" styleClass="sidebar" prefWidth="320">
       <!-- Game Info -->
-      <VBox spacing="12" styleClass="modal">
+      <VBox spacing="12" styleClass="modal" minHeight="300">
         <Label text="Game Info" styleClass="panel-title"/>
         <HBox spacing="10">
           <Label text="Coins:" styleClass="sub-title"/>
@@ -52,6 +52,12 @@
           </HBox>
         </HBox>
       </VBox>
+      <!-- Buttons -->
+      <VBox spacing="12">
+        <Button fx:id="changePaddleBtn" text="🛒 Go to Shop" styleClass="pause-btn" onAction="#handleChangePaddle" alignment="CENTER" minWidth="300"/>
+        <Button fx:id="menuButton" text="⌂ Back to Menu" styleClass="menu-btn" onAction="#backToLevelMenu" alignment="CENTER" minWidth="300"/>
+      </VBox>
+      <!-- Quick Tips -->
       <!-- Controls -->
       <VBox spacing="12" styleClass="modal">
         <Label text="Controls" styleClass="panel-title"/>
@@ -68,22 +74,10 @@
           <Label text="R" styleClass="content"/>
         </HBox>
       </VBox>
-      <!-- Buttons -->
-      <VBox spacing="12">
-        <Button fx:id="changePaddleBtn" text="🛒 Go to Shop" styleClass="pause-btn" onAction="#handleChangePaddle" alignment="CENTER" minWidth="300"/>
-        <Button fx:id="menuButton" text="⌂ Back to Menu" styleClass="menu-btn" onAction="#backToLevelMenu" alignment="CENTER" minWidth="300"/>
-      </VBox>
-      <!-- Quick Tips -->
-      <VBox spacing="10" styleClass="modal">
-        <Label text="Quick Tips" styleClass="panel-title-green"/>
-        <Label text="• Destroy all blocks to complete level" styleClass="sub-title"/>
-        <Label text="• Hit ball with paddle edges" styleClass="sub-title"/>
-        <Label text="• Keep the ball in play" styleClass="sub-title"/>
-      </VBox>
       <!-- Complete button -->
       <StackPane styleClass="background-next-btn" minWidth="300">
         <Button fx:id="nextButton" styleClass="next-btn" 
-                                                                                                                                                                                                                                                                                                                                                                          alignment="CENTER" minWidth="260" onAction="#handleNextLevel"/>
+                                                                                                                                                                                                                                                                                                                                                                                                          alignment="CENTER" minWidth="260" onAction="#handleNextLevel"/>
       </StackPane>
     </VBox>
   </right>

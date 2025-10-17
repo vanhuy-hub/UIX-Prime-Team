@@ -26,14 +26,16 @@ public class SpriteAnimation {
         this.currentFrame = 0;
         this.isActive = false;
         this.elapsedTime = 0;
+
     }
 
-    public void start(double x, double t) {
+    public void start(double x, double y) {
         this.x = x;
         this.y = y;
         this.currentFrame = 0;
         this.elapsedTime = 0;
         this.isActive = true;
+        System.out.println("No tai:" + (x) + "-" + (y));
     }
 
     public void update() {
@@ -65,9 +67,9 @@ public class SpriteAnimation {
         //render frame hien tai 
         gc.drawImage(spriteSheet,
                 spriteX, spriteY, frameWidth, frameHeight, // Source
-                x - frameWidth / 2, y + frameHeight / 2, frameWidth * 1.5, frameHeight * 1.5 // Destination ~ địa điểm muốn vẽ trên màn 
+                x, y, frameWidth * 1.5, frameHeight * 1.5 // Destination ~ địa điểm muốn vẽ trên màn 
         );
-        System.out.println("No tai:" + (x - frameWidth / 2) + ":" + (y + frameHeight / 2));
+
     }
 
     protected int getSpritesPerRow() {

@@ -13,13 +13,14 @@ public class Paddle extends MovableObject {
     private boolean isMovingLeft = false;
     private boolean isMovingRight = false;
 
-    private Image paddleImg;
+    private boolean isDisapper;
 
     public Paddle(double x, double y, double width, double height) {
         super(x, y, width, height);
         speed = 4;
         this.color = Color.ANTIQUEWHITE;
-        paddleImg = new Image(getClass().getResourceAsStream("/vibe/com/demo/assets/img/paddle3.png"));
+        image = new Image(getClass().getResourceAsStream("/vibe/com/demo/assets/img/paddle3.png"));
+        isDisapper = false;
     }
 
     public void moveLeft() {
@@ -39,14 +40,24 @@ public class Paddle extends MovableObject {
 
     }
 
+    public void disapper() {
+        this.isDisapper = true;
+    }
+
     @Override
     public void render(GraphicsContext renderer) {
+        if (isDisapper) {
+            return;
+        }
         renderer.clearRect(x, y, getWidth(), getHeight());
-        renderer.drawImage(paddleImg, x, y);
+        renderer.drawImage(image, x, y);
     }
 
     @Override
     public void update() {
+        if (isDisapper) {
+            return;
+        }
         this.dx = 0;//reset trước rồi mới cập nhật 
 
         if (isMovingLeft && !isMovingRight) {
@@ -106,12 +117,12 @@ public class Paddle extends MovableObject {
         this.isMovingRight = isMovingRight;
     }
 
-    public Image getPaddleImg() {
-        return paddleImg;
+    public Image getImagemage() {
+        return image;
     }
 
-    public void setPaddleImgFromURL(String url) {
-        this.paddleImg = new Image(getClass().getResourceAsStream("/vibe/com/demo/assets/img/" + url + ""));
+    public void setImgFromURL(String url) {
+        this.image = new Image(getClass().getResourceAsStream("/vibe/com/demo/assets/img/" + url + ""));
     }
 
 }

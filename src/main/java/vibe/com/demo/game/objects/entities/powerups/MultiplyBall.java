@@ -1,5 +1,5 @@
 package vibe.com.demo.game.objects.entities.powerups;
 
-public class MuiltiBallPowerUp {
+public class MultiplyBall {
 
 }

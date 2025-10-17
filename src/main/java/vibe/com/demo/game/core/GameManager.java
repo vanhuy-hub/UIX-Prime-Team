@@ -10,6 +10,7 @@ import vibe.com.demo.game.levels.LevelManager;
 import vibe.com.demo.game.objects.entities.ball.Ball;
 import vibe.com.demo.game.objects.entities.overlay.OverlayObject;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
+import vibe.com.demo.game.objects.entities.powerups.PowerUpManager;
 import vibe.com.demo.model.user.User;
 import vibe.com.demo.service.ServiceLocator;
 import vibe.com.demo.service.game.GameProgressService;
@@ -24,12 +25,12 @@ public class GameManager {
 
     private GraphicsContext gc;
     private OverlayObject overlay;
-
     private AnimationManager animationManager;
     private Renderer renderer;
     private GameEngine gameEngine;
     private LevelManager levelManager;//quản lý level , thằng List<Brick>do ông này quản lý 
     private GameDataModel gameDataModel;//quản lý dữ liệu trong gameSession (lives , coinEarned )
+    private PowerUpManager powerUpManager;
     //
     private double gameWidth;
     private double gameHeight;
@@ -47,13 +48,12 @@ public class GameManager {
         this.gameState = GameState.READY;
         this.gc = gc;
         animationManager = new AnimationManager();
+        powerUpManager = new PowerUpManager(gameHeight);
         gameEngine = new GameEngine(this);
         renderer = new Renderer(gc, gameWidth, gameHeight);
         gameDataModel = new GameDataModel();
-
         this.gameView = gameView;
         init();
-
     }
 
     public void init() {
@@ -63,7 +63,6 @@ public class GameManager {
         gameEngine.setGameObjects(paddle, ball, levelManager.getCurrentBricks());
         //render lần đầu 
         render();
-
     }
 
     /**
@@ -75,10 +74,9 @@ public class GameManager {
         double paddleHeight = 40;
         double paddleX = (gameWidth - paddleWidth) / 2;
         double paddleY = gameHeight - paddleHeight - 30;
-
         paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight);
         System.out.println(gameProgressService.getIdCurrentPaddle(currentUser));
-        paddle.setPaddleImgFromURL(gameProgressService.getCurrentPaddleImageURL(currentUser));
+        paddle.setImgFromURL(gameProgressService.getCurrentPaddleImageURL(currentUser));
         // Initialize ball on top of paddle
         double ballRadius = 10;
         ball = new Ball(0, 0, ballRadius);
@@ -100,12 +98,13 @@ public class GameManager {
         pause.play();
     }
 
-    public void delayShowOverLay(String message, long ms, GameState gameState) {
+    public void delayShowOverlay(String message, long ms, GameState gameState) {
         PauseTransition pause = new PauseTransition(Duration.millis(ms));
         pause.setOnFinished(e -> {
             animationManager.stopAll();
             this.showOverlay(message);
             this.gameState = gameState;
+
         });
         pause.play();
     }
@@ -123,14 +122,22 @@ public class GameManager {
         levelManager.resetCurrentLevel();//phải reset lại (giống như clear)
     }
 
+    public void delayPaddleDisapper(long ms) {
+        PauseTransition pause = new PauseTransition(Duration.millis(ms));
+        pause.setOnFinished(e -> {
+            paddle.disapper();
+        });
+        pause.play();
+    }
+
     public void handleBallLost() {
         this.gameDataModel.decreaseSessionLives();//gọi hàm giảm mạng sống 
-
         if (this.gameDataModel.getSessionLives() == 0) {
-
-            System.out.println("thua");
-            delayShowOverLay(" ~ Nhấn R để chơi lại nào ~ ", 600, GameState.GAME_OVER);
-
+            if (!this.gameDataModel.isWon()) {
+                this.gameDataModel.setWon(true);
+                delayPaddleDisapper(500);
+                delayShowOverlay("Nhấn R để chơi lại", 1000, GameState.GAME_OVER);
+            }
         } else {//dừng game 
             ball.reset(paddle);//chỉ reset lại vị trí quả bóng 
         }
@@ -140,10 +147,13 @@ public class GameManager {
      * Hàm xử lý sự kiện
      */
     public void handleLevelComplete() {
-        gameView.unlockNextButton();
-        this.gameProgressService.completeLevel(currentUser, levelManager.getCurrentLevel());
+        if (!this.gameDataModel.isLost()) {
+            this.gameDataModel.setLost(true);
+            delayShowOverlay("Chúc mừng bạn đã hoàn thành level " + this.levelManager.getCurrentLevel(), 500, GameState.GAME_WIN);
+            gameView.unlockNextButton();
+            this.gameProgressService.completeLevel(currentUser, levelManager.getCurrentLevel());
 
-        delayShowOverLay("Chúc mừng bạn đã hoàn thành level " + this.levelManager.getCurrentLevel(), 500, GameState.GAME_WIN);
+        }
     }
 
     /**
@@ -159,12 +169,17 @@ public class GameManager {
     }
 
     public void render() {
-        renderer.render(ball, paddle, overlay, levelManager.getCurrentBricks(), animationManager);
+        renderer.render(ball, paddle, overlay, levelManager.getCurrentBricks(), animationManager, powerUpManager);
     }
 
     /**
      * ✅ OVERLAY MANAGEMENT METHODS
      */
+    public void showOverlay(String message, Color messageColor) {
+        overlay.show(message, messageColor);
+        render();
+    }
+
     public void showOverlay(String message) {
         overlay.show(message, Color.WHITE);
         render();
@@ -262,6 +277,14 @@ public class GameManager {
 
     public void setAnimationManager(AnimationManager animationManager) {
         this.animationManager = animationManager;
+    }
+
+    public PowerUpManager getPowerUpManager() {
+        return powerUpManager;
+    }
+
+    public void setPowerUpManager(PowerUpManager powerUpManager) {
+        this.powerUpManager = powerUpManager;
     }
 
     /**

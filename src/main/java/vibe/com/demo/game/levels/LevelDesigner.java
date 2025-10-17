@@ -23,7 +23,7 @@ public class LevelDesigner {
     public static void initialize() {
         // Level 1 - Cơ bản (Easy)
         LEVEL_DESIGNS.put(1, new Character[][]{
-            {'1'}
+            {'E'}
         });
 
         // Level 2 - Hàng rào (Easy)

@@ -8,6 +8,7 @@ import vibe.com.demo.game.objects.entities.ball.Ball;
 import vibe.com.demo.game.objects.entities.bricks.Brick;
 import vibe.com.demo.game.objects.entities.overlay.OverlayObject;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
+import vibe.com.demo.game.objects.entities.powerups.PowerUpManager;
 
 public class Renderer {
 
@@ -21,7 +22,7 @@ public class Renderer {
         this.gameWidth = gameWidth;
     }
 
-    public void render(Ball ball, Paddle paddle, OverlayObject overlay, List<Brick> bricks, AnimationManager animationManager) {
+    public void render(Ball ball, Paddle paddle, OverlayObject overlay, List<Brick> bricks, AnimationManager animationManager, PowerUpManager powerUps) {
         gc.clearRect(0, 0, gameWidth, gameHeight);//clear canvas 
         ball.render(gc);
         paddle.render(gc);
@@ -29,6 +30,7 @@ public class Renderer {
             brick.render(gc);
         }
         animationManager.render(gc);
+        powerUps.render(gc);
         overlay.render(gc);
 
     }

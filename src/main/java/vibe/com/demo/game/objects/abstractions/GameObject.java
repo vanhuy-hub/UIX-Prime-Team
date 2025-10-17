@@ -3,6 +3,7 @@ package vibe.com.demo.game.objects.abstractions;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
 public abstract class GameObject {
 
@@ -10,12 +11,14 @@ public abstract class GameObject {
     protected double y;//yPosition
     protected double width;
     protected double height;
+    protected Image image;
 
     public GameObject(double x, double y, double width, double height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+
     }
 
     public abstract void render(GraphicsContext renderer);//lớp trừu tượng cần được ghi đè bởi các thực thể
@@ -56,5 +59,19 @@ public abstract class GameObject {
 
     public Rectangle2D getBounds() {
         return new Rectangle2D(x, y, width, height);//trả về hình chữ nhật 
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImg(String path) {
+        try {
+            this.image = new Image(getClass().getResourceAsStream(path));
+        } catch (Exception e) {
+            System.out.println("null");
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 }

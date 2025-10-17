@@ -59,7 +59,8 @@ public class GameProgressService {
             // Chỉ +1 trophy nếu hoàn thành level hiện tại
             user.getPlayerProgress().addTrophy();
             // Thưởng coins
-            int coinsReward = level * 50;
+            System.out.println(level);
+            int coinsReward = level * 5000;
             user.getPlayerProgress().addCoins(coinsReward);
             updateCoinsProperty(user);
         }

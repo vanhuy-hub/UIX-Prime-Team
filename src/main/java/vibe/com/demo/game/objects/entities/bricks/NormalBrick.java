@@ -6,7 +6,7 @@ public class NormalBrick extends Brick {
 
     public NormalBrick(double x, double y, double width, double height) {
         super(x, y, width, height, 1, Color.RED);
-        this.setImg("/vibe/com/demo/assets/img/brick_normal.png");
+        this.setImg("/vibe/com/demo/assets/img/brick_normal_fire.png");
     }
 
     /**

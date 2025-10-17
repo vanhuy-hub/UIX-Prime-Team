@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import vibe.com.demo.game.objects.entities.ball.Ball;
 
 public class AnimationManager {
@@ -22,11 +21,12 @@ public class AnimationManager {
     public AnimationManager() {
         this.activeSpriteAnimations = new HashMap<>();
         this.ballTrail = new BallTrailAnimation();
-        // this.brickShakeAnimations = new HashMap<>();
+
     }
 
     /**
-     * Thêm sprite animation mới
+     * Thêm sprite animation mới , sẽ được gọi ở GameEngine để thêm animation
+     * sprite dựa vào tham số type, và vị trí
      */
     public void addSpriteAnimation(AnimationType type, double x, double y, Object... params) {
         SpriteAnimation animation = createSpriteAnimation(type, params);
@@ -34,61 +34,37 @@ public class AnimationManager {
 
         activeSpriteAnimations
                 .computeIfAbsent(type, k -> new ArrayList<>())
-                .add(animation);
+                .add(animation);//hàm này để lấy ra danh sách nếu đã có , hoạc tạo danh sách mới khi key chưa có và add animation item vào 
     }
 
+    /**
+     * phương thức tạo các anomation
+     */
     private SpriteAnimation createSpriteAnimation(AnimationType type, Object... params) {
         switch (type) {
             case BRICK_DESTROY:
-                if (params.length > 0 && params[0] instanceof Color) {
-                    return new BrickDestroyAnimation();
-                }
                 return new BrickDestroyAnimation();
+
+            case PADDLE_EXPLOSION:
+                return new PaddleDestroyAnimation();
+
             // Thêm các sprite animation khác...
             default:
                 return new BrickDestroyAnimation(); // Fallback
         }
     }
 
-    /**
-     * Cập nhật balltrail
-     */
-    // public void updateBallTrail(double ballX, double ballY, boolean isActive) {
-    //     ballTrail.updateBallPosition(ballX, ballY, isActive);
-    // }
-    /**
-     * Thêm hiệu ứng rung cho brick
-     */
-    // public void addBrickShake(Brick brick, double x, double y) {
-    //     BrickShakeAnimation shakeAnim = new BrickShakeAnimation();
-    //     shakeAnim.start(x, y);
-    //     brickShakeAnimations.put(brick, shakeAnim);//mỗi viên gạch rung động lập, cần theo dõi hiệu ứng run của từng brick cụ thể 
-    // }
-    /**
-     * Lấy vị trí rung của gạch
-     */
-    // public double[] getBrickShakePosition(Brick brick) {
-    //     BrickShakeAnimation anim = brickShakeAnimations.get(brick);
-    //     if (anim != null && anim.isActive()) {
-    //         return new double[]{anim.getShakeX(), anim.getShakeY()};// Vị trí rung
-    //     }
-    //     return new double[]{brick.getX(), brick.getY()}; // Vị trí gốc
-    // }
     public void update(Ball ball) {
         for (List<SpriteAnimation> animations : activeSpriteAnimations.values()) {
-            animations.forEach(SpriteAnimation::update);
+            animations.forEach(SpriteAnimation::update);//kĩ thuật lamda + forEach ~ duyệt không cần index  + kĩ thuật reference : Class :: method =>tham chiếu trực tiếp đến method , thay vì dùng anmItem -> anmItem.update()
         }
 
         // Dọn dẹp sprite animations đã kết thúc
         activeSpriteAnimations.values().forEach(list
-                -> list.removeIf(anim -> !anim.isActive())
-        );
-        activeSpriteAnimations.entrySet().removeIf(entry -> entry.getValue().isEmpty());
+                -> list.removeIf(anim -> !anim.isActive())//kĩ thuật removeIf với Predicate , tương đương với kĩ thuật dùng iterator 
+        );//b1 duyệt qua tất cả danh sạch , mỗi danh sách duyệt qua tất cả item , item nào có isActive là false thì xóa item đó khỏi danh sách 
+        activeSpriteAnimations.entrySet().removeIf(entry -> entry.getValue().isEmpty());//Kĩ thuật entrySet : truy cập vào cặp (key,value) cùng 1 lúc ~ b2 : duyệt qua tất cả các danh sách của key nếu danh sách nào rỗng thì xóa cặp (key,value )đó 
 
-        // //cập nhật brick shake 
-        // brickShakeAnimations.values().forEach(GameAnimation::update);
-        // brickShakeAnimations.entrySet().removeIf(entry -> !entry.getValue().isActive());
-        //cập nahatj vall trail 
         ballTrail.updateBallPosition(ball);
     }
 

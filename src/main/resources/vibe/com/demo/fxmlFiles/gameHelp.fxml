@@ -174,11 +174,11 @@
                 <VBox styleClass="powerup-card" GridPane.rowIndex="1" GridPane.columnIndex="1" alignment="CENTER" spacing="10" prefWidth="200">
                   <ImageView fitWidth="42" fitHeight="42" preserveRatio="true">
                     <image>
-                      <Image url="@../assets/img/shield.png"/>
+                      <Image url="@../assets/img/coin.png"/>
                     </image>
                   </ImageView>
-                  <Label text="Khiên" styleClass="card-title"/>
-                  <Label alignment="CENTER" text="Bảo vệ 1 mạng" wrapText="true" styleClass="card-text" maxWidth="160"/>
+                  <Label text="Vàng" styleClass="card-title"/>
+                  <Label alignment="CENTER" text="Gia tăng lượng vàng " wrapText="true" styleClass="card-text" maxWidth="160"/>
                 </VBox>
                 <VBox styleClass="powerup-card" GridPane.rowIndex="1" GridPane.columnIndex="2" alignment="CENTER" spacing="10" prefWidth="200">
                   <ImageView fitWidth="42" fitHeight="42" preserveRatio="true">
@@ -195,7 +195,7 @@
                       <Image url="@../assets/img/heart.png"/>
                     </image>
                   </ImageView>
-                  <Label text="Mạng Thêm" styleClass="card-title"/>
+                  <Label text="Mạng" styleClass="card-title"/>
                   <Label alignment="CENTER" text="Cộng 1 mạng" wrapText="true" styleClass="card-text" maxWidth="160"/>
                 </VBox>
               </GridPane>

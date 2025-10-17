@@ -15,13 +15,11 @@
     -fx-border-color: linear-gradient(to bottom, #3b82f6, #1e40af);
     -fx-border-width: 3;
     -fx-border-radius: 20;
-   
-    -fx-background-radius: 20;
     -fx-background-size: cover;
     -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.3), 20, 0.3, 0, 4);
     -fx-min-width: 900px;
     -fx-min-height: 700px;
-     -fx-background-image: url("../img/bkGame.png");
+
      -fx-background-radius: 20;
     /* -fx-max-width: 900px;
     -fx-max-height: 700px; */
@@ -50,23 +48,6 @@
     -fx-effect: dropshadow(gaussian, rgba(239, 68, 68, 0.4), 8, 0.3, 0, 2);
 }
 
-.ball {
-    -fx-background-color: transparent;
-    -fx-background-image: url("../img/ball.png");
-    -fx-background-size: 20px 20px;
-    /* -background-size: để scale ảnh về đúng kích thước 20*20  */
-    -fx-background-repeat: no-repeat;
-    /* repeat : là thuộc tính để lặp lại ảnh , nếu dùng giá trị repeat thì ảnh sẽ được lặp lại trong label     */
-    -fx-background-position: center;
-    /* position="center để căng vị trí ảnh chính giữa label */
-    -fx-pref-width: 20px;
-    -fx-pref-height: 20px;
-    -fx-min-width: 20px;
-    -fx-min-height: 20px;
-    -fx-max-width: 20px;
-    -fx-max-height: 20px;
-    
-}
 
 /* Sidebar */
 .sidebar {
