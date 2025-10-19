@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import vibe.com.demo.model.user.User;
+import vibe.com.demo.service.database.dao.objectdao.UserDao;
 
 public class UserService {
 
@@ -22,12 +23,7 @@ public class UserService {
     public UserService() {
         //lấy dữ liệu từ cơ sở dữ liệu 
         users = new ArrayList<>();
-        users.add(new User("vanhuy", "12345678", "pro1234"));
-        users.get(0).getPlayerProgress().setTrophies(20);
-        users.get(0).getPlayerProgress().setCoins(20000);
-        users.add(new User("huybui", "12345678", "pro123"));
-        users.get(1).getPlayerProgress().setTrophies(20);
-        users.get(1).getPlayerProgress().setCoins(100000);
+        users.addAll(UserDao.getInstance().selectAll());
     }
 
     //=====Tìm kiếm username  
@@ -68,7 +64,9 @@ public class UserService {
 
     //add them user 
     public void addUser(String username, String password, String playerName) {
-        this.users.add(new User(username, password, playerName));
+        User newUser = new User(username, password, playerName);
+        this.users.add(newUser);
+        UserDao.getInstance().insert(newUser);
         //them vao co so du lieu ... 
     }
 
