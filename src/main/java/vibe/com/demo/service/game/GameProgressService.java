@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import vibe.com.demo.model.user.User;
+import vibe.com.demo.service.database.dao.objectdao.UserDao;
 
 public class GameProgressService {
     // property coins 
@@ -63,6 +64,8 @@ public class GameProgressService {
             int coinsReward = level * 5000;
             user.getPlayerProgress().addCoins(coinsReward);
             updateCoinsProperty(user);
+            // cap nhat co so du lieu 
+            UserDao.getInstance().update(user);
         }
     }
 
@@ -101,7 +104,12 @@ public class GameProgressService {
     }
 
     public void addNewPaddle(User user, String id) {
-        user.getPlayerProgress().addIdNewPaddleI(id);
+        user.getPlayerProgress().addPaddleToInventory(id);
+        System.out.println(id);
+        user.getPlayerProgress().setIdCurrentPaddle(id);
+        // cap nhat co so du lieu 
+        UserDao.getInstance().update(user);
+        UserDao.getInstance().addPaddleIntoInventory(user, id);
     }
 
     public String getIdCurrentPaddle(User user) {
@@ -110,6 +118,8 @@ public class GameProgressService {
 
     public void setIdCurrentPaddle(User user, String newId) {
         user.getPlayerProgress().setIdCurrentPaddle(newId);
+        // cap nhat co so du lieu 
+        UserDao.getInstance().update(user);
     }
 
     //get imgURL với id item tương ứng 

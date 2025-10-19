@@ -1,5 +1,7 @@
 package vibe.com.demo.model.user;
 
+import java.util.Objects;
+
 import vibe.com.demo.model.game.PlayerProgress;
 
 public class User {
@@ -45,7 +47,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [username=" + username + ", password=" + password + ", playerName=" + playerName + "]";
+        return "User [username=" + username + ", password=" + password + ", playerName=" + playerName + ", " + playerProgress.toString() + "]";
     }
 
     public PlayerProgress getPlayerProgress() {
@@ -69,4 +71,5 @@ public class User {
         User user = new User("huy", "12345", "Pro");
         System.out.println(user.hashCode());
     }
+
 }

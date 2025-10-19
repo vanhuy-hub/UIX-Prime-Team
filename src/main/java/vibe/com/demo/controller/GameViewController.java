@@ -149,11 +149,16 @@ public class GameViewController implements BaseController {
 
     @FXML
     public void backToLevelMenu() {
+        this.gameManager.stopGameLoop();
         if (this.mainApp != null) {
             PauseTransition delay = new PauseTransition(Duration.millis(150));//0.1s
-            delay.setOnFinished(e -> this.mainApp.loadLevelMenuView());
+
+            delay.setOnFinished(e -> {
+                this.mainApp.loadLevelMenuView();
+            });
             delay.play();
         }
+
     }
 
     /**

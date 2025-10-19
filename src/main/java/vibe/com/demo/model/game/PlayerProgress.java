@@ -11,6 +11,13 @@ public class PlayerProgress {
     private List<String> idPurchasedPaddles;
     private String idCurrentPaddle;
 
+    public PlayerProgress(int coins, int trophies, String idCurrentPaddle) {
+        this.coins = coins;
+        this.trophies = trophies;
+        this.idCurrentPaddle = idCurrentPaddle;
+        idPurchasedPaddles = new ArrayList<>();
+    }
+
     public PlayerProgress() {
         coins = 0;
         trophies = 0;
@@ -56,12 +63,7 @@ public class PlayerProgress {
         return (trophies + 1) <= 20 ? trophies + 1 : 20;
     }
 
-    @Override
-    public String toString() {
-        return "PlayerProgress [coins=" + coins + ", trophies=" + trophies + "]";
-    }
     //
-
     public List<String> getIdPurchasedPaddles() {
         return idPurchasedPaddles;
     }
@@ -79,7 +81,19 @@ public class PlayerProgress {
     }
 
     //helper list purchaedPaddle
-    public void addIdNewPaddleI(String id) {
+    public void addPaddleToInventory(String id) {
         idPurchasedPaddles.add(id);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        str.append("[");
+        for (String idPaddleItem : idPurchasedPaddles) {
+            str.append(idPaddleItem + ", ");
+        }
+        str.append("]");
+        return "PlayerProgress [coins=" + coins + ", trophies=" + trophies + ", idPurchasedPaddles="
+                + str.toString() + ", idCurrentPaddle=" + idCurrentPaddle + "]";
     }
 }

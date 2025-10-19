@@ -133,8 +133,8 @@ public class GameManager {
     public void handleBallLost() {
         this.gameDataModel.decreaseSessionLives();//gọi hàm giảm mạng sống 
         if (this.gameDataModel.getSessionLives() == 0) {
-            if (!this.gameDataModel.isWon()) {
-                this.gameDataModel.setWon(true);
+            if (!this.gameDataModel.isLost()) {
+                this.gameDataModel.setLost(true);
                 delayPaddleDisapper(500);
                 delayShowOverlay("Nhấn R để chơi lại", 1000, GameState.GAME_OVER);
             }
@@ -147,12 +147,11 @@ public class GameManager {
      * Hàm xử lý sự kiện
      */
     public void handleLevelComplete() {
-        if (!this.gameDataModel.isLost()) {
-            this.gameDataModel.setLost(true);
+        if (!this.gameDataModel.isWon()) {
+            this.gameDataModel.setWon(true);
             delayShowOverlay("Chúc mừng bạn đã hoàn thành level " + this.levelManager.getCurrentLevel(), 500, GameState.GAME_WIN);
             gameView.unlockNextButton();
             this.gameProgressService.completeLevel(currentUser, levelManager.getCurrentLevel());
-
         }
     }
 
@@ -238,6 +237,13 @@ public class GameManager {
             case "RIGHT" ->
                 paddle.stopRight();
         }
+    }
+
+    /**
+     * StopGameLoop
+     */
+    public void stopGameLoop() {
+        this.gameEngine.stopGameLoop();
     }
 
     /**
