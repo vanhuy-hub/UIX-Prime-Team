@@ -6,10 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
 
-import vibe.com.demo.game.objects.entities.paddle.Paddle;
 import vibe.com.demo.model.game.PlayerProgress;
 import vibe.com.demo.model.user.User;
 import vibe.com.demo.service.database.dao.abstraction.DaoAbstraction;
@@ -46,6 +44,16 @@ public class UserDao extends DaoAbstraction<User> implements DaoIn<User> {
     public List<User> selectAll() {
         // TODO Auto-generated method stub
         return executeQuery("Select * from player");
+    }
+
+    public List<User> selectTopPlayer() {
+        // TODO Auto-generated method stub
+        return executeQuery("Select * from player order by trophies desc limit 10");
+    }
+
+    public List<User> selectPlayersOrderByTrophies() {
+        // TODO Auto-generated method stub
+        return executeQuery("Select * from player order by trophies desc");
     }
 
     @Override

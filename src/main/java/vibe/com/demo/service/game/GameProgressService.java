@@ -147,4 +147,22 @@ public class GameProgressService {
                 return "paddle1.png";
         }
     }
+
+    /**
+     * Lấy top người chơi
+     */
+    public List<User> getTopPlayers() {
+        List<User> topPlayers = UserDao.getInstance().selectTopPlayer();
+        return topPlayers;
+    }
+
+    public int getUserRanking(User user) {
+        List<User> playersOrderByTrophies = UserDao.getInstance().selectPlayersOrderByTrophies();
+        for (int i = 0; i < playersOrderByTrophies.size(); i++) {
+            if (user.getUsername().equals(playersOrderByTrophies.get(i).getUsername())) {
+                return i + 1;
+            }
+        }
+        return -1;
+    }
 }

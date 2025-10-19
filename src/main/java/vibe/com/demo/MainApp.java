@@ -1,7 +1,6 @@
 package vibe.com.demo;
 
 import java.io.IOException;
-import java.util.List;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -11,11 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import vibe.com.demo.controller.BaseController;
-import vibe.com.demo.model.game.PlayerProgress;
-import vibe.com.demo.model.user.User;
 import vibe.com.demo.service.ServiceLocator;
 import vibe.com.demo.service.audio.AudioService;
-import vibe.com.demo.service.database.dao.objectdao.UserDao;
 
 public class MainApp extends Application {
 
@@ -90,8 +86,13 @@ public class MainApp extends Application {
 
     }
 
+    public void loadRankingView() {
+        loadView("fxmlFiles/ranking.fxml", "assets/css/ranking.css", "playgame");
+    }
+
     // day la ham main
     public static void main(String[] args) {
         launch(args);
     }
+
 }

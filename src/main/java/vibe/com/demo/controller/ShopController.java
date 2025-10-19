@@ -36,6 +36,7 @@ public class ShopController implements BaseController {
     private List<Button> buyButtonList = new ArrayList<>();
     private List<String> idPurchasedPaddles = new ArrayList<>();
     private String idCurrentPaddle;
+    private Button currentPaddleBtn;
 
     @FXML
     private void initialize() {
@@ -56,15 +57,18 @@ public class ShopController implements BaseController {
     public void loadUserData() {
         idPurchasedPaddles = gameProgressService.getPurchasedPaddles(currentUser);
         idCurrentPaddle = gameProgressService.getIdCurrentPaddle(currentUser);
-        for (String idPurchasedPaddle : idPurchasedPaddles) {
-            for (Button buyButton : buyButtonList) {
-                if (buyButton.getId().equals(idPurchasedPaddle)) {
-                    offEquiped(buyButton);
-                    if (buyButton.getId().equals(idCurrentPaddle)) {
-                        onEquiped(buyButton);
-                    }
-                    break;
-                }
+
+        boolean found = false;
+        for (Button buyButton : buyButtonList) {
+            if (idPurchasedPaddles.contains(buyButton.getId())) {
+                offEquiped(buyButton);
+            }
+            if (found) {
+                continue;
+            }
+            if (idCurrentPaddle.equals(buyButton.getId())) {
+                onEquiped(buyButton);
+                currentPaddleBtn = buyButton;
             }
         }
     }
@@ -103,13 +107,10 @@ public class ShopController implements BaseController {
         }
         //xử lý chuyển đổi nếu thành công (thành công là khi đủ tiền mua nếu text = Buy Now hoặc đã mua rồi  sẵn thì thành công)
         if (isSuccess) {
-            buyButtonList.forEach((buyButtonItem) -> {
-                if (!buyButtonItem.equals(clickedBuyButton) && buyButtonItem.getText().trim().equals("Equiped")) {
-                    offEquiped(buyButtonItem);
-                }
-            });
-            onEquiped(clickedBuyButton);
-            gameProgressService.setIdCurrentPaddle(currentUser, clickedBuyButton.getId());
+            offEquiped(currentPaddleBtn);
+            currentPaddleBtn = clickedBuyButton;
+            onEquiped(currentPaddleBtn);
+            gameProgressService.setIdCurrentPaddle(currentUser, currentPaddleBtn.getId());
         }
 
     }

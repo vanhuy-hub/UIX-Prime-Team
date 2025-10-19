@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="vibe.com.demo.controller.RankingController"
+            prefWidth="1300" prefHeight="800"
+            styleClass="root">
+  <!-- ==== TOP BAR ==== -->
+  <top>
+    <HBox alignment="CENTER_LEFT" spacing="20" styleClass="top-bar">
+      <padding>
+        <Insets top="15" right="30" bottom="15" left="30"/>
+      </padding>
+      <Button fx:id="btnBack" text="← Back" styleClass="back-button" onAction="#handleBacktoMenu"/>
+      <Label text="🏆 Hall of Fame" styleClass="title-label"/>
+      <Pane HBox.hgrow="ALWAYS"/>
+      <HBox alignment="CENTER_RIGHT" spacing="15">
+        <!-- Ranking Section với khung -->
+        <HBox alignment="CENTER" spacing="8" styleClass="rank-frame">
+          <Label text="Your Ranking" styleClass="ranking-label"/>
+          <Label fx:id="lblRank" text="#4" styleClass="rank-value"/>
+        </HBox>
+        <!-- Trophy Section với khung -->
+        <HBox alignment="CENTER" spacing="8" styleClass="trophy-frame">
+          <ImageView styleClass="icon-trophy" fitWidth="24" fitHeight="24"/>
+          <Label fx:id="myTrophies" text="2458" styleClass="trophy-value"/>
+        </HBox>
+      </HBox>
+    </HBox>
+  </top>
+
+  <!-- ==== CENTER CONTENT ==== -->
+  <center>
+    <StackPane alignment="CENTER" styleClass="center-container">
+      <!-- Bọc VBox trong ScrollPane -->
+      <ScrollPane fx:id="scrollPane" fitToWidth="true" styleClass="ranking-scrollpane">
+        <content>
+          <VBox fx:id="leaderboardBox"
+                                                                                                                                                            alignment="TOP_CENTER"
+                                                                                                                                                            spacing="15"
+                                                                                                                                                            styleClass="leaderboard-vbox">
+            <padding>
+              <Insets top="30" right="40" bottom="30" left="40"/>
+            </padding>
+            <!-- ==== TOP 3 ==== -->
+            <HBox styleClass="player-row" id="first-rank" alignment="CENTER_LEFT" spacing="20">
+              <Label/>
+              <ImageView styleClass="icon-rank-first" fitWidth="40" fitHeight="40"/>
+              <ImageView styleClass="avatar-image" fitWidth="60" fitHeight="60">
+                <clip>
+                  <Circle radius="30" centerX="30" centerY="30"/>
+                </clip>
+              </ImageView>
+              <Label text="Block Master Pro" styleClass="player-name"/>
+              <Pane HBox.hgrow="ALWAYS"/>
+              <HBox alignment="CENTER_RIGHT" spacing="15">
+                <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
+                <Label text="2458" styleClass="trophy-value"/>
+                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
+                <Label text="147" styleClass="game-value"/>
+              </HBox>
+            </HBox>
+            <HBox styleClass="player-row" id="second-rank" alignment="CENTER_LEFT" spacing="20">
+              <Label/>
+              <ImageView styleClass="icon-rank-second" fitWidth="40" fitHeight="40"/>
+              <ImageView styleClass="avatar-image" fitWidth="60" fitHeight="60">
+                <clip>
+                  <Circle radius="30" centerX="30" centerY="30"/>
+                </clip>
+              </ImageView>
+              <Label text="Cyber Breaker" styleClass="player-name"/>
+              <Pane HBox.hgrow="ALWAYS"/>
+              <HBox alignment="CENTER_RIGHT" spacing="15">
+                <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
+                <Label text="1983" styleClass="trophy-value"/>
+                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
+                <Label text="98" styleClass="game-value"/>
+              </HBox>
+            </HBox>
+            <HBox styleClass="player-row" id="third-rank" alignment="CENTER_LEFT" spacing="20">
+              <Label/>
+              <ImageView styleClass="icon-rank-third" fitWidth="40" fitHeight="40"/>
+              <ImageView styleClass="avatar-image" fitWidth="60" fitHeight="60">
+                <clip>
+                  <Circle radius="30" centerX="30" centerY="30"/>
+                </clip>
+              </ImageView>
+              <Label text="Neon Ninja" styleClass="player-name"/>
+              <Pane HBox.hgrow="ALWAYS"/>
+              <HBox alignment="CENTER_RIGHT" spacing="15">
+                <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
+                <Label text="1769" styleClass="trophy-value"/>
+                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
+                <Label text="112" styleClass="game-value"/>
+              </HBox>
+            </HBox>
+            <!-- ==== RANKS 4 - 10 ==== -->
+            <HBox styleClass="player-row" alignment="CENTER_LEFT" spacing="20">
+              <Label text="#4" styleClass="rank-number"/>
+              <ImageView styleClass="avatar-image" fitWidth="60" fitHeight="60">
+                <clip>
+                  <Circle radius="30" centerX="30" centerY="30"/>
+                </clip>
+              </ImageView>
+              <Label text="Quantum Gamer" styleClass="player-name"/>
+              <Pane HBox.hgrow="ALWAYS"/>
+              <HBox alignment="CENTER_RIGHT" spacing="15">
+                <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
+                <Label text="1545" styleClass="trophy-value"/>
+                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
+                <Label text="89" styleClass="game-value"/>
+              </HBox>
+            </HBox>
+            <HBox styleClass="player-row" alignment="CENTER_LEFT" spacing="20">
+              <Label text="#5" styleClass="rank-number"/>
+              <ImageView styleClass="avatar-image" fitWidth="60" fitHeight="60">
+                <clip>
+                  <Circle radius="30" centerX="30" centerY="30"/>
+                </clip>
+              </ImageView>
+              <Label text="Pixel Wizard" styleClass="player-name"/>
+              <Pane HBox.hgrow="ALWAYS"/>
+              <HBox alignment="CENTER_RIGHT" spacing="15">
+                <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
+                <Label text="1324" styleClass="trophy-value"/>
+                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
+                <Label text="103" styleClass="game-value"/>
+              </HBox>
+            </HBox>
+            <HBox styleClass="player-row" alignment="CENTER_LEFT" spacing="20">
+              <Label text="#6" styleClass="rank-number"/>
+              <ImageView styleClass="avatar-image" fitWidth="60" fitHeight="60">
+                <clip>
+                  <Circle radius="30" centerX="30" centerY="30"/>
+                </clip>
+              </ImageView>
+              <Label text="Binary Samurai" styleClass="player-name"/>
+              <Pane HBox.hgrow="ALWAYS"/>
+              <HBox alignment="CENTER_RIGHT" spacing="15">
+                <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
+                <Label text="1210" styleClass="trophy-value"/>
+                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
+                <Label text="75" styleClass="game-value"/>
+              </HBox>
+            </HBox>
+            <HBox styleClass="player-row" alignment="CENTER_LEFT" spacing="20">
+              <Label text="#7" styleClass="rank-number"/>
+              <ImageView styleClass="avatar-image" fitWidth="60" fitHeight="60">
+                <clip>
+                  <Circle radius="30" centerX="30" centerY="30"/>
+                </clip>
+              </ImageView>
+              <Label text="Retro Blazer" styleClass="player-name"/>
+              <Pane HBox.hgrow="ALWAYS"/>
+              <HBox alignment="CENTER_RIGHT" spacing="15">
+                <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
+                <Label text="1158" styleClass="trophy-value"/>
+                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
+                <Label text="70" styleClass="game-value"/>
+              </HBox>
+            </HBox>
+            <HBox styleClass="player-row" alignment="CENTER_LEFT" spacing="20">
+              <Label text="#8" styleClass="rank-number"/>
+              <ImageView styleClass="avatar-image" fitWidth="60" fitHeight="60">
+                <clip>
+                  <Circle radius="30" centerX="30" centerY="30"/>
+                </clip>
+              </ImageView>
+              <Label text="Code Slayer" styleClass="player-name"/>
+              <Pane HBox.hgrow="ALWAYS"/>
+              <HBox alignment="CENTER_RIGHT" spacing="15">
+                <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
+                <Label text="1012" styleClass="trophy-value"/>
+                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
+                <Label text="60" styleClass="game-value"/>
+              </HBox>
+            </HBox>
+            <HBox styleClass="player-row" alignment="CENTER_LEFT" spacing="20">
+              <Label text="#9" styleClass="rank-number"/>
+              <ImageView styleClass="avatar-image" fitWidth="60" fitHeight="60">
+                <clip>
+                  <Circle radius="30" centerX="30" centerY="30"/>
+                </clip>
+              </ImageView>
+              <Label text="Space Wanderer" styleClass="player-name"/>
+              <Pane HBox.hgrow="ALWAYS"/>
+              <HBox alignment="CENTER_RIGHT" spacing="15">
+                <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
+                <Label text="984" styleClass="trophy-value"/>
+                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
+                <Label text="55" styleClass="game-value"/>
+              </HBox>
+            </HBox>
+            <HBox styleClass="player-row" alignment="CENTER_LEFT" spacing="20">
+              <Label text="#10" styleClass="rank-number"/>
+              <ImageView styleClass="avatar-image" fitWidth="60" fitHeight="60">
+                <clip>
+                  <Circle radius="30" centerX="30" centerY="30"/>
+                </clip>
+              </ImageView>
+              <Label text="Silent Pixel" styleClass="player-name"/>
+              <Pane HBox.hgrow="ALWAYS"/>
+              <HBox alignment="CENTER_RIGHT" spacing="15">
+                <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
+                <Label text="932" styleClass="trophy-value"/>
+                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
+                <Label text="49" styleClass="game-value"/>
+              </HBox>
+            </HBox>
+          </VBox>
+        </content>
+      </ScrollPane>
+    </StackPane>
+  </center>
+</BorderPane>

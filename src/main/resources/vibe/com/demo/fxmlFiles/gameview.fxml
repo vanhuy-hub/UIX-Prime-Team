@@ -77,7 +77,7 @@
       <!-- Complete button -->
       <StackPane styleClass="background-next-btn" minWidth="300">
         <Button fx:id="nextButton" styleClass="next-btn" 
-                                                                                                                                                                                                                                                                                                                                                                                                          alignment="CENTER" minWidth="260" onAction="#handleNextLevel"/>
+                                                                                                                                                                                                                                                                                                                                                                                                                  alignment="CENTER" minWidth="260" onAction="#handleNextLevel"/>
       </StackPane>
     </VBox>
   </right>

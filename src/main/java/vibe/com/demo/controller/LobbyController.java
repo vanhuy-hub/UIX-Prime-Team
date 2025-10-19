@@ -118,4 +118,9 @@ public class LobbyController implements BaseController {
     public void goToShop() {
         this.mainApp.loadShopView();
     }
+
+    @FXML
+    public void openRanking() {
+        this.mainApp.loadRankingView();
+    }
 }
