@@ -65,6 +65,11 @@ public class RankingController implements BaseController {
         Label trophyValueLabel = (Label) playerRow.lookup(".trophy-value");
         playerNameLabel.setText(topPlayers.get(index).getPlayerName());
         trophyValueLabel.setText(String.valueOf(topPlayers.get(index).getPlayerProgress().getTrophies()));
+        //nếu bản thân trong top 10 thì thêm css để nhận biết 
+        if (playerNameLabel.getText().equals(currentUser.getPlayerName())) {
+            playerNameLabel.setText("You");
+            playerRow.getStyleClass().add("current-player");
+        }
     }
 
     @FXML

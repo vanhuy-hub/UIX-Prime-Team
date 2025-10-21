@@ -16,6 +16,7 @@ public class GameDataModel {
     private IntegerProperty sessionCoinEarned = new SimpleIntegerProperty(0);//số tiền kiếm được trong 1 phiên chơi 
     private boolean won;
     private boolean lost;
+    private BooleanProperty gameSessionIsWin = new SimpleBooleanProperty(false);
     //USER DATA 
     private final IntegerProperty userTotalCoinsProperty = new SimpleIntegerProperty(0);
     private final IntegerProperty selectedLevelProperty = new SimpleIntegerProperty(1);//sẽ được lấy từ GameProgressService 
@@ -93,7 +94,7 @@ public class GameDataModel {
         this.lost = false;
         this.sessionCoinEarned.set(0);
         this.sessionLivesProperty.set(3);
-
+        this.gameSessionIsWin.set(false);
     }
     private BooleanProperty nextLevelUnlockedProperty = new SimpleBooleanProperty(false);
 
@@ -116,6 +117,7 @@ public class GameDataModel {
 
     public void setWon(boolean won) {
         this.won = won;
+        this.gameSessionIsWin.set(won);
     }
 
     public boolean isLost() {
@@ -124,5 +126,13 @@ public class GameDataModel {
 
     public void setLost(boolean lost) {
         this.lost = lost;
+    }
+
+    public BooleanProperty getGameSessionIsWinProperty() {
+        return gameSessionIsWin;
+    }
+
+    public void setGameSessionIsWin(BooleanProperty gameSessionIsWin) {
+        this.gameSessionIsWin = gameSessionIsWin;
     }
 }

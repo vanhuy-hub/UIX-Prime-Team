@@ -276,3 +276,16 @@
     -fx-hbar-policy: NEVER;
     -fx-vbar-policy: NEVER;
 }
+/* ===========================
+   CURRENT PLAYER HIGHLIGHT
+=========================== */
+.player-row.current-player {
+    -fx-background-color: rgba(139, 92, 246, 0.3);
+    -fx-border-color: #8B5CF6;
+    -fx-border-width: 2;
+}
+
+.player-row.current-player .player-name {
+    -fx-text-fill: #A78BFA;
+    -fx-font-weight: bold;
+}
