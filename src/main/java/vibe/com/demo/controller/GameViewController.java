@@ -84,12 +84,19 @@ public class GameViewController implements BaseController {
             playLifeLostAnimation();
             updateLivesDisplay(newVal.intValue());
         });
+        gameDataModel.getGameSessionIsWinProperty().addListener((obs, oldVal, newVal) -> {
+            PauseTransition delay = new PauseTransition(Duration.millis(500));//0.5s
+
+            delay.setOnFinished(e -> {
+                unlockNextButton();
+            });
+            delay.play();
+        });
         //binding + listener khi giá trị boolean isUnclock ở gameData thay đổi từ false sang true  
         // gameDataModel.nextLevelUnlockedProperty().addListener((obs, oldVal, newVal) -> {
         //     if (newVal) {
         //         unlockNextButton();
         //     }                            =>BỊ LỖI 
-
         // });
     }
 
@@ -116,7 +123,7 @@ public class GameViewController implements BaseController {
         double gameWidth = gameCanvas.getWidth();
         double gameHeight = gameCanvas.getHeight();
         //init 
-        gameManager = new GameManager(renderer, gameWidth, gameHeight, this);
+        gameManager = new GameManager(renderer, gameWidth, gameHeight);
         gameDataModel = gameManager.getGameDataModel();
     }
 
@@ -144,7 +151,15 @@ public class GameViewController implements BaseController {
 
     @FXML
     public void handleChangePaddle() {
-        this.mainApp.loadShopView();
+        this.gameManager.stopGameLoop();
+        if (this.mainApp != null) {
+            PauseTransition delay = new PauseTransition(Duration.millis(150));//0.1s
+
+            delay.setOnFinished(e -> {
+                this.mainApp.loadShopView();
+            });
+            delay.play();
+        }
     }
 
     @FXML

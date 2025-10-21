@@ -4,7 +4,6 @@ import javafx.animation.PauseTransition;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import vibe.com.demo.controller.GameViewController;
 import vibe.com.demo.game.animations.AnimationManager;
 import vibe.com.demo.game.levels.LevelManager;
 import vibe.com.demo.game.objects.entities.ball.Ball;
@@ -38,9 +37,8 @@ public class GameManager {
     //GameProgressService ~ đối tượng quản lý cả game 
     private GameProgressService gameProgressService = ServiceLocator.getInstance().getGameProgressService();
     private User currentUser = ServiceLocator.getInstance().getAuthService().getCurrentUser();
-    private GameViewController gameView;
 
-    public GameManager(GraphicsContext gc, double gameWidth, double gameHeight, GameViewController gameView) {
+    public GameManager(GraphicsContext gc, double gameWidth, double gameHeight) {
         System.out.println("Khoi tao lai");
         System.out.println(gameProgressService.getSelectedLevel());
         this.gameWidth = gameWidth;
@@ -52,7 +50,7 @@ public class GameManager {
         gameEngine = new GameEngine(this);
         renderer = new Renderer(gc, gameWidth, gameHeight);
         gameDataModel = new GameDataModel();
-        this.gameView = gameView;
+
         init();
     }
 
@@ -150,7 +148,7 @@ public class GameManager {
         if (!this.gameDataModel.isWon()) {
             this.gameDataModel.setWon(true);
             delayShowOverlay("Chúc mừng bạn đã hoàn thành level " + this.levelManager.getCurrentLevel(), 500, GameState.GAME_WIN);
-            gameView.unlockNextButton();
+
             this.gameProgressService.completeLevel(currentUser, levelManager.getCurrentLevel());
         }
     }
