@@ -1,8 +1,11 @@
 package vibe.com.demo.game.objects.entities.paddle;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 import vibe.com.demo.game.objects.abstractions.MovableObject;
 //paddle chỉ di truyển sang trái hoặc phải nên chỉ cần tác động vào giá trị dx, t cộng speed / -speed 
 
@@ -12,8 +15,13 @@ public class Paddle extends MovableObject {
     private Color color;
     private boolean isMovingLeft = false;
     private boolean isMovingRight = false;
-
+    public static final int PADDLE_NORMAL_WIDTH = 140;
+    public static final int PADDLE_NORMAL_HEIGHT = 40;
+    public static final int PADDLE_EXPAND_WIDTH = 180;
     private boolean isDisapper;
+
+    // timeline để kiểm soát shrink 
+    private Timeline shrinkTimeLine;
 
     public Paddle(double x, double y, double width, double height) {
         super(x, y, width, height);
@@ -49,8 +57,7 @@ public class Paddle extends MovableObject {
         if (isDisapper) {
             return;
         }
-        renderer.clearRect(x, y, getWidth(), getHeight());
-        renderer.drawImage(image, x, y);
+        renderer.drawImage(image, x, y, getWidth(), getHeight());
     }
 
     @Override
@@ -73,6 +80,33 @@ public class Paddle extends MovableObject {
         //giữ để paddle không vượt quá giới hạn 
         if (this.x < 0) {
             this.x = 0;
+        }
+    }
+
+    public void expand() {
+        if (this.width == PADDLE_NORMAL_WIDTH) {
+            this.width = PADDLE_EXPAND_WIDTH;
+            this.x = this.x - (PADDLE_EXPAND_WIDTH - PADDLE_NORMAL_WIDTH) / 2;
+        }
+        startShrinkTimeline();
+    }
+
+    public void startShrinkTimeline() {
+        if (shrinkTimeLine != null) {
+            shrinkTimeLine.stop();
+        }
+        shrinkTimeLine = new Timeline(
+                new KeyFrame(Duration.seconds(5), e -> {
+                    this.shrink();
+                })
+        );
+        shrinkTimeLine.play();
+    }
+
+    public void shrink() {
+        if (this.width == PADDLE_EXPAND_WIDTH) {
+            this.width = PADDLE_NORMAL_WIDTH;
+            this.x = this.x + (PADDLE_EXPAND_WIDTH - PADDLE_NORMAL_WIDTH) / 2;
         }
     }
 

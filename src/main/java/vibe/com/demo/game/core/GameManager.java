@@ -68,8 +68,8 @@ public class GameManager {
      */
     public void initializeGameObjects() {
         // Initialize paddle at bottom center
-        double paddleWidth = 140;
-        double paddleHeight = 40;
+        double paddleWidth = Paddle.PADDLE_NORMAL_WIDTH;
+        double paddleHeight = Paddle.PADDLE_NORMAL_HEIGHT;
         double paddleX = (gameWidth - paddleWidth) / 2;
         double paddleY = gameHeight - paddleHeight - 30;
         paddle = new Paddle(paddleX, paddleY, paddleWidth, paddleHeight);
@@ -242,6 +242,15 @@ public class GameManager {
      */
     public void stopGameLoop() {
         this.gameEngine.stopGameLoop();
+    }
+
+    // power ups 
+    public void addCoinEarn(int coins) {
+        this.gameProgressService.addCoins(currentUser, coins);
+    }
+
+    public void increaseLives() {
+        this.gameDataModel.increaseSessionLives();
     }
 
     /**

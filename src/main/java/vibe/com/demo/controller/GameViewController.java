@@ -24,6 +24,9 @@ import vibe.com.demo.service.game.GameProgressService;
 public class GameViewController implements BaseController {
 
     @FXML
+    private Label earnedCoin;
+
+    @FXML
     private Button changePaddleBtn;
 
     @FXML
@@ -78,7 +81,19 @@ public class GameViewController implements BaseController {
         //data binding
         levelLabel.textProperty().bind(selectedLevel.asString());
         gameProgressService.setCoins(gameProgressService.getCoins(currentUser));
+        gameProgressService.getCoinsProperty().addListener((obs, oldVal, newVal) -> {
+            System.out.println("coin earned: " + (newVal.intValue() - oldVal.intValue()));
+            earnedCoin.setText("+" + (newVal.intValue() - oldVal.intValue()));
+            earnedCoin.setVisible(true);
+            PauseTransition delay = new PauseTransition(Duration.millis(1500));//0.5s
+            delay.setOnFinished(e -> {
+                earnedCoin.setVisible(false);
+            });
+            delay.play();
+
+        });
         coinLabel.textProperty().bind(gameProgressService.getCoinsProperty().asString());
+
         //databinding + listener (khi có sự thay đổi dữ liệu thì tự động gọi hàm được định nghĩa )
         gameDataModel.getSessionLivesProperty().addListener((obs, oldVal, newVal) -> {
             playLifeLostAnimation();
@@ -92,12 +107,7 @@ public class GameViewController implements BaseController {
             });
             delay.play();
         });
-        //binding + listener khi giá trị boolean isUnclock ở gameData thay đổi từ false sang true  
-        // gameDataModel.nextLevelUnlockedProperty().addListener((obs, oldVal, newVal) -> {
-        //     if (newVal) {
-        //         unlockNextButton();
-        //     }                            =>BỊ LỖI 
-        // });
+
     }
 
     @FXML

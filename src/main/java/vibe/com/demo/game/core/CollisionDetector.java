@@ -3,6 +3,8 @@ package vibe.com.demo.game.core;
 import vibe.com.demo.game.objects.abstractions.GameObject;
 import vibe.com.demo.game.objects.entities.ball.Ball;
 import vibe.com.demo.game.objects.entities.bricks.Brick;
+import vibe.com.demo.game.objects.entities.bricks.NormalBrick;
+import vibe.com.demo.game.objects.entities.bricks.UnbreakableBrick;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
 
 public class CollisionDetector {
@@ -33,6 +35,10 @@ public class CollisionDetector {
      */
     public void checkBallPaddleCollision(Ball ball, Paddle paddle) {
         if (!ball.isActive() || !basicCollision(ball, paddle)) {
+            return;
+        }
+        if (ball.isIsSticky() && basicCollision(ball, paddle)) {
+            ball.reset(paddle);
             return;
         }
         //tính toán vi trí va chạm để xác định góc bật 
@@ -102,6 +108,11 @@ public class CollisionDetector {
     }
 
     public void handleCollisionBrick(Ball ball, Brick brick, CollisionSide side) {
+        if (ball.isPowerFull()) {
+            if (brick instanceof UnbreakableBrick == false) {
+                return;
+            }
+        }
         if (side == CollisionSide.BOTTOM || side == CollisionSide.TOP) {
             ball.bounceVertical();
         } else if (side == CollisionSide.LEFT || side == CollisionSide.RIGHT) {
