@@ -9,6 +9,15 @@ import vibe.com.demo.game.objects.factories.PowerUpFactory;
 public class PowerUpManager {
 
     private List<PowerUp> powerUps;
+
+    public List<PowerUp> getPowerUps() {
+        return powerUps;
+    }
+
+    public void setPowerUps(List<PowerUp> powerUps) {
+        this.powerUps = powerUps;
+    }
+
     private double gameHeight;
 
     public PowerUpManager(double gameHeight) {

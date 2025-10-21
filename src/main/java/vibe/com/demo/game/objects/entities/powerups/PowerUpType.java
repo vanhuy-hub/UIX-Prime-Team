@@ -5,4 +5,8 @@ public enum PowerUpType {
     EXPANDPADDLE,
     FIREBALL,
     LASER,
+    TURTLE,
+    MAGNET,
+    HEART,
+    MULTIPLYBALL
 }

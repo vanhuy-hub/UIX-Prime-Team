@@ -1,5 +1,9 @@
 package vibe.com.demo.game.objects.entities.ball;
 
+import java.time.Duration;
+
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import vibe.com.demo.game.objects.abstractions.MovableObject;
@@ -10,6 +14,9 @@ public class Ball extends MovableObject {
     private Color color;
     private double speed;
     private boolean isActive;//kiểm tra trạng thái của bóng có hoạt động hay không 
+    private boolean isPowerFull;
+    private Timeline fireBallTimeline;
+    private boolean isSticky;
 
     public boolean isActive() {
         return isActive;
@@ -20,8 +27,18 @@ public class Ball extends MovableObject {
         this.color = Color.WHITE;
         speed = 4;
         this.isActive = false;
+        this.isPowerFull = false;
+        this.isSticky = true;
+        setBallImg();
 
-        this.setImg("/vibe/com/demo/assets/img/ball2.png");
+    }
+
+    public void setBallImg() {
+        if (!this.isPowerFull) {
+            this.setImg("/vibe/com/demo/assets/img/ball_normal.png");
+        } else {
+            this.setImg("/vibe/com/demo/assets/img/ball_fire.png");
+        }
     }
 
     @Override
@@ -86,6 +103,11 @@ public class Ball extends MovableObject {
         this.dy *= increase;
     }
 
+    public void decreaseVeclocity(double decrease) {
+        this.dx /= decrease;
+        this.dx /= decrease;
+    }
+
     public void setRandomVeclocity() {
         setVelocity((Math.random() * 8) - 4, -4);
     }
@@ -97,6 +119,7 @@ public class Ball extends MovableObject {
     public void launch() {
         setRandomVeclocity();
         isActive = true;
+        isSticky = false;
     }
 
     public boolean isIsActive() {
@@ -110,4 +133,38 @@ public class Ball extends MovableObject {
     public double getSpeed() {
         return speed;
     }
+
+    //=====Power up 
+    public boolean isPowerFull() {
+        return isPowerFull;
+    }
+
+    public void setIsPowerFull(boolean isPowerFull) {
+        this.isPowerFull = isPowerFull;
+    }
+
+    public void fireBallActive() {
+        this.isPowerFull = true;
+        setBallImg();
+
+        if (fireBallTimeline != null) {
+            fireBallTimeline.stop();
+        }
+        fireBallTimeline = new Timeline(
+                new KeyFrame(javafx.util.Duration.seconds(5), e -> {
+                    this.isPowerFull = false;
+                    setBallImg();
+                })
+        );
+        fireBallTimeline.play();
+    }
+
+    public boolean isIsSticky() {
+        return isSticky;
+    }
+
+    public void setIsSticky(boolean isSticky) {
+        this.isSticky = isSticky;
+    }
+
 }

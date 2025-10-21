@@ -12,10 +12,18 @@ import vibe.com.demo.game.levels.LevelConfig;
 import vibe.com.demo.game.objects.entities.ball.Ball;
 import vibe.com.demo.game.objects.entities.bricks.Brick;
 import vibe.com.demo.game.objects.entities.bricks.ExplosiveBrick;
+import vibe.com.demo.game.objects.entities.bricks.StrongBrick;
 import vibe.com.demo.game.objects.entities.bricks.UnbreakableBrick;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
+import vibe.com.demo.game.objects.entities.powerups.CoinPowerUp;
+import vibe.com.demo.game.objects.entities.powerups.ExpandPaddlePowerUp;
+import vibe.com.demo.game.objects.entities.powerups.ExtraLifePowerUp;
+import vibe.com.demo.game.objects.entities.powerups.FireBallPowerUp;
+import vibe.com.demo.game.objects.entities.powerups.MagnetPowerUp;
+import vibe.com.demo.game.objects.entities.powerups.PowerUp;
 import vibe.com.demo.game.objects.entities.powerups.PowerUpManager;
 import vibe.com.demo.game.objects.entities.powerups.PowerUpType;
+import vibe.com.demo.game.objects.entities.powerups.SlowBallPowerUp;
 
 /**
  * Logic xử lí logic game chính (update, game loop)
@@ -27,12 +35,14 @@ public class GameEngine {
     private CollisionDetector collisionDetector;
     private AnimationTimer gameLoop;
     private PowerUpManager powerUpManager;
+    private List<PowerUp> powerUps;
     //các đối tượng trong game 
     private Paddle paddle;
     private Ball ball;
     private List<Brick> bricks;
     private double elapsedTime;
     private final int duration = 2;
+
     //Game state 
     private boolean isRunning = false;
 
@@ -41,6 +51,7 @@ public class GameEngine {
         this.gameManager = gameManager;
         this.animationManager = gameManager.getAnimationManager();
         this.powerUpManager = gameManager.getPowerUpManager();
+        powerUps = this.powerUpManager.getPowerUps();
         collisionDetector = new CollisionDetector();
     }
 
@@ -100,6 +111,7 @@ public class GameEngine {
         checkCollision();
         checkBallLost();
         checkLevelCompletion();
+        checkCollisionPowerUp();
     }
 
     /**
@@ -136,14 +148,18 @@ public class GameEngine {
             if (this.collisionDetector.isBallBrickCollision(ball, bricks.get(i))) {//kiểm tra va chạm 
                 if (bricks.get(i) instanceof UnbreakableBrick) {
                     collisionDetector.handleCollisionBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
-                    powerUpManager.addPowerUp(PowerUpType.COIN, bricks.get(i).getX(), bricks.get(i).getY());
+                    powerUpManager.addPowerUp(PowerUpType.FIREBALL, bricks.get(i).getX(), bricks.get(i).getY());
                     continue;
-                }
-                if (bricks.get(i) instanceof ExplosiveBrick) {
+                } else if (bricks.get(i) instanceof ExplosiveBrick) {
+                    powerUpManager.addPowerUp(PowerUpType.MAGNET, bricks.get(i).getX(), bricks.get(i).getY());
                     collisionDetector.handleCollisionBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
                     addAdjacentBrick(bricks.get(i), bricksToRemove);
 
                     continue;
+                } else if (bricks.get(i) instanceof StrongBrick) {
+                    powerUpManager.addPowerUp(PowerUpType.FIREBALL, bricks.get(i).getX(), bricks.get(i).getY());
+                } else {
+                    powerUpManager.addPowerUp(PowerUpType.FIREBALL, bricks.get(i).getX(), bricks.get(i).getY());
                 }
 
                 Brick newBrick = this.collisionDetector.getDeradeBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
@@ -215,6 +231,30 @@ public class GameEngine {
     public void checkBallLost() {
         if (this.collisionDetector.checkBallLost(ball, gameManager.getGameHeight())) {
             gameManager.handleBallLost();
+        }
+    }
+
+    // ========== Collision powerUp 
+    public void checkCollisionPowerUp() {
+        for (int i = powerUps.size() - 1; i >= 0; i--) {
+            PowerUp powerUpItem = powerUps.get(i);
+            if (this.collisionDetector.basicCollision(paddle, powerUpItem)) {
+                powerUps.remove(i);
+                if (powerUpItem.getClass() == CoinPowerUp.class) {
+                    gameManager.addCoinEarn(100);
+                } else if (powerUpItem instanceof ExpandPaddlePowerUp) {
+                    paddle.expand();
+                } else if (powerUpItem instanceof SlowBallPowerUp) {
+                    ball.decreaseVeclocity(1.3);
+                } else if (powerUpItem instanceof ExtraLifePowerUp) {
+                    gameManager.increaseLives();
+                } else if (powerUpItem instanceof FireBallPowerUp) {
+                    ball.fireBallActive();
+                } else if (powerUpItem instanceof MagnetPowerUp) {
+                    ball.setIsSticky(true);
+                }
+            }
+
         }
     }
 }
