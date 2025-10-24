@@ -68,10 +68,10 @@ public class Paddle extends MovableObject {
         this.dx = 0;//reset trước rồi mới cập nhật 
 
         if (isMovingLeft && !isMovingRight) {
-            System.out.println("move left in update" + speed);
+
             dx = -speed;
         } else if (!isMovingLeft && isMovingRight) {
-            System.out.println("move right in update" + speed);
+
             dx = speed;
         }
 

@@ -35,7 +35,7 @@ public class SpriteAnimation {
         this.currentFrame = 0;
         this.elapsedTime = 0;
         this.isActive = true;
-        System.out.println("No tai:" + (x) + "-" + (y));
+
     }
 
     public void update() {
