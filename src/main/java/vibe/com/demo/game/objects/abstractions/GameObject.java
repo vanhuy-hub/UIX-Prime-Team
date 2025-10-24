@@ -69,7 +69,7 @@ public abstract class GameObject {
         try {
             this.image = new Image(getClass().getResourceAsStream(path));
         } catch (Exception e) {
-            System.out.println("null");
+
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

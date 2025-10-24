@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
+import vibe.com.demo.game.objects.entities.ball.Ball;
 import vibe.com.demo.game.objects.factories.PowerUpFactory;
 
 public class PowerUpManager {
 
     private List<PowerUp> powerUps;
+    private double resetTime = 0;
+    private static final int timeAddNewPowerUp = 4;
 
     public List<PowerUp> getPowerUps() {
         return powerUps;
@@ -25,18 +28,31 @@ public class PowerUpManager {
         this.gameHeight = gameHeight;
     }
 
-    public void addPowerUp(PowerUpType type, double x, double y) {
-        powerUps.add(PowerUpFactory.createPowerUp(type, x, y));
+    public void addPowerUp() {
+        int randNumber = (int) Math.round((Math.random() * 8));
+
+        powerUps.add(PowerUpFactory.createPowerUp(randNumber, 50 + Math.random() * 650, -50));
     }
 
     public void render(GraphicsContext gc) {
         powerUps.forEach(powerUp -> powerUp.render(gc));
     }
 
-    public void update() {
+    public void update(Ball ball) {
         powerUps.removeIf(powerup -> powerup.IsOutSideGame(gameHeight));
         System.out.println(powerUps.size());
         powerUps.forEach(PowerUp::update);
+        resetTime += (double) 1 / 100;
+        if (resetTime > timeAddNewPowerUp && ball.getDy() < 0) {
+            resetTime = 0;
+            System.out.println("them power up");
+            addPowerUp();
+        }
+    }
+
+    public void clear() {
+        resetTime = 0;
+        powerUps.clear();
     }
 
 }

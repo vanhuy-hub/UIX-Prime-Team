@@ -22,7 +22,6 @@ import vibe.com.demo.game.objects.entities.powerups.FireBallPowerUp;
 import vibe.com.demo.game.objects.entities.powerups.MagnetPowerUp;
 import vibe.com.demo.game.objects.entities.powerups.PowerUp;
 import vibe.com.demo.game.objects.entities.powerups.PowerUpManager;
-import vibe.com.demo.game.objects.entities.powerups.PowerUpType;
 import vibe.com.demo.game.objects.entities.powerups.SlowBallPowerUp;
 
 /**
@@ -95,16 +94,16 @@ public class GameEngine {
     public void update() {
         animationManager.update(ball);
         paddle.update();
-        powerUpManager.update();
+        powerUpManager.update(ball);
         if (ball.isActive()) {
             elapsedTime += (double) 1 / 60;
-            System.out.println(elapsedTime);
+
             if (elapsedTime >= duration) {
                 ball.increaseVeclocity(1.02);
-                System.out.println("ball: " + ball.getDx() + ":" + ball.getDy());
                 elapsedTime = 0;
             }
             ball.update();
+
         } else {
             ball.reset(paddle);
         }
@@ -148,18 +147,17 @@ public class GameEngine {
             if (this.collisionDetector.isBallBrickCollision(ball, bricks.get(i))) {//kiểm tra va chạm 
                 if (bricks.get(i) instanceof UnbreakableBrick) {
                     collisionDetector.handleCollisionBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
-                    powerUpManager.addPowerUp(PowerUpType.FIREBALL, bricks.get(i).getX(), bricks.get(i).getY());
+
                     continue;
                 } else if (bricks.get(i) instanceof ExplosiveBrick) {
-                    powerUpManager.addPowerUp(PowerUpType.MAGNET, bricks.get(i).getX(), bricks.get(i).getY());
                     collisionDetector.handleCollisionBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
                     addAdjacentBrick(bricks.get(i), bricksToRemove);
 
                     continue;
                 } else if (bricks.get(i) instanceof StrongBrick) {
-                    powerUpManager.addPowerUp(PowerUpType.FIREBALL, bricks.get(i).getX(), bricks.get(i).getY());
+
                 } else {
-                    powerUpManager.addPowerUp(PowerUpType.FIREBALL, bricks.get(i).getX(), bricks.get(i).getY());
+
                 }
 
                 Brick newBrick = this.collisionDetector.getDeradeBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
@@ -180,7 +178,7 @@ public class GameEngine {
         while (!explosiveQueue.isEmpty()) {
             //lấy viên gạch  đầu tiên đồng thời xóa 
             Brick currentBrick = explosiveQueue.poll();
-            System.out.println("gach no tai: " + currentBrick.getX() + "-" + currentBrick.getY());
+
             if (bricksToRemove.contains(currentBrick)) {
                 //dừng lại nếu có trong mảng remove rồi tránh bị đẹ quy vô hạn lần 
                 continue;

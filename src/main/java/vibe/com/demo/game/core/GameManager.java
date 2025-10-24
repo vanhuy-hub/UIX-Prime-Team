@@ -161,6 +161,7 @@ public class GameManager {
     public void restartGame() {
         gameDataModel.resetGameSession();
         gameEngine.stopGameLoop();
+        powerUpManager.clear();
         init();
         gameState = GameState.READY;
     }
