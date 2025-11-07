@@ -105,7 +105,7 @@ public class Ball extends MovableObject {
 
     public void decreaseVeclocity(double decrease) {
         this.dx /= decrease;
-        this.dx /= decrease;
+        this.dy /= decrease;
     }
 
     public void setRandomVeclocity() {
