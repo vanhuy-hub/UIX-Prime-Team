@@ -10,6 +10,7 @@ import vibe.com.demo.game.animations.AnimationManager;
 import vibe.com.demo.game.animations.AnimationType;
 import vibe.com.demo.game.levels.LevelConfig;
 import vibe.com.demo.game.objects.entities.ball.Ball;
+import vibe.com.demo.game.objects.entities.ball.BallManager;
 import vibe.com.demo.game.objects.entities.bricks.Brick;
 import vibe.com.demo.game.objects.entities.bricks.ExplosiveBrick;
 import vibe.com.demo.game.objects.entities.bricks.StrongBrick;
@@ -20,6 +21,7 @@ import vibe.com.demo.game.objects.entities.powerups.ExpandPaddlePowerUp;
 import vibe.com.demo.game.objects.entities.powerups.ExtraLifePowerUp;
 import vibe.com.demo.game.objects.entities.powerups.FireBallPowerUp;
 import vibe.com.demo.game.objects.entities.powerups.MagnetPowerUp;
+import vibe.com.demo.game.objects.entities.powerups.MultiplyBall;
 import vibe.com.demo.game.objects.entities.powerups.PowerUp;
 import vibe.com.demo.game.objects.entities.powerups.PowerUpManager;
 import vibe.com.demo.game.objects.entities.powerups.SlowBallPowerUp;
@@ -37,7 +39,7 @@ public class GameEngine {
     private List<PowerUp> powerUps;
     //các đối tượng trong game 
     private Paddle paddle;
-    private Ball ball;
+    private BallManager ballManager;
     private List<Brick> bricks;
     private double elapsedTime;
     private final int duration = 2;
@@ -54,9 +56,9 @@ public class GameEngine {
         collisionDetector = new CollisionDetector();
     }
 
-    public void setGameObjects(Paddle paddle, Ball ball, List<Brick> bricks) {
+    public void setGameObjects(Paddle paddle, BallManager ballManager, List<Brick> bricks) {
         this.paddle = paddle;
-        this.ball = ball;
+        this.ballManager = ballManager;
         this.bricks = bricks;
     }
 
@@ -92,20 +94,20 @@ public class GameEngine {
     }
 
     public void update() {
-        animationManager.update(ball);
+        // animationManager.update(ball);
         paddle.update();
-        powerUpManager.update(ball);
-        if (ball.isActive()) {
+        powerUpManager.update(ballManager);
+        if (ballManager.isIsActive()) {
             elapsedTime += (double) 1 / 60;
 
             if (elapsedTime >= duration) {
-                ball.increaseVeclocity(1.02);
+                ballManager.increaseVeclocity(1.02);
                 elapsedTime = 0;
             }
-            ball.update();
+            ballManager.update();
 
         } else {
-            ball.reset(paddle);
+            ballManager.resetPosition(paddle);
         }
         checkCollision();
         checkBallLost();
@@ -132,8 +134,10 @@ public class GameEngine {
     }
 
     public void checkCollision() {
-        this.collisionDetector.checkBallPaddleCollision(ball, paddle);
-        this.collisionDetector.checkWallCollision(ball, gameManager.getGameWidth(), gameManager.getGameHeight());
+        for (Ball ball : ballManager.getBalls()) {
+            this.collisionDetector.checkBallPaddleCollision(ball, paddle);
+            this.collisionDetector.checkWallCollision(ball, gameManager.getGameWidth(), gameManager.getGameHeight());
+        }
         this.collisionDetector.constrainPaddle(paddle, gameManager.getGameWidth());
         checkBrickCollision();
     }
@@ -144,27 +148,29 @@ public class GameEngine {
     public void checkBrickCollision() {
         List<Brick> bricksToRemove = new ArrayList<>();
         for (int i = bricks.size() - 1; i >= 0; i--) {
-            if (this.collisionDetector.isBallBrickCollision(ball, bricks.get(i))) {//kiểm tra va chạm 
-                if (bricks.get(i) instanceof UnbreakableBrick) {
-                    collisionDetector.handleCollisionBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
+            for (Ball ball : ballManager.getBalls()) {
+                if (this.collisionDetector.isBallBrickCollision(ball, bricks.get(i))) {//kiểm tra va chạm 
+                    if (bricks.get(i) instanceof UnbreakableBrick) {
+                        collisionDetector.handleCollisionBrick(ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
 
-                    continue;
-                } else if (bricks.get(i) instanceof ExplosiveBrick) {
-                    collisionDetector.handleCollisionBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
-                    addAdjacentBrick(bricks.get(i), bricksToRemove);
+                        continue;
+                    } else if (bricks.get(i) instanceof ExplosiveBrick) {
+                        collisionDetector.handleCollisionBrick(ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
+                        addAdjacentBrick(bricks.get(i), bricksToRemove);
 
-                    continue;
-                } else if (bricks.get(i) instanceof StrongBrick) {
+                        continue;
+                    } else if (bricks.get(i) instanceof StrongBrick) {
 
-                } else {
+                    } else {
 
-                }
+                    }
 
-                Brick newBrick = this.collisionDetector.getDeradeBrick(this.ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
-                if (newBrick == null) {//kiểm tra degradeBrick xem là gì , nếu null thì xóa luôn , ko null thì gán 
-                    bricks.remove(i);
-                } else {
-                    bricks.set(i, newBrick);//sửa phần tử thứ i thành newBrick 
+                    Brick newBrick = this.collisionDetector.getDeradeBrick(ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
+                    if (newBrick == null) {//kiểm tra degradeBrick xem là gì , nếu null thì xóa luôn , ko null thì gán 
+                        bricks.remove(i);
+                    } else {
+                        bricks.set(i, newBrick);//sửa phần tử thứ i thành newBrick 
+                    }
                 }
             }
         }
@@ -227,8 +233,13 @@ public class GameEngine {
     }
 
     public void checkBallLost() {
-        if (this.collisionDetector.checkBallLost(ball, gameManager.getGameHeight())) {
-            gameManager.handleBallLost();
+        for (Ball ball : ballManager.getBalls()) {
+            if (this.collisionDetector.checkBallLost(ball, gameManager.getGameHeight())) {
+                ballManager.getBalls().remove(ball);
+                if (ballManager.getBalls().isEmpty()) {
+                    gameManager.handleBallLost();
+                }
+            }
         }
     }
 
@@ -243,13 +254,15 @@ public class GameEngine {
                 } else if (powerUpItem instanceof ExpandPaddlePowerUp) {
                     paddle.expand();
                 } else if (powerUpItem instanceof SlowBallPowerUp) {
-                    ball.decreaseVeclocity(1.3);
+                    ballManager.decreaseVeclocity(1.3);
                 } else if (powerUpItem instanceof ExtraLifePowerUp) {
                     gameManager.increaseLives();
                 } else if (powerUpItem instanceof FireBallPowerUp) {
-                    ball.fireBallActive();
+                    ballManager.fireBallActive();
                 } else if (powerUpItem instanceof MagnetPowerUp) {
-                    ball.setIsSticky(true);
+                    ballManager.setIsSticky(true);
+                } else if (powerUpItem instanceof MultiplyBall) {
+                    this.ballManager.addBall(1, ballManager.getBalls().get(0).getX(), ballManager.getBalls().get(0).getY(), ballManager.getBalls().get(0).getWidth() / 2);
                 }
             }
 
