@@ -15,7 +15,7 @@ public abstract class Brick extends GameObject {
         super(x, y, width, height);
         this.destroyed = false;
         this.maxHitPoints = maxHitPoints;
-        this.hitCount = 0;
+        this.hitCount = 0; // dem so lan va cham de tu do co the kiem tra phan degrade (neu co).
         this.color = color;
     }
 
@@ -60,7 +60,6 @@ public abstract class Brick extends GameObject {
         this.hitCount++;
         if (hitCount == maxHitPoints) {
             destroy();
-
         }
         return degradeBrick();
     }

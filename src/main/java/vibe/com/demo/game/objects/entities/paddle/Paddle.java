@@ -25,7 +25,7 @@ public class Paddle extends MovableObject {
 
     public Paddle(double x, double y, double width, double height) {
         super(x, y, width, height);
-        speed = 4;
+        speed = 6;
         this.color = Color.ANTIQUEWHITE;
         image = new Image(getClass().getResourceAsStream("/vibe/com/demo/assets/img/paddle3.png"));
         isDisapper = false;
