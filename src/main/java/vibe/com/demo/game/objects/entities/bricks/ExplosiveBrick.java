@@ -9,11 +9,4 @@ public class ExplosiveBrick extends Brick {
         this.setImg("/vibe/com/demo/assets/img/brick_bom.png");
     }
 
-    /**
-     * Ghi de ham degredeBrick
-     */
-    @Override
-    public Brick degradeBrick() {
-        return null;
-    }
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
-import vibe.com.demo.game.objects.entities.ball.Ball;
+import vibe.com.demo.game.objects.entities.ball.BallManager;
 import vibe.com.demo.game.objects.factories.PowerUpFactory;
 
 public class PowerUpManager {
@@ -38,12 +38,12 @@ public class PowerUpManager {
         powerUps.forEach(powerUp -> powerUp.render(gc));
     }
 
-    public void update(Ball ball) {
+    public void update(BallManager ballManager) {
         powerUps.removeIf(powerup -> powerup.IsOutSideGame(gameHeight));
         System.out.println(powerUps.size());
         powerUps.forEach(PowerUp::update);
         resetTime += (double) 1 / 100;
-        if (resetTime > timeAddNewPowerUp && ball.getDy() < 0) {
+        if (resetTime > timeAddNewPowerUp && ballManager.isIsActive()) {
             resetTime = 0;
             System.out.println("them power up");
             addPowerUp();

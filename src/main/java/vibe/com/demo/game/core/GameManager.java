@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import vibe.com.demo.game.animations.AnimationManager;
 import vibe.com.demo.game.levels.LevelManager;
-import vibe.com.demo.game.objects.entities.ball.Ball;
+import vibe.com.demo.game.objects.entities.ball.BallManager;
 import vibe.com.demo.game.objects.entities.overlay.OverlayObject;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
 import vibe.com.demo.game.objects.entities.powerups.PowerUpManager;
@@ -18,8 +18,8 @@ import vibe.com.demo.service.game.GameProgressService;
 public class GameManager {
 
     private Paddle paddle;
-    private Ball ball;
 
+    private BallManager ballManager;
     private GameState gameState;
 
     private GraphicsContext gc;
@@ -58,7 +58,7 @@ public class GameManager {
         levelManager = new LevelManager(gameProgressService.getSelectedLevel(), gameWidth);
         initializeGameObjects();
         //truyền paddle và ball vào setGameObject của gameEngine  
-        gameEngine.setGameObjects(paddle, ball, levelManager.getCurrentBricks());
+        gameEngine.setGameObjects(paddle, ballManager, levelManager.getCurrentBricks());
         //render lần đầu 
         render();
     }
@@ -76,9 +76,9 @@ public class GameManager {
         System.out.println(gameProgressService.getIdCurrentPaddle(currentUser));
         paddle.setImgFromURL(gameProgressService.getCurrentPaddleImageURL(currentUser));
         // Initialize ball on top of paddle
-        double ballRadius = 10;
-        ball = new Ball(0, 0, ballRadius);
-        ball.reset(paddle);
+
+        ballManager = new BallManager(paddle);
+
         //OverlayInit
         overlay = new OverlayObject(0, 0, gameWidth, gameHeight);
         showOverlay("Nhấn SPACE để bắt đầu");
@@ -108,7 +108,7 @@ public class GameManager {
     }
 
     public void resetballPosition() {
-        ball.reset(paddle);
+        ballManager.resetPosition(paddle);
     }
 
     /**
@@ -137,7 +137,9 @@ public class GameManager {
                 delayShowOverlay("Nhấn R để chơi lại", 1000, GameState.GAME_OVER);
             }
         } else {//dừng game 
-            ball.reset(paddle);//chỉ reset lại vị trí quả bóng 
+            ballManager.setIsActive(false);
+            ballManager.addBallAtPaddle(paddle);
+
         }
     }
 
@@ -167,7 +169,7 @@ public class GameManager {
     }
 
     public void render() {
-        renderer.render(ball, paddle, overlay, levelManager.getCurrentBricks(), animationManager, powerUpManager);
+        renderer.render(ballManager, paddle, overlay, levelManager.getCurrentBricks(), animationManager, powerUpManager);
     }
 
     /**
@@ -192,11 +194,12 @@ public class GameManager {
      */
     public void togglePauseGame() {
         System.out.println(gameState);
-        if (gameState == GameState.PLAYING && ball.isActive()) {
+        if (gameState == GameState.PLAYING && ballManager.isIsActive()) {
             showOverlay("Nhấn SPACE để tiếp tục");
             gameState = GameState.PAUSED;
-        } else if (gameState == GameState.PLAYING && !ball.isActive()) {//khi bị mất bóng  nhưng vẫn còn mạng 
-            ball.launch();
+        } else if (gameState == GameState.PLAYING && !ballManager.isIsActive()) {//khi bị mất bóng  nhưng vẫn còn mạng 
+            ballManager.setIsActive(true);
+            ballManager.start();
         } else if (gameState == GameState.PAUSED) {
             hideOverlay();
             gameState = GameState.PLAYING;
@@ -319,14 +322,6 @@ public class GameManager {
 
     public void setPaddle(Paddle paddle) {
         this.paddle = paddle;
-    }
-
-    public Ball getBall() {
-        return ball;
-    }
-
-    public void setBall(Ball ball) {
-        this.ball = ball;
     }
 
     public GameState getGameState() {

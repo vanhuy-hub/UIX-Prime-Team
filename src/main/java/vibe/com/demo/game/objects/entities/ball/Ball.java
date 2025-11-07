@@ -1,17 +1,13 @@
 package vibe.com.demo.game.objects.entities.ball;
 
-import java.time.Duration;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import vibe.com.demo.game.objects.abstractions.MovableObject;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
 
 public class Ball extends MovableObject {
 
-    private Color color;
     private double speed;
     private boolean isActive;//kiểm tra trạng thái của bóng có hoạt động hay không 
     private boolean isPowerFull;
@@ -24,7 +20,7 @@ public class Ball extends MovableObject {
 
     public Ball(double x, double y, double radius) {
         super(x, y, radius * 2, radius * 2);//do lớp cha chỉ có hàm khởi tạo có tham số, nên lớp con bắt buộc phải có 1 hàm khởi tạo và gọi đến hàm khởi tạo của hàm cha bằng từ khóa super (Params...)
-        this.color = Color.WHITE;
+
         speed = 4;
         this.isActive = false;
         this.isPowerFull = false;
@@ -88,7 +84,10 @@ public class Ball extends MovableObject {
 
     //phương thức reset(khi chơi lại từ đầu)
     /**
-     * Gọi isActive=false, đồng thời chỉnh lại vị trí của ball
+     * hàm Reset tọa độ của quả bóng để bóng luôn dính vào paddle khi mất bóng
+     * lần thứ nhất , lần thứ và khi gameReady.
+     *
+     * @param paddle.
      */
     public void reset(Paddle paddle) {
         setRandomVeclocity();

@@ -4,7 +4,7 @@ import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
 import vibe.com.demo.game.animations.AnimationManager;
-import vibe.com.demo.game.objects.entities.ball.Ball;
+import vibe.com.demo.game.objects.entities.ball.BallManager;
 import vibe.com.demo.game.objects.entities.bricks.Brick;
 import vibe.com.demo.game.objects.entities.overlay.OverlayObject;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
@@ -22,7 +22,7 @@ public class Renderer {
         this.gameWidth = gameWidth;
     }
 
-    public void render(Ball ball, Paddle paddle, OverlayObject overlay, List<Brick> bricks, AnimationManager animationManager, PowerUpManager powerUps) {
+    public void render(BallManager ball, Paddle paddle, OverlayObject overlay, List<Brick> bricks, AnimationManager animationManager, PowerUpManager powerUps) {
         gc.clearRect(0, 0, gameWidth, gameHeight);//clear canvas 
         ball.render(gc);
         paddle.render(gc);
