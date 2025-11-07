@@ -10,7 +10,7 @@ public class BallManager {
 
     private List<Ball> balls;
     private boolean isActive;
-
+// constructor de tao ball va cho vao paddle 
     public BallManager(Paddle paddle) {
         balls = new ArrayList<>();
         addBallAtPaddle(paddle);
