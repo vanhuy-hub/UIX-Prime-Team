@@ -52,6 +52,7 @@ public class AnimationManager {
     }
 
     public void clear() {
+
         activeSpriteAnimations.clear();
     }
 }

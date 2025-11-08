@@ -72,7 +72,7 @@ public class GameManager {
         this.gameEngine.setGameObjects(paddle, ballManager, levelManager.getCurrentBricks());
         //render lần đầu 
         render();
-        powerUpManager.startTimer();
+
     }
 
     // /**
@@ -100,12 +100,13 @@ public class GameManager {
         //OverlayInit
         overlay = new OverlayObject(0, 0, gameWidth, gameHeight);
         showOverlay("Nhấn SPACE để bắt đầu");
-        
+
         PauseTransition pause = new PauseTransition(Duration.millis(1500));
         pause.setOnFinished(e -> {
             this.hideOverlay();
             gameState = GameState.PLAYING;
             gameEngine.startGameLoop();
+            powerUpManager.startTimer();
         });
         pause.play();
     }
@@ -151,8 +152,7 @@ public class GameManager {
         gameEngine.stopGameLoop();
         powerUpManager.clear();
         animationManager.clear();
-        levelManager.resetCurrentLevel();
-        gameDataModel.resetGameSession();
+
     }
 
     /**
@@ -167,7 +167,6 @@ public class GameManager {
             this.gameProgressService.completeLevel(currentUser, levelManager.getCurrentLevel());
         }
     }
-   
 
     public void delayShowOverlay(String message, long ms, GameState gameState) {
         PauseTransition pause = new PauseTransition(Duration.millis(ms));
@@ -207,6 +206,7 @@ public class GameManager {
         if (gameState == GameState.PLAYING && ballManager.isActive()) {
             showOverlay("Nhấn SPACE để tiếp tục");
             gameState = GameState.PAUSED;
+            powerUpManager.stopTimer();
         } else if (gameState == GameState.PLAYING && !ballManager.isActive()) {//khi bị mất bóng  nhưng vẫn còn mạng 
             ballManager.setIsActive(true);
             ballManager.start();
@@ -261,8 +261,9 @@ public class GameManager {
 
     /**
      * tăng vàng /
+     *
      * @param coins
-    */ 
+     */
     public void addCoinEarn(int coins) {
         this.gameProgressService.addCoins(currentUser, coins);
     }

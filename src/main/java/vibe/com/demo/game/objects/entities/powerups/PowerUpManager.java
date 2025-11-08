@@ -40,7 +40,7 @@ public class PowerUpManager {
         int randNumber = (int) Math.round((Math.random() * 6));
         double positionX = 50 + Math.random() * (GameConstants.GAME_WIDTH - 100);
         double positionY = -100;
-        powerUps.add(PowerUpFactory.createPowerUp(5, positionX, positionY));
+        powerUps.add(PowerUpFactory.createPowerUp(randNumber, positionX, positionY));
     }
 
     public void render(GraphicsContext gc) {
@@ -63,9 +63,18 @@ public class PowerUpManager {
         timer.stop();
     }
 
+    /**
+     * Xoa time line.
+     */
     public void clear() {
-        stopTimer();
-        powerUps.clear();
+        if (timer != null) {
+            timer.stop();
+            timer.getKeyFrames().clear();
+            timer = null;
+        }
+        if (powerUps != null) {
+            powerUps.clear();
+        }
     }
 
     public List<PowerUp> getPowerUps() {

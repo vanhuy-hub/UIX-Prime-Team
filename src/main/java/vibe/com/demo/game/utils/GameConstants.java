@@ -13,8 +13,8 @@ public class GameConstants {
     /**
      * Level constants
      */
-    public static final double BRICK_WIDTH = 90; // Giảm nhẹ để fit 20 levels
-    public static final double BRICK_HEIGHT = 25;
+    public static final double BRICK_WIDTH = 80; // Giảm nhẹ để fit 20 levels
+    public static final double BRICK_HEIGHT = 30;
 
     // Khoảng cách
     public static final double COL_GAP = 12;
@@ -36,7 +36,7 @@ public class GameConstants {
     /**
      * gia tốc.
      */
-    public static final double acceleration = 1.02;
+    public static final double ACCELERATION = 1.05;
 
     /**
      * Paddle constants
@@ -49,10 +49,11 @@ public class GameConstants {
     /**
      * Powerup constants
      */
-    public static final double POWERUP_DURATION = 10;
+    public static final double POWERUP_DURATION = 8;
     public static final double FIRE_BALL_DURATION = 5;
     public static final double EXPAND_PADDLE_DURATION = 5;
     public static final double POWERUP_DY = 5;
     public static final double POWERUP_DX = 0;
+    public static final int BONUS = 20;
 
 }

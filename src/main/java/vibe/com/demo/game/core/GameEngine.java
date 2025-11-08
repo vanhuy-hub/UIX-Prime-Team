@@ -98,8 +98,10 @@ public class GameEngine {
         paddle.update();
         powerUpManager.update();
         if (ballManager.isActive()) {
+            powerUpManager.startTimer();
             ballManager.update();
         } else {
+            powerUpManager.stopTimer();
             ballManager.resetPosition(paddle);
         }
         constrainObjects();
@@ -211,10 +213,12 @@ public class GameEngine {
         explosiveQueue.offer(explosiveBrick);//thêm bằng offer
         //while thay vì đệ quy 
         while (!explosiveQueue.isEmpty()) {
+
             //lấy viên gạch  đầu tiên đồng thời xóa 
             Brick currentBrick = explosiveQueue.poll();
 
             if (bricksToRemove.contains(currentBrick)) {
+
                 //dừng lại nếu có trong mảng remove rồi tránh bị lặp vô hạn lần 
                 continue;
             }
@@ -222,8 +226,8 @@ public class GameEngine {
             bricksToRemove.add(currentBrick);
             double brickX = currentBrick.getX();//vị trí hiện tại ở trong cha của nó (game canvas)
             double brickY = currentBrick.getY();
-            double brickWidth = gameManager.getGameWidth();
-            double brickHeight = gameManager.getGameHeight();
+            double brickWidth = currentBrick.getWidth();
+            double brickHeight = currentBrick.getHeight();
             double colGap = GameConstants.COL_GAP;
             double rowGap = GameConstants.ROW_GAP;
             //direction~ vị trí tương đối so với gạch hiện tại : Trên , Dưới , Trái Phải  
@@ -290,12 +294,13 @@ public class GameEngine {
             if (this.collisionDetector.basicCollision(paddle, powerUpItem)) {
                 audioManager.playSoundEffect("collect");
                 powerUps.remove(i);
+
                 if (powerUpItem.getClass() == CoinPowerUp.class) {
-                    gameManager.addCoinEarn(100);
+                    gameManager.addCoinEarn(GameConstants.BONUS);
                 } else if (powerUpItem instanceof ExpandPaddlePowerUp) {
                     paddle.expand();
                 } else if (powerUpItem instanceof SlowBallPowerUp) {
-                    ballManager.decreaseVeclocity(1.3);
+                    ballManager.decreaseVeclocity(GameConstants.ACCELERATION);
                 } else if (powerUpItem instanceof ExtraLifePowerUp) {
                     gameManager.increaseLives();
                 } else if (powerUpItem instanceof FireBallPowerUp) {
@@ -303,8 +308,8 @@ public class GameEngine {
                 } else if (powerUpItem instanceof MultiplyBall) {
                     this.ballManager.addBall(1, ballManager.getBalls().get(0).getX(), ballManager.getBalls().get(0).getY(), ballManager.getBalls().get(0).getWidth() / 2);
                 }
-            }
 
+            }
         }
     }
 

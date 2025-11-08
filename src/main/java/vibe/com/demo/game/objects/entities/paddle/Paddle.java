@@ -77,7 +77,7 @@ public class Paddle extends MovableObject {
     }
 
     public void expand() {
-        if (this.width == GameConstants.PADDLE_EXPAND_WIDTH) {
+        if (this.width == GameConstants.PADDLE_NORMAL_WIDTH) {
             this.width = GameConstants.PADDLE_EXPAND_WIDTH;
             this.x = this.x - (GameConstants.PADDLE_EXPAND_WIDTH - GameConstants.PADDLE_NORMAL_WIDTH) / 2;
         }

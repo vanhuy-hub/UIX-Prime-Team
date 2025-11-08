@@ -12,8 +12,7 @@ public abstract class Brick extends GameObject {
 
     @Override
     public void render(GraphicsContext gc) {
-        gc.clearRect(x, y, getWidth(), getHeight());
-        gc.drawImage(image, x, y);
+        gc.drawImage(image, x, y, getWidth(), getHeight());
 
     }
 
@@ -21,9 +20,7 @@ public abstract class Brick extends GameObject {
      * Hàm trả về Brick ở mức hạ thấp hơn , các hàm con có thể kế thừa (đặc biệt
      * là lop Strong)
      */
-    public Brick degradeBrick() {
-        return null;
-    }
+    public abstract Brick degradeBrick();
 
     @Override
     public void update() {

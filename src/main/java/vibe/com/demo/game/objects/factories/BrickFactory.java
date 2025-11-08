@@ -22,7 +22,7 @@ public class BrickFactory {
             case 'E'://ExplosiveBrick
                 return new ExplosiveBrick(x, y, width, height);
             default:
-                return null;
+                return new NormalBrick(x, y, width, height);
         }
     }
 }

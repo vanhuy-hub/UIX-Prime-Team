@@ -227,6 +227,7 @@ public class GameViewController implements BaseController {
     @FXML
     public void handleNextLevel() {
         if (!nextButton.isDisable()) {
+            clearGameView();
             System.out.println("Khong bi khoa");
             nextButton.setText("Next Level ...");
             nextButton.setDisable(true);
