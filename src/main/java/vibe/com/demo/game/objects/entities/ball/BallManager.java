@@ -18,7 +18,7 @@ public class BallManager {
         this.isActive = false;
         setActiveBalls();
     }
-//""
+//
     public void start() {
         balls.get(0).launch();
     }

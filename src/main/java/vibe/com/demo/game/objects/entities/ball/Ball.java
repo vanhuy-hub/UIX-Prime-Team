@@ -82,7 +82,7 @@ public class Ball extends MovableObject {
      * hàm Reset tọa độ của quả bóng để bóng luôn dính vào paddle khi mất bóng
      * lần thứ nhất , lần thứ và khi gameReady.
      *
-     * @param paddle.
+     * @param paddle
      */
     public void reset(Paddle paddle) {
         setRandomVeclocity();
