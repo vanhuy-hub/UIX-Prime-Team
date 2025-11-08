@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import vibe.com.demo.MainApp;
+import vibe.com.demo.game.utils.GameConstants;
 import vibe.com.demo.model.user.User;
 import vibe.com.demo.service.ServiceLocator;
 import vibe.com.demo.service.audio.AudioService;
@@ -32,7 +33,6 @@ public class LevelMenuController implements BaseController {
     private User currentUser = authService.getCurrentUser();
     private GameProgressService gameProgressService = ServiceLocator.getInstance().getGameProgressService();
 
-    private int totalLevels;
     private int completedLevels;
 
     private static final int LEVELS_PER_ROW = 5; // mỗi hàng có 5 level
@@ -45,7 +45,7 @@ public class LevelMenuController implements BaseController {
 
     @FXML
     private void initialize() {
-        totalLevels = 20;
+
         completedLevels = gameProgressService.getTrophies(currentUser);
         renderLevelGrid();
         updateCompleteLabel();
@@ -61,11 +61,11 @@ public class LevelMenuController implements BaseController {
         }
     }
 
-    // ---------------- Business logic ----------------
+    // Vẽ level chơi.
     private void renderLevelGrid() {
         int row = 0, col = 0;
 
-        for (int i = 1; i <= totalLevels; i++) {
+        for (int i = 1; i <= GameConstants.MAX_LEVELS; i++) {
             Button levelItem = new Button();
             levelItem.getStyleClass().add("level-button");
 
@@ -101,16 +101,7 @@ public class LevelMenuController implements BaseController {
     }
 
     private void updateCompleteLabel() {
-        completeLabel.setText("Hoàn thành: " + completedLevels + "/" + totalLevels);
-    }
-
-    // ---------------- Getter/Setter ----------------
-    public int getTotalLevels() {
-        return totalLevels;
-    }
-
-    public void setTotalLevels(int totalLevels) {
-        this.totalLevels = totalLevels;
+        completeLabel.setText("Hoàn thành: " + completedLevels + "/" + GameConstants.MAX_LEVELS);
     }
 
     public int getCompletedLevels() {

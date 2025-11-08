@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import vibe.com.demo.game.utils.GameConstants;
 import vibe.com.demo.model.user.User;
 import vibe.com.demo.service.database.dao.objectdao.UserDao;
 
@@ -17,8 +18,8 @@ public class GameProgressService {
         return coinsOfCurrentUser;
     }
 
-    public void setCoins(int coins) {
-        this.coinsOfCurrentUser.set(coins);
+    public void setCoins(User user) {
+        this.coinsOfCurrentUser.set(user.getPlayerProgress().getCoins());
     }
 
     //========
@@ -60,8 +61,8 @@ public class GameProgressService {
             // Chỉ +1 trophy nếu hoàn thành level hiện tại
             user.getPlayerProgress().addTrophy();
             // Thưởng coins
-            System.out.println(level);
-            int coinsReward = level * 5000;
+
+            int coinsReward = level * GameConstants.REWARDS;
             user.getPlayerProgress().addCoins(coinsReward);
             updateCoinsProperty(user);
             // cap nhat co so du lieu 
@@ -71,7 +72,7 @@ public class GameProgressService {
 
     //logic - coin khi mua do 
     public void updateCoinsProperty(User user) {
-        setCoins(user.getPlayerProgress().getCoins());
+        setCoins(user);
     }
 
     public int getCurrentLevel(User user) {
@@ -80,9 +81,7 @@ public class GameProgressService {
 
     // kiem tra 
     public boolean isLockedNextButton(User user) {
-        System.out.println("selected: " + selectedLevel);
-        System.out.println("currentLevel: " + getCurrentLevel(user));
-        return getSelectedLevel() == 20 || selectedLevel.get() == getCurrentLevel(user);
+        return getSelectedLevel() == GameConstants.MAX_LEVELS || selectedLevel.get() == getCurrentLevel(user);
     }
 
     public boolean canBuyPaddle(User user, int amount) {
@@ -122,7 +121,10 @@ public class GameProgressService {
         UserDao.getInstance().update(user);
     }
 
-    //get imgURL với id item tương ứng 
+    /**
+     * lấy imgURL với id item tương ứng
+     *
+     */
     public String getCurrentPaddleImageURL(User user) {
         switch (user.getPlayerProgress().getIdCurrentPaddle()) {
             case "item1":
@@ -156,6 +158,12 @@ public class GameProgressService {
         return topPlayers;
     }
 
+    /**
+     * Lấy thứ tự của người chơi hiện tại.
+     *
+     * @param user
+     * @return
+     */
     public int getUserRanking(User user) {
         List<User> playersOrderByTrophies = UserDao.getInstance().selectPlayersOrderByTrophies();
         for (int i = 0; i < playersOrderByTrophies.size(); i++) {

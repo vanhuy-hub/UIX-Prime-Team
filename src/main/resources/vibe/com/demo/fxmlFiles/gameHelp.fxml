@@ -128,7 +128,7 @@
                 <VBox styleClass="powerup-card" GridPane.columnIndex="0" alignment="CENTER" spacing="10" prefWidth="200">
                   <ImageView fitWidth="42" fitHeight="42" preserveRatio="true">
                     <image>
-                      <Image url="@../assets/img/flash.png"/>
+                      <Image url="@../assets/img/multiply_ball.png"/>
                     </image>
                   </ImageView>
                   <Label text="Đa Bóng" styleClass="card-title"/>
@@ -146,11 +146,11 @@
                 <VBox styleClass="powerup-card" GridPane.columnIndex="2" alignment="CENTER" spacing="10" prefWidth="200">
                   <ImageView fitWidth="42" fitHeight="42" preserveRatio="true">
                     <image>
-                      <Image url="@../assets/img/gun.png"/>
+                      <Image url="@../assets/img/heart.png"/>
                     </image>
                   </ImageView>
-                  <Label text="Laser" styleClass="card-title"/>
-                  <Label alignment="CENTER" text="Bắn laser phá khối" wrapText="true" styleClass="card-text" maxWidth="160"/>
+                  <Label text="Mạng" styleClass="card-title"/>
+                  <Label alignment="CENTER" text="Cộng 1 mạng" wrapText="true" styleClass="card-text" maxWidth="160"/>
                 </VBox>
                 <VBox styleClass="powerup-card" GridPane.columnIndex="3" alignment="CENTER" spacing="10" prefWidth="200">
                   <ImageView fitWidth="42" fitHeight="42" preserveRatio="true">
@@ -189,78 +189,9 @@
                   <Label text="Chậm" styleClass="card-title"/>
                   <Label alignment="CENTER" text="Làm chậm bóng" wrapText="true" styleClass="card-text" maxWidth="160"/>
                 </VBox>
-                <VBox styleClass="powerup-card" GridPane.rowIndex="1" GridPane.columnIndex="3" alignment="CENTER" spacing="10" prefWidth="200">
-                  <ImageView fitWidth="42" fitHeight="42" preserveRatio="true">
-                    <image>
-                      <Image url="@../assets/img/heart.png"/>
-                    </image>
-                  </ImageView>
-                  <Label text="Mạng" styleClass="card-title"/>
-                  <Label alignment="CENTER" text="Cộng 1 mạng" wrapText="true" styleClass="card-text" maxWidth="160"/>
-                </VBox>
               </GridPane>
             </VBox>
             <!-- Section: Mẹo Chơi Hay (2 cột) -->
-            <VBox spacing="16" styleClass="section-modal">
-              <HBox spacing="12" alignment="CENTER_LEFT">
-                <ImageView fitWidth="32" fitHeight="32" preserveRatio="true">
-                  <image>
-                    <Image url="@../assets/img/idea.png"/>
-                  </image>
-                </ImageView>
-                <Label text="Mẹo Chơi Hay" styleClass="section-title-green"/>
-              </HBox>
-              <GridPane hgap="100" vgap="20" alignment="CENTER_LEFT">
-                <!-- left col -->
-                <VBox spacing="8" GridPane.columnIndex="0">
-                  <HBox spacing="12" alignment="CENTER_LEFT">
-                    <ImageView fitWidth="24" fitHeight="24" preserveRatio="true">
-                      <image>
-                        <Image url="@../assets/img/goc.png"/>
-                      </image>
-                    </ImageView>
-                    <Label text="Kiểm Soát Góc" styleClass="sub-title"/>
-                  </HBox>
-                  <Label text="Đánh bóng ở giữa paddle để bay thẳng, ở cạnh để tạo góc." wrapText="true" styleClass="sub-text" maxWidth="420"/>
-                </VBox>
-                <!-- right col -->
-                <VBox spacing="8" GridPane.columnIndex="1">
-                  <HBox spacing="12" alignment="CENTER_LEFT">
-                    <ImageView fitWidth="24" fitHeight="24" preserveRatio="true">
-                      <image>
-                        <Image url="@../assets/img/wall.png"/>
-                      </image>
-                    </ImageView>
-                    <Label text="Sử Dụng Tường" styleClass="sub-title"/>
-                  </HBox>
-                  <Label text="Dùng tường để bóng nảy đến vị trí khó tiếp cận." wrapText="true" styleClass="sub-text" maxWidth="420"/>
-                </VBox>
-                <!-- left row 2 -->
-                <VBox spacing="8" GridPane.rowIndex="1" GridPane.columnIndex="0">
-                  <HBox spacing="12" alignment="CENTER_LEFT">
-                    <ImageView fitWidth="24" fitHeight="24" preserveRatio="true">
-                      <image>
-                        <Image url="@../assets/img/flash.png"/>
-                      </image>
-                    </ImageView>
-                    <Label text="Ưu Tiên Power-up" styleClass="sub-title"/>
-                  </HBox>
-                  <Label text="Luôn phá khối power-up trước để có lợi thế." wrapText="true" styleClass="sub-text" maxWidth="420"/>
-                </VBox>
-                <!-- right row 2 -->
-                <VBox spacing="8" GridPane.rowIndex="1" GridPane.columnIndex="1">
-                  <HBox spacing="12" alignment="CENTER_LEFT">
-                    <ImageView fitWidth="24" fitHeight="24" preserveRatio="true">
-                      <image>
-                        <Image url="@../assets/img/blast.png"/>
-                      </image>
-                    </ImageView>
-                    <Label text="Khối Nổ Cuối" styleClass="sub-title"/>
-                  </HBox>
-                  <Label text="Để khối nổ cuối cùng để dọn sạch nhiều khối." wrapText="true" styleClass="sub-text" maxWidth="420"/>
-                </VBox>
-              </GridPane>
-            </VBox>
           </VBox>
         </HBox>
       </content>

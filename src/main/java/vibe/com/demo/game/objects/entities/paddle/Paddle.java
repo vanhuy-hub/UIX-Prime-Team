@@ -7,17 +7,15 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import vibe.com.demo.game.objects.abstractions.MovableObject;
+import vibe.com.demo.game.utils.GameConstants;
 //paddle chỉ di truyển sang trái hoặc phải nên chỉ cần tác động vào giá trị dx, t cộng speed / -speed 
 
 public class Paddle extends MovableObject {
 
-    private double speed = 6;
+    private double speed;
     private Color color;
     private boolean isMovingLeft = false;
     private boolean isMovingRight = false;
-    public static final int PADDLE_NORMAL_WIDTH = 140;
-    public static final int PADDLE_NORMAL_HEIGHT = 40;
-    public static final int PADDLE_EXPAND_WIDTH = 180;
     private boolean isDisapper;
 
     // timeline để kiểm soát shrink 
@@ -25,7 +23,7 @@ public class Paddle extends MovableObject {
 
     public Paddle(double x, double y, double width, double height) {
         super(x, y, width, height);
-        speed = 4;
+        speed = GameConstants.PADDLE_BASE_SPEED;
         this.color = Color.ANTIQUEWHITE;
         image = new Image(getClass().getResourceAsStream("/vibe/com/demo/assets/img/paddle3.png"));
         isDisapper = false;
@@ -48,7 +46,7 @@ public class Paddle extends MovableObject {
 
     }
 
-    public void disapper() {
+    public void disappear() {
         this.isDisapper = true;
     }
 
@@ -68,25 +66,20 @@ public class Paddle extends MovableObject {
         this.dx = 0;//reset trước rồi mới cập nhật 
 
         if (isMovingLeft && !isMovingRight) {
-
             dx = -speed;
         } else if (!isMovingLeft && isMovingRight) {
-
             dx = speed;
         }
 
         //gọi đến hàm update của cha để cập nhật vị trí 
         super.update();
-        //giữ để paddle không vượt quá giới hạn 
-        if (this.x < 0) {
-            this.x = 0;
-        }
+
     }
 
     public void expand() {
-        if (this.width == PADDLE_NORMAL_WIDTH) {
-            this.width = PADDLE_EXPAND_WIDTH;
-            this.x = this.x - (PADDLE_EXPAND_WIDTH - PADDLE_NORMAL_WIDTH) / 2;
+        if (this.width == GameConstants.PADDLE_EXPAND_WIDTH) {
+            this.width = GameConstants.PADDLE_EXPAND_WIDTH;
+            this.x = this.x - (GameConstants.PADDLE_EXPAND_WIDTH - GameConstants.PADDLE_NORMAL_WIDTH) / 2;
         }
         startShrinkTimeline();
     }
@@ -96,7 +89,7 @@ public class Paddle extends MovableObject {
             shrinkTimeLine.stop();
         }
         shrinkTimeLine = new Timeline(
-                new KeyFrame(Duration.seconds(5), e -> {
+                new KeyFrame(Duration.seconds(GameConstants.EXPAND_PADDLE_DURATION), e -> {
                     this.shrink();
                 })
         );
@@ -104,9 +97,9 @@ public class Paddle extends MovableObject {
     }
 
     public void shrink() {
-        if (this.width == PADDLE_EXPAND_WIDTH) {
-            this.width = PADDLE_NORMAL_WIDTH;
-            this.x = this.x + (PADDLE_EXPAND_WIDTH - PADDLE_NORMAL_WIDTH) / 2;
+        if (this.width == GameConstants.PADDLE_EXPAND_WIDTH) {
+            this.width = GameConstants.PADDLE_NORMAL_WIDTH;
+            this.x = this.x + (GameConstants.PADDLE_EXPAND_WIDTH - GameConstants.PADDLE_NORMAL_WIDTH) / 2;
         }
     }
 
@@ -155,8 +148,8 @@ public class Paddle extends MovableObject {
         return image;
     }
 
-    public void setImgFromURL(String url) {
-        this.image = new Image(getClass().getResourceAsStream("/vibe/com/demo/assets/img/" + url + ""));
+    public void setImgFromURL(String path) {
+        this.image = new Image(getClass().getResourceAsStream("/vibe/com/demo/assets/img/" + path + ""));
     }
 
 }

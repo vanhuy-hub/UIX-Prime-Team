@@ -6,7 +6,7 @@ public class CoinPowerUp extends PowerUp {
 
     public CoinPowerUp(double x, double y) {
         super(x, y, 32, 32);
-        this.image = new Image(getClass().getResourceAsStream("/vibe/com/demo/assets/img/coin.png"));
+        this.setImg("/vibe/com/demo/assets/img/coin.png");
     }
 
 }

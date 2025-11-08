@@ -75,7 +75,6 @@ public class SignupController extends FormController {
     }
 
     public boolean isValidateSignUp(String username, String playerName, String password, String confirmPassword) {
-
         if (!username.matches("^[a-zA-Z0-9]+$")) {//dùng biểu thức chính quy để kiểm tra
             // System.out.println("Loi user name");
             showError("Tên đăng nhập không phù hợp ❌!");

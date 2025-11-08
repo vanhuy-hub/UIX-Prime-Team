@@ -31,12 +31,14 @@ public class AudioService {
     // === PRELOAD ÂM THANH ===
     public void preLoadSounds() {
         //load music
-        loadBackgoundMusic("nhacnen", "/vibe/com/demo/assets/sounds/mu.mp3");
-        loadBackgoundMusic("lobbyMusic", "/vibe/com/demo/assets/sounds/lobbyMusic.mp3");
-        loadBackgoundMusic("playgame", "/vibe/com/demo/assets/sounds/playgame.mp3");
+        loadBackgoundMusic("background", "/vibe/com/demo/assets/sounds/background.mp3");
+
         // load audioclip
         loadSoundEffect("clicksound", "/vibe/com/demo/assets/sounds/clickSound.mp3");
 
+        loadSoundEffect("collect", "/vibe/com/demo/assets/sounds/collect.mp3");
+        loadSoundEffect("win", "/vibe/com/demo/assets/sounds/victory.mp3");
+        loadSoundEffect("lose", "/vibe/com/demo/assets/sounds/lose.mp3");
     }
 
     // === LOAD BACKGROUND MUSIC (MediaPlayer) ===
@@ -45,9 +47,7 @@ public class AudioService {
         System.out.println(musicUrl);
         if (musicUrl != null) {
             Media media = new Media(musicUrl.toExternalForm());
-            System.out.println("media" + media);
             MediaPlayer mediaPlayer = new MediaPlayer(media);
-            System.out.println("player");
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);//lap vo tan 
             backGroundMusic.put(key, mediaPlayer);
         }
@@ -93,7 +93,7 @@ public class AudioService {
         System.out.println(soundEffects.get(key));
         AudioClip clip = soundEffects.get(key);
         if (clip != null) {
-            // clip.play();
+            clip.play();
             System.out.println("🔊 Playing sound: " + key);
         }
     }
@@ -110,14 +110,12 @@ public class AudioService {
         double validVolume = Math.max(0, Math.min(1, volume));//để đỡ bị sai khi truyền giá trị lỗi vào 
         //để xét tất cả nhạc nền cùng 
         if (this.currentMusic != null) {
-            System.out.println("set am thanh");
             currentMusic.setVolume(validVolume);
         }
     }
 
     public void setAudioVolume(double volume) {
         double validVolume = Math.max(0, Math.min(1, volume));//để đỡ bị sai khi truyền giá trị lỗi vào 
-
         //để xét tất cả hiệu ứng ngắn có volumn nhỏ cùng lúc ta dùng forEach 
         soundEffects.values().forEach(clip -> clip.setVolume(validVolume));
     }

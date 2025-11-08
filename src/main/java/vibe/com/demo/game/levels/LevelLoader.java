@@ -5,6 +5,7 @@ import java.util.List;
 
 import vibe.com.demo.game.objects.entities.bricks.Brick;
 import vibe.com.demo.game.objects.factories.BrickFactory;
+import vibe.com.demo.game.utils.GameConstants;
 
 public class LevelLoader {
 
@@ -21,18 +22,18 @@ public class LevelLoader {
         int rows = map.length;
         double mapWidth = LevelConfig.calculateMapWidth(cols);
         double startX = LevelConfig.calculateStartX(cols, gameWidth);
-        double startY = LevelConfig.START_Y;
+        double startY = GameConstants.START_Y;
         List<Brick> bricks = new ArrayList<>();
         for (int i = 0; i < rows; i++) {
             double x = startX;
             for (int j = 0; j < cols; j++) {
                 double y = startY;
                 if (map[i][j] != '0') {
-                    bricks.add(BrickFactory.createBrickFromChar(map[i][j], x, y, LevelConfig.BRICK_WIDTH, LevelConfig.BRICK_HEIGHT));
+                    bricks.add(BrickFactory.createBrickFromChar(map[i][j], x, y, GameConstants.BRICK_WIDTH, GameConstants.BRICK_HEIGHT));
                 }
-                x += (LevelConfig.COL_GAP + LevelConfig.BRICK_WIDTH);
+                x += (GameConstants.COL_GAP + GameConstants.BRICK_WIDTH);
             }
-            startY += (LevelConfig.ROW_GAP + LevelConfig.BRICK_HEIGHT);
+            startY += (GameConstants.ROW_GAP + GameConstants.BRICK_HEIGHT);
         }
         System.out.println("map da tao xong");
         return bricks;

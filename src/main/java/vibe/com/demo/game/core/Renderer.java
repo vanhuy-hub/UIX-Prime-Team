@@ -22,6 +22,16 @@ public class Renderer {
         this.gameWidth = gameWidth;
     }
 
+    /**
+     * Render tất cả đối tượng .
+     *
+     * @param ball
+     * @param paddle
+     * @param overlay
+     * @param bricks
+     * @param animationManager
+     * @param powerUps
+     */
     public void render(BallManager ball, Paddle paddle, OverlayObject overlay, List<Brick> bricks, AnimationManager animationManager, PowerUpManager powerUps) {
         gc.clearRect(0, 0, gameWidth, gameHeight);//clear canvas 
         ball.render(gc);
@@ -32,6 +42,5 @@ public class Renderer {
         animationManager.render(gc);
         powerUps.render(gc);
         overlay.render(gc);
-
     }
 }

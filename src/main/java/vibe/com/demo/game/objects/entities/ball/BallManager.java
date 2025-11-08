@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.scene.canvas.GraphicsContext;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
+import vibe.com.demo.game.utils.GameConstants;
 
 public class BallManager {
 
@@ -19,23 +20,30 @@ public class BallManager {
     }
 
     public void start() {
-        balls.forEach(ball -> ball.launch());
+        balls.get(0).launch();
     }
 
     public void setActiveBalls() {
-        balls.forEach(ball -> ball.setIsActive(this.isActive));
+        for (Ball ball : balls) {
+            ball.setIsActive(this.isActive);
+        }
+
     }
 
     public void render(GraphicsContext renderer) {
-        balls.forEach(ball -> ball.render(renderer));
+        for (Ball ball : balls) {
+            ball.render(renderer);
+        }
     }
 
     public void update() {
-        balls.forEach(ball -> ball.update());
+        for (Ball ball : balls) {
+            ball.update();
+        }
     }
 
     public void addBall(int count, double x, double y, double radius) {
-        while (count-- > 0) {
+        while (this.isActive && count-- > 0 && balls.size() < GameConstants.MAX_BALLS_SIZE) {
             Ball newBall = new Ball(x, y, radius);
             balls.add(newBall);
             newBall.launch();
@@ -43,14 +51,12 @@ public class BallManager {
     }
 
     public void addBallAtPaddle(Paddle paddle) {
-
-        Ball newBall = new Ball(0, 0, 10);
+        Ball newBall = new Ball(0, 0, GameConstants.BALL_RADIUS);
         newBall.reset(paddle);
         balls.add(newBall);
-
     }
 
-    public boolean isIsActive() {
+    public boolean isActive() {
         return isActive;
     }
 
@@ -85,13 +91,6 @@ public class BallManager {
     public void fireBallActive() {
         // TODO Auto-generated method stub
         balls.forEach(ball -> ball.fireBallActive());
-    }
-
-    public void setIsSticky(boolean b) {
-        // TODO Auto-generated method stub
-        if (balls.size() == 1) {
-            balls.forEach(ball -> ball.setIsSticky(true));
-        }
     }
 
 }

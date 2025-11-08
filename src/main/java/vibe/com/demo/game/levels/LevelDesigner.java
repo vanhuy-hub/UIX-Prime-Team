@@ -23,17 +23,23 @@ public class LevelDesigner {
     public static void initialize() {
         // Level 1 - Cơ bản (Easy)
         LEVEL_DESIGNS.put(1, new Character[][]{
-            {'E'}
+            {'1', ' ', ' ', ' ', ' ', ' ', '1'},
+            {'1', '1', ' ', ' ', ' ', '1', '1'},
+            {'1', '1', '1', ' ', '1', '1', '1'}
         });
 
         // Level 2 - Hàng rào (Easy)
         LEVEL_DESIGNS.put(2, new Character[][]{
-            {'1', '1'}
+            {' ', '1', ' ', ' ', '1', ' '},
+            {'1', '1', '1', '1', '1', '1'},
+            {' ', '1', '1', '1', '1', ' '}
         });
 
         // Level 3 - Pyramid (Easy)
         LEVEL_DESIGNS.put(3, new Character[][]{
-            {'1', '1', '1'}
+            {'2', '2', '2', '2', '2', '2', '2'},
+            {'1', '1', '1', '1', '1', '1', '1'},
+            {'1', '1', '1', '1', '1', '1', '1'}
         });
 
         // Level 4 - Checkerboard (Easy-Medium)

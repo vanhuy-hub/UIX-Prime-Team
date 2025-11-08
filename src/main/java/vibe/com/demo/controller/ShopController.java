@@ -116,7 +116,7 @@ public class ShopController implements BaseController {
     }
 
     public void setDataBinding() {
-        gameProgressService.setCoins(gameProgressService.getCoins(currentUser));
+        gameProgressService.setCoins(currentUser);
         coinLabel.textProperty().bind(gameProgressService.getCoinsProperty().asString());
     }
 

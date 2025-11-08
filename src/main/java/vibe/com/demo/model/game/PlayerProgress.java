@@ -3,6 +3,8 @@ package vibe.com.demo.model.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import vibe.com.demo.game.utils.GameConstants;
+
 public class PlayerProgress {
 
     private int coins;
@@ -60,7 +62,7 @@ public class PlayerProgress {
 
     // level suy ra từ trophies hiện tại : 
     public int getCurrentLevel() {
-        return (trophies + 1) <= 20 ? trophies + 1 : 20;
+        return (trophies + 1) <= GameConstants.MAX_LEVELS ? trophies + 1 : GameConstants.MAX_LEVELS;
     }
 
     //

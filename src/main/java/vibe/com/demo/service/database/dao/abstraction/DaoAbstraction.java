@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Function;
 
 import vibe.com.demo.service.database.utils.DatabaseConnection;
@@ -42,7 +41,6 @@ public abstract class DaoAbstraction<T> {
         } finally {
             DatabaseConnection.closeConnection();
         }
-
         return false;
     }
 

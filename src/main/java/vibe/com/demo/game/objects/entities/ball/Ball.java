@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.scene.canvas.GraphicsContext;
 import vibe.com.demo.game.objects.abstractions.MovableObject;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
+import vibe.com.demo.game.utils.GameConstants;
 
 public class Ball extends MovableObject {
 
@@ -12,7 +13,6 @@ public class Ball extends MovableObject {
     private boolean isActive;//kiểm tra trạng thái của bóng có hoạt động hay không 
     private boolean isPowerFull;
     private Timeline fireBallTimeline;
-    private boolean isSticky;
 
     public boolean isActive() {
         return isActive;
@@ -20,11 +20,9 @@ public class Ball extends MovableObject {
 
     public Ball(double x, double y, double radius) {
         super(x, y, radius * 2, radius * 2);//do lớp cha chỉ có hàm khởi tạo có tham số, nên lớp con bắt buộc phải có 1 hàm khởi tạo và gọi đến hàm khởi tạo của hàm cha bằng từ khóa super (Params...)
-
-        speed = 4;
+        speed = GameConstants.BALL_BASE_SPEED;
         this.isActive = false;
         this.isPowerFull = false;
-        this.isSticky = true;
         setBallImg();
 
     }
@@ -39,16 +37,13 @@ public class Ball extends MovableObject {
 
     @Override
     public void render(GraphicsContext renderer) {
-        renderer.clearRect(0, 0, width, height);
-        renderer.drawImage(image, x, y);
-
+        renderer.drawImage(image, x, y, this.width, this.height);
     }
 
     @Override
     public void update() {
         if (this.isActive) {
             super.update();//gọi đến phương thức update của thằng Movalable
-
         }
     }
 
@@ -97,18 +92,28 @@ public class Ball extends MovableObject {
 
     }
 
+    /**
+     * Tăng vận tốc bóng .
+     *
+     * @param increase
+     */
     public void increaseVeclocity(double increase) {
         this.dx *= increase;
         this.dy *= increase;
     }
 
+    /**
+     * Giảm tốc độ bóng.
+     *
+     * @param decrease
+     */
     public void decreaseVeclocity(double decrease) {
         this.dx /= decrease;
         this.dy /= decrease;
     }
 
     public void setRandomVeclocity() {
-        setVelocity((Math.random() * 8) - 4, -4);
+        setVelocity((Math.random() * 8) - GameConstants.BALL_BASE_SPEED, -GameConstants.BALL_BASE_SPEED);
     }
 
     //phuong thuc hoat dong, do quả bóng sẽ nảy liên tùng tục trong game 
@@ -118,7 +123,7 @@ public class Ball extends MovableObject {
     public void launch() {
         setRandomVeclocity();
         isActive = true;
-        isSticky = false;
+
     }
 
     public boolean isIsActive() {
@@ -145,25 +150,16 @@ public class Ball extends MovableObject {
     public void fireBallActive() {
         this.isPowerFull = true;
         setBallImg();
-
         if (fireBallTimeline != null) {
             fireBallTimeline.stop();
         }
         fireBallTimeline = new Timeline(
-                new KeyFrame(javafx.util.Duration.seconds(5), e -> {
+                new KeyFrame(javafx.util.Duration.seconds(GameConstants.FIRE_BALL_DURATION), e -> {
                     this.isPowerFull = false;
                     setBallImg();
                 })
         );
         fireBallTimeline.play();
-    }
-
-    public boolean isIsSticky() {
-        return isSticky;
-    }
-
-    public void setIsSticky(boolean isSticky) {
-        this.isSticky = isSticky;
     }
 
 }

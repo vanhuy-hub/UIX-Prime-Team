@@ -49,9 +49,6 @@
         <HBox spacing="10">
           <Label text="Lives:" styleClass="sub-title"/>
           <HBox fx:id="livesBox" spacing="6">
-            <Label text="❤" styleClass="life"/>
-            <Label text="❤" styleClass="life"/>
-            <Label text="❤" styleClass="life"/>
           </HBox>
         </HBox>
       </VBox>
@@ -87,7 +84,7 @@
       <!-- Complete button -->
       <StackPane styleClass="background-next-btn" minWidth="300">
         <Button fx:id="nextButton" styleClass="next-btn" 
-                                                                                                                                                                                                                                                                                                                                                                                          alignment="CENTER" minWidth="260" onAction="#handleNextLevel"/>
+                                                                                                                                                                                                                                                                                                                                                                                                  alignment="CENTER" minWidth="260" onAction="#handleNextLevel"/>
       </StackPane>
     </VBox>
   </right>

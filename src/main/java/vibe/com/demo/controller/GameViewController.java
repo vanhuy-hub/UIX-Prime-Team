@@ -15,6 +15,7 @@ import javafx.util.Duration;
 import vibe.com.demo.MainApp;
 import vibe.com.demo.game.core.GameDataModel;
 import vibe.com.demo.game.core.GameManager;
+import vibe.com.demo.game.utils.GameConstants;
 import vibe.com.demo.model.user.User;
 import vibe.com.demo.service.ServiceLocator;
 import vibe.com.demo.service.audio.AudioService;
@@ -80,9 +81,10 @@ public class GameViewController implements BaseController {
     public void dataBindingInit() {
         //data binding
         levelLabel.textProperty().bind(selectedLevel.asString());
-        gameProgressService.setCoins(gameProgressService.getCoins(currentUser));
+        gameProgressService.setCoins(currentUser);
+        //obs là property đang lắng nghe 
+        //Khi có sự thay đổi tổng số tiền người chơi thì hiển thị số tiền kiếm được 
         gameProgressService.getCoinsProperty().addListener((obs, oldVal, newVal) -> {
-            System.out.println("coin earned: " + (newVal.intValue() - oldVal.intValue()));
             earnedCoin.setText("+" + (newVal.intValue() - oldVal.intValue()));
             earnedCoin.setVisible(true);
             PauseTransition delay = new PauseTransition(Duration.millis(1500));//0.5s
@@ -99,9 +101,8 @@ public class GameViewController implements BaseController {
             playLifeLostAnimation();
             updateLivesDisplay(newVal.intValue());
         });
-        gameDataModel.getGameSessionIsWinProperty().addListener((obs, oldVal, newVal) -> {
+        gameDataModel.getIsWinGameSessionProperty().addListener((obs, oldVal, newVal) -> {
             PauseTransition delay = new PauseTransition(Duration.millis(500));//0.5s
-
             delay.setOnFinished(e -> {
                 unlockNextButton();
             });
@@ -112,7 +113,6 @@ public class GameViewController implements BaseController {
 
     @FXML
     private void initialize() {
-
         //hàm khởi tạo gameSession 
         initializeGameSession();
         //hàm setup khi gõ phím 
@@ -135,6 +135,7 @@ public class GameViewController implements BaseController {
         //init 
         gameManager = new GameManager(renderer, gameWidth, gameHeight);
         gameDataModel = gameManager.getGameDataModel();
+        updateLivesDisplay(GameConstants.LIVES);
     }
 
     /**
@@ -147,7 +148,6 @@ public class GameViewController implements BaseController {
 
         //sự kiện ấn phím 
         gameCanvas.setOnKeyPressed(e -> {
-
             this.gameManager.handleKeyPressed(e.getCode().toString());
             e.consume();//phương thức consume để tránh sự kiện bị nổi bọt event bubbling 
         });
@@ -159,9 +159,13 @@ public class GameViewController implements BaseController {
         });
     }
 
+    public void clearGameView() {
+        this.gameManager.clear();
+    }
+
     @FXML
     public void handleChangePaddle() {
-        this.gameManager.stopGameLoop();
+        clearGameView();
         if (this.mainApp != null) {
             PauseTransition delay = new PauseTransition(Duration.millis(150));//0.1s
 
@@ -174,7 +178,7 @@ public class GameViewController implements BaseController {
 
     @FXML
     public void backToLevelMenu() {
-        this.gameManager.stopGameLoop();
+        clearGameView();
         if (this.mainApp != null) {
             PauseTransition delay = new PauseTransition(Duration.millis(150));//0.1s
 
@@ -190,7 +194,6 @@ public class GameViewController implements BaseController {
      * Load hiệu ứng cho button next-level
      */
     public void loadNextButtonEffect() {
-
         if (this.gameProgressService.isLockedNextButton(currentUser)) {
             lockNextButton();
         } else {
@@ -227,7 +230,6 @@ public class GameViewController implements BaseController {
             System.out.println("Khong bi khoa");
             nextButton.setText("Next Level ...");
             nextButton.setDisable(true);
-
             this.gameManager.showOverlay("Đang chuyển tiếp ...");
             PauseTransition delay = new PauseTransition(Duration.millis(800));
             delay.setOnFinished(e -> {
@@ -251,7 +253,7 @@ public class GameViewController implements BaseController {
         }
 
         //hiển thị mất mạng ~ trái tim không màu 
-        for (int i = 3; i > lives; i--) {
+        for (int i = GameConstants.LIVES; i > lives; i--) {
             Label emptyHeart = new Label("❤");
             emptyHeart.getStyleClass().add("life-empty");
             livesBox.getChildren().add(emptyHeart);

@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 public class StrongBrick extends Brick {
 
     public StrongBrick(double x, double y, double width, double height) {
-        super(x, y, width, height, 2, Color.DODGERBLUE);
+        super(x, y, width, height);
         this.setImg("/vibe/com/demo/assets/img/brick_strong.png");
     }
 

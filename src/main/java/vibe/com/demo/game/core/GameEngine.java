@@ -8,23 +8,24 @@ import java.util.Queue;
 import javafx.animation.AnimationTimer;
 import vibe.com.demo.game.animations.AnimationManager;
 import vibe.com.demo.game.animations.AnimationType;
-import vibe.com.demo.game.levels.LevelConfig;
+import vibe.com.demo.game.core.CollisionDetector.CollisionSide;
 import vibe.com.demo.game.objects.entities.ball.Ball;
 import vibe.com.demo.game.objects.entities.ball.BallManager;
 import vibe.com.demo.game.objects.entities.bricks.Brick;
 import vibe.com.demo.game.objects.entities.bricks.ExplosiveBrick;
-import vibe.com.demo.game.objects.entities.bricks.StrongBrick;
 import vibe.com.demo.game.objects.entities.bricks.UnbreakableBrick;
 import vibe.com.demo.game.objects.entities.paddle.Paddle;
 import vibe.com.demo.game.objects.entities.powerups.CoinPowerUp;
 import vibe.com.demo.game.objects.entities.powerups.ExpandPaddlePowerUp;
 import vibe.com.demo.game.objects.entities.powerups.ExtraLifePowerUp;
 import vibe.com.demo.game.objects.entities.powerups.FireBallPowerUp;
-import vibe.com.demo.game.objects.entities.powerups.MagnetPowerUp;
 import vibe.com.demo.game.objects.entities.powerups.MultiplyBall;
 import vibe.com.demo.game.objects.entities.powerups.PowerUp;
 import vibe.com.demo.game.objects.entities.powerups.PowerUpManager;
 import vibe.com.demo.game.objects.entities.powerups.SlowBallPowerUp;
+import vibe.com.demo.game.utils.GameConstants;
+import vibe.com.demo.service.ServiceLocator;
+import vibe.com.demo.service.audio.AudioService;
 
 /**
  * Logic xử lí logic game chính (update, game loop)
@@ -41,14 +42,12 @@ public class GameEngine {
     private Paddle paddle;
     private BallManager ballManager;
     private List<Brick> bricks;
-    private double elapsedTime;
-    private final int duration = 2;
+
+    //audio 
+    private AudioService audioManager = ServiceLocator.getInstance().getAudioService();
 
     //Game state 
-    private boolean isRunning = false;
-
     public GameEngine(GameManager gameManager) {
-        elapsedTime = 0;
         this.gameManager = gameManager;
         this.animationManager = gameManager.getAnimationManager();
         this.powerUpManager = gameManager.getPowerUpManager();
@@ -69,11 +68,10 @@ public class GameEngine {
         if (gameLoop != null) {
             stopGameLoop();
         }
-        isRunning = true;
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (gameManager.isOnGoingGame()) {
+                if (gameManager.getGameState() == GameManager.GameState.PLAYING) {
                     update();
                     gameManager.render();
                 }
@@ -86,33 +84,28 @@ public class GameEngine {
      * Dừng gameLoop
      */
     public void stopGameLoop() {
-        isRunning = false;
         if (gameLoop != null) {
             gameLoop.stop();
             gameLoop = null;
         }
     }
 
+    /**
+     * Update game.
+     */
     public void update() {
-        // animationManager.update(ball);
+        animationManager.update();
         paddle.update();
-        powerUpManager.update(ballManager);
-        if (ballManager.isIsActive()) {
-            elapsedTime += (double) 1 / 60;
-
-            if (elapsedTime >= duration) {
-                ballManager.increaseVeclocity(1.02);
-                elapsedTime = 0;
-            }
+        powerUpManager.update();
+        if (ballManager.isActive()) {
             ballManager.update();
-
         } else {
             ballManager.resetPosition(paddle);
         }
+        constrainObjects();
         checkCollision();
         checkBallLost();
         checkLevelCompletion();
-        checkCollisionPowerUp();
     }
 
     /**
@@ -123,7 +116,7 @@ public class GameEngine {
         // TODO Auto-generated method stub
         boolean isCompleted = true;
         for (Brick brickItem : bricks) {
-            if (!brickItem.isDestroyed() && !(brickItem instanceof UnbreakableBrick)) {
+            if (!(brickItem instanceof UnbreakableBrick)) {
                 isCompleted = false;
                 break;
             }
@@ -131,15 +124,42 @@ public class GameEngine {
         if (isCompleted) {
             gameManager.handleLevelComplete();
         }
+
     }
 
+    /**
+     * check va chạm ...
+     */
     public void checkCollision() {
         for (Ball ball : ballManager.getBalls()) {
-            this.collisionDetector.checkBallPaddleCollision(ball, paddle);
-            this.collisionDetector.checkWallCollision(ball, gameManager.getGameWidth(), gameManager.getGameHeight());
+            if (this.collisionDetector.checkBallPaddleCollision(ball, paddle)) {
+                double hitPosition = this.collisionDetector.calculateHitPosition(ball, paddle);
+                handlePaddleCollision(ball, hitPosition);
+            }
         }
-        this.collisionDetector.constrainPaddle(paddle, gameManager.getGameWidth());
         checkBrickCollision();
+        checkCollisionPowerUp();
+    }
+
+    /**
+     * Xử lý va chạm với paddle .
+     */
+    public void handlePaddleCollision(Ball ball, double hitPosition) {
+        //Điều chỉnh vị trí bắt đầu nảy của ball để tránh bị stuck ~ kẹt trong paddle 
+        ball.setY(paddle.getY() - ball.getHeight() - 2);
+
+        //Tính góc bật dựa trên vị trí va chạm 
+        //-0.5 - 0.5 : trai -> phải , nhân với hệ số góc 
+        double angleFactor = (hitPosition - 0.5) * 2;//-1 ->1
+
+        //góc bật : tối đa -75 - 75 deg so với phương thẳng đứng , nếu bóng đập về phía bên trái thì nảy về phía trái , ngược lại ở phía bên phải 
+        double maxAngle = Math.toRadians(75);
+        double angle = maxAngle * angleFactor;
+        //tính toán dx mới , dùng sin cho dx 
+        double newDx = Math.sin(angle) * ball.getSpeed();
+        double newDy = -ball.getDy();
+        //setVec
+        ball.setVelocity(newDx, newDy);
     }
 
     /**
@@ -149,25 +169,15 @@ public class GameEngine {
         List<Brick> bricksToRemove = new ArrayList<>();
         for (int i = bricks.size() - 1; i >= 0; i--) {
             for (Ball ball : ballManager.getBalls()) {
-                if (this.collisionDetector.isBallBrickCollision(ball, bricks.get(i))) {//kiểm tra va chạm 
-                    if (bricks.get(i) instanceof UnbreakableBrick) {
-                        collisionDetector.handleCollisionBrick(ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
-
-                        continue;
-                    } else if (bricks.get(i) instanceof ExplosiveBrick) {
-                        collisionDetector.handleCollisionBrick(ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
+                if (this.collisionDetector.basicCollision(ball, bricks.get(i))) {//kiểm tra va chạm 
+                    CollisionSide side = this.collisionDetector.determineCollisionSide(ball, bricks.get(i));
+                    if (bricks.get(i) instanceof ExplosiveBrick) {
                         addAdjacentBrick(bricks.get(i), bricksToRemove);
-
-                        continue;
-                    } else if (bricks.get(i) instanceof StrongBrick) {
-
-                    } else {
-
                     }
-
-                    Brick newBrick = this.collisionDetector.getDeradeBrick(ball, bricks.get(i), this.collisionDetector.determineCollisionSide(ball, bricks.get(i)));
+                    handleCollisionBrick(ball, bricks.get(i), side);
+                    Brick newBrick = bricks.get(i).degradeBrick();
                     if (newBrick == null) {//kiểm tra degradeBrick xem là gì , nếu null thì xóa luôn , ko null thì gán 
-                        bricks.remove(i);
+                        bricksToRemove.add(bricks.get(i));
                     } else {
                         bricks.set(i, newBrick);//sửa phần tử thứ i thành newBrick 
                     }
@@ -177,6 +187,25 @@ public class GameEngine {
         bricks.removeAll(bricksToRemove);
     }
 
+    /**
+     * Xử lý va chạm giữa bóng và gạch
+     */
+    public void handleCollisionBrick(Ball ball, Brick brick, CollisionSide side) {
+        if (ball.isPowerFull()) {
+            if (brick instanceof UnbreakableBrick == false) {
+                return;
+            }
+        }
+        if (side == CollisionSide.BOTTOM || side == CollisionSide.TOP) {
+            ball.bounceVertical();
+        } else if (side == CollisionSide.LEFT || side == CollisionSide.RIGHT) {
+            ball.bounceHorizontal();
+        }
+    }
+
+    /**
+     * Thêm gạch xung quanh gạch nổ .
+     */
     public void addAdjacentBrick(Brick explosiveBrick, List<Brick> bricksToRemove) {
         Queue<Brick> explosiveQueue = new LinkedList<>();
         explosiveQueue.offer(explosiveBrick);//thêm bằng offer
@@ -186,18 +215,17 @@ public class GameEngine {
             Brick currentBrick = explosiveQueue.poll();
 
             if (bricksToRemove.contains(currentBrick)) {
-                //dừng lại nếu có trong mảng remove rồi tránh bị đẹ quy vô hạn lần 
+                //dừng lại nếu có trong mảng remove rồi tránh bị lặp vô hạn lần 
                 continue;
             }
             animationManager.addSpriteAnimation(AnimationType.BRICK_DESTROY, currentBrick.getX() - 70, currentBrick.getY() - 80);
-
             bricksToRemove.add(currentBrick);
             double brickX = currentBrick.getX();//vị trí hiện tại ở trong cha của nó (game canvas)
             double brickY = currentBrick.getY();
-            double brickWidth = LevelConfig.BRICK_WIDTH;
-            double brickHeight = LevelConfig.BRICK_HEIGHT;
-            double colGap = LevelConfig.COL_GAP;
-            double rowGap = LevelConfig.ROW_GAP;
+            double brickWidth = gameManager.getGameWidth();
+            double brickHeight = gameManager.getGameHeight();
+            double colGap = GameConstants.COL_GAP;
+            double rowGap = GameConstants.ROW_GAP;
             //direction~ vị trí tương đối so với gạch hiện tại : Trên , Dưới , Trái Phải  
             double[][] directions = {{0, -(brickHeight + rowGap)}, {0, (brickHeight + rowGap)}, {-(brickWidth + colGap), 0}, {(brickWidth + colGap), 0}};
 
@@ -219,12 +247,15 @@ public class GameEngine {
         }
     }
 
+    /**
+     * Timf gạch dựa vào vị trí trên map.
+     */
     public Brick findBrickAtPosition(double x, double y) {
         for (Brick brick : bricks) {
             if (Math.abs(brick.getX() - x) < 1 && Math.abs(brick.getY() - y) < 1) {
                 return brick;
             }
-            // Hoặc kiểm tra collision bounds chính xác hơn
+            //  kiểm tra collision bounds chính xác hơn
             if (brick.getX() == x && brick.getY() == y) {
                 return brick;
             }
@@ -232,22 +263,32 @@ public class GameEngine {
         return null;
     }
 
+    /**
+     * Check mất bóng .
+     */
     public void checkBallLost() {
+        //Nếu duyệt vòng lặp bình thường rồi gọi remove(ball) sẽ văng lỗi ConcurrentModification ~ sửa arrayList trong lúc lặp
+        //Giải pháp : dùng danh sách phụ 
+        List<Ball> toRemove = new ArrayList<>();
         for (Ball ball : ballManager.getBalls()) {
-            if (this.collisionDetector.checkBallLost(ball, gameManager.getGameHeight())) {
-                ballManager.getBalls().remove(ball);
-                if (ballManager.getBalls().isEmpty()) {
-                    gameManager.handleBallLost();
-                }
+            if (ball.getY() + ball.getHeight() >= gameManager.getGameHeight() + 50) {
+                toRemove.add(ball);
             }
+        }
+        ballManager.getBalls().removeAll(toRemove);
+        if (ballManager.getBalls().isEmpty()) {
+            this.gameManager.handleBallLost();
         }
     }
 
-    // ========== Collision powerUp 
+    /**
+     * Collision powerUp
+     */
     public void checkCollisionPowerUp() {
         for (int i = powerUps.size() - 1; i >= 0; i--) {
             PowerUp powerUpItem = powerUps.get(i);
             if (this.collisionDetector.basicCollision(paddle, powerUpItem)) {
+                audioManager.playSoundEffect("collect");
                 powerUps.remove(i);
                 if (powerUpItem.getClass() == CoinPowerUp.class) {
                     gameManager.addCoinEarn(100);
@@ -259,13 +300,51 @@ public class GameEngine {
                     gameManager.increaseLives();
                 } else if (powerUpItem instanceof FireBallPowerUp) {
                     ballManager.fireBallActive();
-                } else if (powerUpItem instanceof MagnetPowerUp) {
-                    ballManager.setIsSticky(true);
                 } else if (powerUpItem instanceof MultiplyBall) {
                     this.ballManager.addBall(1, ballManager.getBalls().get(0).getX(), ballManager.getBalls().get(0).getY(), ballManager.getBalls().get(0).getWidth() / 2);
                 }
             }
 
+        }
+    }
+
+    /**
+     * giới hạn các đối tượng trong màn hình chơi game .
+     */
+    public void constrainObjects() {
+        constrainPaddle();
+        constrainBalls();
+    }
+
+    /**
+     * giới hạn bóng .
+     */
+    public void constrainBalls() {
+        for (Ball ball : ballManager.getBalls()) {
+            if (ball.getX() <= 0) {
+                ball.setX(0);
+                ball.bounceHorizontal();
+            } else if (ball.getWidth() + ball.getX() >= gameManager.getGameWidth()) {
+                ball.setX(gameManager.getGameWidth() - ball.getWidth());
+                ball.bounceHorizontal();
+            }
+
+            //TOP 
+            if (ball.getY() <= 0) {
+                ball.setY(0);
+                ball.bounceVertical();
+            }
+        }
+    }
+
+    /**
+     * Giới hạn paddle.
+     */
+    public void constrainPaddle() {
+        if (paddle.getX() < 10) {
+            paddle.setX(10);
+        } else if (paddle.getX() + paddle.getWidth() >= gameManager.getGameWidth() - 10) {
+            paddle.setX(gameManager.getGameWidth() - paddle.getWidth() - 10);
         }
     }
 }

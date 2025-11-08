@@ -4,7 +4,6 @@ public enum PowerUpType {
     COIN,
     EXPANDPADDLE,
     FIREBALL,
-    LASER,
     TURTLE,
     MAGNET,
     HEART,

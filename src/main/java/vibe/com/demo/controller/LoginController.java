@@ -26,9 +26,10 @@ public class LoginController extends FormController {
     @FXML
     private Button loginButton;
     private AudioService audioService = ServiceLocator.getInstance().getAudioService();
-private AuthService authService = ServiceLocator.getInstance().getAuthService();
+    private AuthService authService = ServiceLocator.getInstance().getAuthService();
+
     @FXML
-    private void switchToSignUpView(ActionEvent event) {
+    private void switchToSignUpView() {
         //play am thanh click
         audioService.playSoundEffect("clicksound");
         if (this.mainApp != null) {
@@ -75,16 +76,21 @@ private AuthService authService = ServiceLocator.getInstance().getAuthService();
         loginButton.setText("ĐANG ĐĂNG NHẬP ...");
         loginButton.setDisable(true);//vô hiệu hóa bằng việc setDisable 
         showSuccess("Đăng nhập thành công ✅");
-        PauseTransition successDelay = new PauseTransition(Duration.millis(1500));
+        switchToLobbyView(1500);
+
+    }
+
+    public void switchToLobbyView(long ms) {
+        PauseTransition successDelay = new PauseTransition(Duration.millis(ms));
         successDelay.setOnFinished(e -> {
             //chuyển loginButton về trạng thái đầu
             loginButton.setText("ĐĂNG NHẬP");
             loginButton.setDisable(false);
             this.mainApp.loadLobbyView();
+            
             //chuyển cảnh 
 
         });
         successDelay.play();
     }
-
 }

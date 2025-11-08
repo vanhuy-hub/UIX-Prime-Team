@@ -1,6 +1,7 @@
 package vibe.com.demo;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -21,7 +22,6 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) {
-
         this.stage = stage;//gán stage của chương trình trong start Method là giá trị của trường stage ~ stage của đối tượng MainApp, đẻ khi import sang Controller còn dùng được stage này truy cập vào Stage chính của ứng dụng hiển thị lên  
         Image icon = new Image(getClass().getResourceAsStream("assets/img/arkanoidLogo2.png"));
         stage.getIcons().add(icon);
@@ -32,13 +32,15 @@ public class MainApp extends Application {
         stage.setScene(mainScene);
         stage.show();
         //load Login scene đầu tiên 
-
         loadLoginView();
+        audioService.playBackgroundMusic("background");
+        audioService.setMusicVolume(0.5);
     }
 
-    public <T extends BaseController> void loadView(String pathFxmlFile, String pathCssFile, String musicName) {
+    //lập trình tổng quát ~ generics 
+    public <T extends BaseController> void loadView(String pathFxmlFile, String pathCssFile) {
         try {
-            // audioService.playBackgroundMusic(musicName);
+
             contentPane.getChildren().clear();//xoa cac phan tu truoc
             FXMLLoader loader = new FXMLLoader(getClass().getResource(pathFxmlFile));
             Parent view = loader.load();
@@ -54,45 +56,46 @@ public class MainApp extends Application {
     }
 
     public void loadLobbyView() {
-        //Do cơ chế của Java Generic nó tự suy luận là kiểu gì 
-        loadView("fxmlFiles/lobby.fxml", "assets/css/lobby.css", "lobbyMusic");
 
+        loadView("fxmlFiles/lobby.fxml", "assets/css/lobby.css");
     }
 
     public void loadLoginView() {
-        loadView("fxmlFiles/login.fxml", "assets/css/login.css", "nhacnen");
+        loadView("fxmlFiles/login.fxml", "assets/css/login.css");
     }
 
     public void loadSignUpView() {
-        loadView("fxmlFiles/signup.fxml", "assets/css/signup.css", null);
+        loadView("fxmlFiles/signup.fxml", "assets/css/signup.css");
     }
 
     public void loadGameHelpView() {
 
-        loadView("fxmlFiles/gameHelp.fxml", "assets/css/gamehelp.css", "lobbyMusic");
+        loadView("fxmlFiles/gameHelp.fxml", "assets/css/gamehelp.css");
 
     }
 
     public void loadLevelMenuView() {
-        loadView("fxmlFiles/levelmenu.fxml", "assets/css/levelmenu.css", "lobbyMusic");
+        loadView("fxmlFiles/levelmenu.fxml", "assets/css/levelmenu.css");
     }
 
     public void loadGameView() {
-        loadView("fxmlFiles/gameview.fxml", "assets/css/gameview.css", "playgame");
+        loadView("fxmlFiles/gameview.fxml", "assets/css/gameview.css");
+
     }
 
     public void loadShopView() {
-        loadView("fxmlFiles/shop.fxml", "assets/css/shop.css", "playgame");
+        loadView("fxmlFiles/shop.fxml", "assets/css/shop.css");
 
     }
 
     public void loadRankingView() {
-        loadView("fxmlFiles/ranking.fxml", "assets/css/ranking.css", "playgame");
+        loadView("fxmlFiles/ranking.fxml", "assets/css/ranking.css");
     }
 
     // day la ham main
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         launch(args);
+
     }
 
 }

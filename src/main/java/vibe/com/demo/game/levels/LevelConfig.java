@@ -1,25 +1,14 @@
 package vibe.com.demo.game.levels;
 
+import vibe.com.demo.game.utils.GameConstants;
+
 public class LevelConfig {
-
-    public static final double BRICK_WIDTH = 90; // Giảm nhẹ để fit 20 levels
-    public static final double BRICK_HEIGHT = 25;
-
-    // Khoảng cách
-    public static final double COL_GAP = 12;
-    public static final double ROW_GAP = 15;
-
-    // Vị trí bắt đầu
-    public static final double START_Y = 40;
-
-    // Số level tối đa
-    public static final int MAX_LEVELS = 20;
 
     /**
      * Tìm
      */
     public static double calculateMapWidth(int cols) {
-        return cols * BRICK_WIDTH + (cols - 1) * COL_GAP;
+        return cols * GameConstants.BRICK_WIDTH + (cols - 1) * GameConstants.COL_GAP;
     }
 
     /**

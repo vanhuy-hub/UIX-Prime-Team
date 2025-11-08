@@ -57,10 +57,6 @@ public abstract class GameObject {
         this.height = height;
     }
 
-    public Rectangle2D getBounds() {
-        return new Rectangle2D(x, y, width, height);//trả về hình chữ nhật 
-    }
-
     public Image getImage() {
         return image;
     }
@@ -69,7 +65,7 @@ public abstract class GameObject {
         try {
             this.image = new Image(getClass().getResourceAsStream(path));
         } catch (Exception e) {
-
+            System.out.println("Loi");
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

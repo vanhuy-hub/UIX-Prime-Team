@@ -8,7 +8,7 @@ public class DatabaseConnection {
 
     private static final String URL = "jdbc:mysql://localhost:3306/arkanoid";//đường dẫn đến cơ sở dữ liệu 
     private static final String USER = "root";
-    private static final String PASSWORD = "";
+    private static final String PASSWORD = "23082006";
 
     private static Connection connection;
 

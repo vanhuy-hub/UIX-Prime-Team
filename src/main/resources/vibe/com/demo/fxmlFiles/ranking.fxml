@@ -44,9 +44,9 @@
       <ScrollPane fx:id="scrollPane" fitToWidth="true" styleClass="ranking-scrollpane">
         <content>
           <VBox fx:id="leaderboardBox"
-                                                                                                                                                            alignment="TOP_CENTER"
-                                                                                                                                                            spacing="15"
-                                                                                                                                                            styleClass="leaderboard-vbox">
+                                                                                                                                                                      alignment="TOP_CENTER"
+                                                                                                                                                                      spacing="15"
+                                                                                                                                                                      styleClass="leaderboard-vbox">
             <padding>
               <Insets top="30" right="40" bottom="30" left="40"/>
             </padding>
@@ -64,8 +64,6 @@
               <HBox alignment="CENTER_RIGHT" spacing="15">
                 <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
                 <Label text="2458" styleClass="trophy-value"/>
-                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
-                <Label text="147" styleClass="game-value"/>
               </HBox>
             </HBox>
             <HBox styleClass="player-row" id="second-rank" alignment="CENTER_LEFT" spacing="20">
@@ -81,8 +79,6 @@
               <HBox alignment="CENTER_RIGHT" spacing="15">
                 <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
                 <Label text="1983" styleClass="trophy-value"/>
-                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
-                <Label text="98" styleClass="game-value"/>
               </HBox>
             </HBox>
             <HBox styleClass="player-row" id="third-rank" alignment="CENTER_LEFT" spacing="20">
@@ -98,8 +94,6 @@
               <HBox alignment="CENTER_RIGHT" spacing="15">
                 <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
                 <Label text="1769" styleClass="trophy-value"/>
-                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
-                <Label text="112" styleClass="game-value"/>
               </HBox>
             </HBox>
             <!-- ==== RANKS 4 - 10 ==== -->
@@ -115,8 +109,6 @@
               <HBox alignment="CENTER_RIGHT" spacing="15">
                 <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
                 <Label text="1545" styleClass="trophy-value"/>
-                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
-                <Label text="89" styleClass="game-value"/>
               </HBox>
             </HBox>
             <HBox styleClass="player-row" alignment="CENTER_LEFT" spacing="20">
@@ -131,8 +123,6 @@
               <HBox alignment="CENTER_RIGHT" spacing="15">
                 <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
                 <Label text="1324" styleClass="trophy-value"/>
-                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
-                <Label text="103" styleClass="game-value"/>
               </HBox>
             </HBox>
             <HBox styleClass="player-row" alignment="CENTER_LEFT" spacing="20">
@@ -147,8 +137,6 @@
               <HBox alignment="CENTER_RIGHT" spacing="15">
                 <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
                 <Label text="1210" styleClass="trophy-value"/>
-                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
-                <Label text="75" styleClass="game-value"/>
               </HBox>
             </HBox>
             <HBox styleClass="player-row" alignment="CENTER_LEFT" spacing="20">
@@ -163,8 +151,6 @@
               <HBox alignment="CENTER_RIGHT" spacing="15">
                 <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
                 <Label text="1158" styleClass="trophy-value"/>
-                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
-                <Label text="70" styleClass="game-value"/>
               </HBox>
             </HBox>
             <HBox styleClass="player-row" alignment="CENTER_LEFT" spacing="20">
@@ -179,8 +165,6 @@
               <HBox alignment="CENTER_RIGHT" spacing="15">
                 <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
                 <Label text="1012" styleClass="trophy-value"/>
-                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
-                <Label text="60" styleClass="game-value"/>
               </HBox>
             </HBox>
             <HBox styleClass="player-row" alignment="CENTER_LEFT" spacing="20">
@@ -195,8 +179,6 @@
               <HBox alignment="CENTER_RIGHT" spacing="15">
                 <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
                 <Label text="984" styleClass="trophy-value"/>
-                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
-                <Label text="55" styleClass="game-value"/>
               </HBox>
             </HBox>
             <HBox styleClass="player-row" alignment="CENTER_LEFT" spacing="20">
@@ -211,8 +193,6 @@
               <HBox alignment="CENTER_RIGHT" spacing="15">
                 <ImageView styleClass="icon-trophy" fitWidth="22" fitHeight="22"/>
                 <Label text="932" styleClass="trophy-value"/>
-                <ImageView styleClass="icon-game" fitWidth="22" fitHeight="22"/>
-                <Label text="49" styleClass="game-value"/>
               </HBox>
             </HBox>
           </VBox>
