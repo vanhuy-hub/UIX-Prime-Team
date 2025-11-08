@@ -8,7 +8,7 @@ public class UnbreakableBrick extends Brick {
     }
 
     /**
-     * Ghi de ham degredeBrick
+     * Ghi de ham degredeBrick - tra ve chinh no vi unbreakable
      */
     @Override
     public Brick degradeBrick() {

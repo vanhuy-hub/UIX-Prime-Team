@@ -9,9 +9,11 @@ public class StrongBrick extends Brick {
         this.setImg("/vibe/com/demo/assets/img/brick_strong.png");
     }
 
+
     @Override
     public Brick degradeBrick() {
         System.out.println("ha thap xuong normal");
+        // tra ve normalbrick do bi ha cap
         return new NormalBrick(x, y, width, height);
     }
 }
