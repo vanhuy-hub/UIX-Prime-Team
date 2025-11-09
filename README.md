@@ -1,523 +1,267 @@
-D:.
-├───.idea
-│       .gitignore
-│       code mau game arkanoid.iml
-│       misc.xml
-│       modules.xml
-│       vcs.xml
-│       workspace.xml
-│       
-└───UIX-Prime-Team
-│   .gitignore
-│   mvnw
-│   mvnw.cmd
-│   pom.xml
-│   README.md
-│   
-├───.idea
-│       .gitignore
-│       compiler.xml
-│       encodings.xml
-│       jarRepositories.xml
-│       misc.xml
-│       vcs.xml
-│       workspace.xml
-│       
-├───.mvn
-│   └───wrapper
-│           maven-wrapper.jar
-│           maven-wrapper.properties
-│           
-├───src
-│   └───main
-│       ├───java
-│       │   │   module-info.java
-│       │   │   
-│       │   └───vibe
-│       │       └───com
-│       │           └───demo
-│       │               │   MainApp.java
-│       │               │   
-│       │               ├───controller
-│       │               │       BaseController.java
-│       │               │       FormController.java
-│       │               │       GameHelpController.java
-│       │               │       GameViewController.java
-│       │               │       LevelMenuController.java
-│       │               │       LobbyController.java
-│       │               │       LoginController.java
-│       │               │       RankingController.java
-│       │               │       ShopController.java
-│       │               │       SignupController.java
-│       │               │       
-│       │               ├───game
-│       │               │   ├───animations
-│       │               │   │       AnimationManager.java
-│       │               │   │       AnimationType.java
-│       │               │   │       BrickDestroyAnimation.java
-│       │               │   │       SpriteAnimation.java
-│       │               │   │       
-│       │               │   ├───core
-│       │               │   │       CollisionDetector.java
-│       │               │   │       GameDataModel.java
-│       │               │   │       GameEngine.java
-│       │               │   │       GameManager.java
-│       │               │   │       Renderer.java
-│       │               │   │       
-│       │               │   ├───levels
-│       │               │   │       LevelConfig.java
-│       │               │   │       LevelDesigner.java
-│       │               │   │       LevelLoader.java
-│       │               │   │       LevelManager.java
-│       │               │   │       
-│       │               │   ├───objects
-│       │               │   │   ├───abstractions
-│       │               │   │   │       GameObject.java
-│       │               │   │   │       MovableObject.java
-│       │               │   │   │       
-│       │               │   │   ├───entities
-│       │               │   │   │   ├───ball
-│       │               │   │   │   │       Ball.java
-│       │               │   │   │   │       BallManager.java
-│       │               │   │   │   │       
-│       │               │   │   │   ├───bricks
-│       │               │   │   │   │       Brick.java
-│       │               │   │   │   │       ExplosiveBrick.java
-│       │               │   │   │   │       NormalBrick.java
-│       │               │   │   │   │       StrongBrick.java
-│       │               │   │   │   │       UnbreakableBrick.java
-│       │               │   │   │   │       
-│       │               │   │   │   ├───overlay
-│       │               │   │   │   │       OverlayObject.java
-│       │               │   │   │   │       
-│       │               │   │   │   ├───paddle
-│       │               │   │   │   │       Paddle.java
-│       │               │   │   │   │       
-│       │               │   │   │   └───powerups
-│       │               │   │   │           CoinPowerUp.java
-│       │               │   │   │           ExpandPaddlePowerUp.java
-│       │               │   │   │           ExtraLifePowerUp.java
-│       │               │   │   │           FireBallPowerUp.java
-│       │               │   │   │           MultiplyBall.java
-│       │               │   │   │           PowerUp.java
-│       │               │   │   │           PowerUpManager.java
-│       │               │   │   │           PowerUpType.java
-│       │               │   │   │           SlowBallPowerUp.java
-│       │               │   │   │           
-│       │               │   │   └───factories
-│       │               │   │           AnimationFactory.java
-│       │               │   │           BrickFactory.java
-│       │               │   │           PowerUpFactory.java
-│       │               │   │           
-│       │               │   └───utils
-│       │               │           GameConstants.java
-│       │               │           
-│       │               ├───model
-│       │               │   ├───game
-│       │               │   │       PlayerProgress.java
-│       │               │   │       
-│       │               │   └───user
-│       │               │           User.java
-│       │               │           
-│       │               └───service
-│       │                   │   ServiceLocator.java
-│       │                   │   
-│       │                   ├───audio
-│       │                   │       AudioService.java
-│       │                   │       
-│       │                   ├───auth
-│       │                   │       AuthService.java
-│       │                   │       
-│       │                   ├───database
-│       │                   │   ├───dao
-│       │                   │   │   ├───abstraction
-│       │                   │   │   │       DaoAbstraction.java
-│       │                   │   │   │       
-│       │                   │   │   ├───interfaces
-│       │                   │   │   │       DaoIn.java
-│       │                   │   │   │       
-│       │                   │   │   └───objectdao
-│       │                   │   │           UserDao.java
-│       │                   │   │           
-│       │                   │   └───utils
-│       │                   │           DatabaseConnection.java
-│       │                   │           
-│       │                   ├───game
-│       │                   │       GameProgressService.java
-│       │                   │       
-│       │                   └───user
-│       │                           UserService.java
-│       │                           
-│       └───resources
-│           └───vibe
-│               └───com
-│                   └───demo
-│                       ├───assets
-│                       │   ├───css
-│                       │   │       gamehelp.css
-│                       │   │       gameview.css
-│                       │   │       general.css
-│                       │   │       levelmenu.css
-│                       │   │       lobby.css
-│                       │   │       login.css
-│                       │   │       ranking.css
-│                       │   │       shop.css
-│                       │   │       signup.css
-│                       │   │       
-│                       │   ├───img
-│                       │   │       100.png
-│                       │   │       arkanoidLogo2.png
-│                       │   │       arrows.png
-│                       │   │       background.jpg
-│                       │   │       ball_fire.png
-│                       │   │       ball_normal.png
-│                       │   │       bkGame.png
-│                       │   │       blast.png
-│                       │   │       break_normal.png
-│                       │   │       brick_bom - Copy.png
-│                       │   │       brick_bom.png
-│                       │   │       brick_break.png
-│                       │   │       brick_normal - Copy.png
-│                       │   │       brick_normal.png
-│                       │   │       brick_normal_fire.png
-│                       │   │       brick_strong - Copy.png
-│                       │   │       brick_strong.png
-│                       │   │       brick_unbreak - Copy.png
-│                       │   │       brick_unbreak.png
-│                       │   │       coin.png
-│                       │   │       corner.png
-│                       │   │       dog.png
-│                       │   │       exp.png
-│                       │   │       exp2.png
-│                       │   │       exp_paddle.png
-│                       │   │       fire.png
-│                       │   │       flash.png
-│                       │   │       game.png
-│                       │   │       gamearea1.jpg
-│                       │   │       gamerLobby.png
-│                       │   │       game_big.png
-│                       │   │       game_mini.png
-│                       │   │       goc.png
-│                       │   │       gun.png
-│                       │   │       heart.png
-│                       │   │       icon_cup_signup.png
-│                       │   │       icon_game_login.png
-│                       │   │       icon_password.png
-│                       │   │       icon_user.png
-│                       │   │       idea.png
-│                       │   │       lobby.jpg
-│                       │   │       lobbyAvatar.png
-│                       │   │       love-always-wins.png
-│                       │   │       magnet.png
-│                       │   │       measure.png
-│                       │   │       medal_bronze.png
-│                       │   │       medal_gold.png
-│                       │   │       medal_silver.png
-│                       │   │       multiply_ball.png
-│                       │   │       number-1.png
-│                       │   │       number-3.png
-│                       │   │       paddle1.png
-│                       │   │       paddle2.png
-│                       │   │       paddle3.png
-│                       │   │       paddle4.png
-│                       │   │       paddle5.png
-│                       │   │       paddle6.png
-│                       │   │       paddle7.png
-│                       │   │       paddle8.png
-│                       │   │       paddle9.png
-│                       │   │       ping-pong.png
-│                       │   │       power-up.png
-│                       │   │       profile.png
-│                       │   │       question.png
-│                       │   │       ranking.png
-│                       │   │       rocket.png
-│                       │   │       ruler.png
-│                       │   │       shield.png
-│                       │   │       shopping-cart.png
-│                       │   │       target.png
-│                       │   │       trophy.png
-│                       │   │       turtle.png
-│                       │   │       two.png
-│                       │   │       user-guide.png
-│                       │   │       wall.png
-│                       │   │       
-│                       │   └───sounds
-│                       │           arkanoid.mp3
-│                       │           background.mp3
-│                       │           clickSound.mp3
-│                       │           collect.mp3
-│                       │           explosion.mp3
-│                       │           lobbyMusic.mp3
-│                       │           lose.mp3
-│                       │           mu.mp3
-│                       │           playgame.mp3
-│                       │           victory.mp3
-│                       │           
-│                       ├───db
-│                       │       arkanoid.sql
-│                       │       
-│                       └───fxmlFiles
-│                               gameHelp.fxml
-│                               gameview.fxml
-│                               levelmenu.fxml
-│                               lobby.fxml
-│                               login.fxml
-│                               ranking.fxml
-│                               shop.fxml
-│                               signup.fxml
-│                               
-└───target
-├───classes
-│   │   module-info.class
-│   │   
-│   └───vibe
-│       └───com
-│           └───demo
-│               │   MainApp.class
-│               │   
-│               ├───assets
-│               │   ├───css
-│               │   │       gamehelp.css
-│               │   │       gameview.css
-│               │   │       general.css
-│               │   │       levelmenu.css
-│               │   │       lobby.css
-│               │   │       login.css
-│               │   │       ranking.css
-│               │   │       shop.css
-│               │   │       signup.css
-│               │   │       
-│               │   ├───img
-│               │   │       100.png
-│               │   │       arkanoidLogo2.png
-│               │   │       arrows.png
-│               │   │       background.jpg
-│               │   │       ball_fire.png
-│               │   │       ball_normal.png
-│               │   │       bkGame.png
-│               │   │       blast.png
-│               │   │       break_normal.png
-│               │   │       brick_bom - Copy.png
-│               │   │       brick_bom.png
-│               │   │       brick_break.png
-│               │   │       brick_normal - Copy.png
-│               │   │       brick_normal.png
-│               │   │       brick_normal_fire.png
-│               │   │       brick_strong - Copy.png
-│               │   │       brick_strong.png
-│               │   │       brick_unbreak - Copy.png
-│               │   │       brick_unbreak.png
-│               │   │       coin.png
-│               │   │       corner.png
-│               │   │       dog.png
-│               │   │       exp.png
-│               │   │       exp2.png
-│               │   │       exp_paddle.png
-│               │   │       fire.png
-│               │   │       flash.png
-│               │   │       game.png
-│               │   │       gamearea1.jpg
-│               │   │       gamerLobby.png
-│               │   │       game_big.png
-│               │   │       game_mini.png
-│               │   │       goc.png
-│               │   │       gun.png
-│               │   │       heart.png
-│               │   │       icon_cup_signup.png
-│               │   │       icon_game_login.png
-│               │   │       icon_password.png
-│               │   │       icon_user.png
-│               │   │       idea.png
-│               │   │       lobby.jpg
-│               │   │       lobbyAvatar.png
-│               │   │       love-always-wins.png
-│               │   │       magnet.png
-│               │   │       measure.png
-│               │   │       medal_bronze.png
-│               │   │       medal_gold.png
-│               │   │       medal_silver.png
-│               │   │       multiply_ball.png
-│               │   │       number-1.png
-│               │   │       number-3.png
-│               │   │       paddle1.png
-│               │   │       paddle2.png
-│               │   │       paddle3.png
-│               │   │       paddle4.png
-│               │   │       paddle5.png
-│               │   │       paddle6.png
-│               │   │       paddle7.png
-│               │   │       paddle8.png
-│               │   │       paddle9.png
-│               │   │       ping-pong.png
-│               │   │       power-up.png
-│               │   │       profile.png
-│               │   │       question.png
-│               │   │       ranking.png
-│               │   │       rocket.png
-│               │   │       ruler.png
-│               │   │       shield.png
-│               │   │       shopping-cart.png
-│               │   │       target.png
-│               │   │       trophy.png
-│               │   │       turtle.png
-│               │   │       two.png
-│               │   │       user-guide.png
-│               │   │       wall.png
-│               │   │       
-│               │   └───sounds
-│               │           clickSound.mp3
-│               │           fail.mp3
-│               │           gold claim.mp3
-│               │           lobbyMusic.mp3
-│               │           lose game.mp3
-│               │           mu.mp3
-│               │           playgame.mp3
-│               │           victory sound.mp3
-│               │           
-│               ├───controller
-│               │       BaseController.class
-│               │       FormController.class
-│               │       GameHelpController.class
-│               │       GameViewController.class
-│               │       LevelMenuController.class
-│               │       LobbyController.class
-│               │       LoginController.class
-│               │       RankingController.class
-│               │       ShopController.class
-│               │       SignupController.class
-│               │       
-│               ├───db
-│               │       arkanoid.sql
-│               │       
-│               ├───fxmlFiles
-│               │       gameHelp.fxml
-│               │       gameview.fxml
-│               │       levelmenu.fxml
-│               │       lobby.fxml
-│               │       login.fxml
-│               │       ranking.fxml
-│               │       shop.fxml
-│               │       signup.fxml
-│               │       
-│               ├───game
-│               │   ├───animations
-│               │   │       AnimationManager.class
-│               │   │       AnimationType.class
-│               │   │       BallTrailAnimation.class
-│               │   │       BrickDestroyAnimation.class
-│               │   │       GameAnimation.class
-│               │   │       PaddleDestroyAnimation.class
-│               │   │       Particle.class
-│               │   │       SpriteAnimation.class
-│               │   │       TrailParticle.class
-│               │   │       
-│               │   ├───core
-│               │   │       CollisionDetector$CollisionSide.class
-│               │   │       CollisionDetector.class
-│               │   │       GameDataModel.class
-│               │   │       GameEngine$1.class
-│               │   │       GameEngine.class
-│               │   │       GameManager$GameState.class
-│               │   │       GameManager.class
-│               │   │       Renderer.class
-│               │   │       
-│               │   ├───levels
-│               │   │       LevelConfig.class
-│               │   │       LevelDesigner.class
-│               │   │       LevelLoader.class
-│               │   │       LevelManager.class
-│               │   │       
-│               │   ├───objects
-│               │   │   ├───abstractions
-│               │   │   │       GameObject.class
-│               │   │   │       MovableObject.class
-│               │   │   │       
-│               │   │   ├───entities
-│               │   │   │   ├───ball
-│               │   │   │   │       Ball.class
-│               │   │   │   │       BallManager.class
-│               │   │   │   │       
-│               │   │   │   ├───bricks
-│               │   │   │   │       Brick.class
-│               │   │   │   │       ExplosiveBrick.class
-│               │   │   │   │       NormalBrick.class
-│               │   │   │   │       StrongBrick.class
-│               │   │   │   │       UnbreakableBrick.class
-│               │   │   │   │       
-│               │   │   │   ├───info
-│               │   │   │   │       CoinInfo.class
-│               │   │   │   │       GameInfoManager.class
-│               │   │   │   │       InfoObject.class
-│               │   │   │   │       LivesInfo.class
-│               │   │   │   │       TimeInfo.class
-│               │   │   │   │       
-│               │   │   │   ├───overlay
-│               │   │   │   │       OverlayObject.class
-│               │   │   │   │       
-│               │   │   │   ├───paddle
-│               │   │   │   │       Paddle.class
-│               │   │   │   │       
-│               │   │   │   └───powerups
-│               │   │   │           CoinPowerUp.class
-│               │   │   │           ExpandPaddlePowerUp.class
-│               │   │   │           ExtraLifePowerUp.class
-│               │   │   │           FireBallPowerUp.class
-│               │   │   │           LaserPowerUp.class
-│               │   │   │           MagnetPowerUp.class
-│               │   │   │           MultiplyBall.class
-│               │   │   │           PowerUp.class
-│               │   │   │           PowerUpManager.class
-│               │   │   │           PowerUpType.class
-│               │   │   │           SlowBallPowerUp.class
-│               │   │   │           
-│               │   │   └───factories
-│               │   │           BrickFactory.class
-│               │   │           PowerUpFactory.class
-│               │   │           
-│               │   └───utils
-│               │           GameConstants.class
-│               │           
-│               ├───model
-│               │   ├───game
-│               │   │       PaddleItem.class
-│               │   │       PlayerProgress.class
-│               │   │       
-│               │   └───user
-│               │           User.class
-│               │           
-│               └───service
-│                   │   ServiceLocator.class
-│                   │   
-│                   ├───audio
-│                   │       AudioService.class
-│                   │       
-│                   ├───auth
-│                   │       AuthService.class
-│                   │       
-│                   ├───database
-│                   │   ├───dao
-│                   │   │   ├───abstraction
-│                   │   │   │       DaoAbstraction.class
-│                   │   │   │       
-│                   │   │   ├───interfaces
-│                   │   │   │       DaoIn.class
-│                   │   │   │       
-│                   │   │   └───objectdao
-│                   │   │           PaddleDao.class
-│                   │   │           UserDao.class
-│                   │   │           
-│                   │   └───utils
-│                   │           DatabaseConnection.class
-│                   │           
-│                   ├───game
-│                   │       GameProgressService.class
-│                   │       
-│                   ├───shop
-│                   │       ShopService.class
-│                   │       
-│                   └───user
-│                           UserService.class
-│                           
-├───generated-sources
-│   └───annotations
-└───test-classes
+<h1 align="center">🎮 GAME ARKANOID - JavaFX</h1>
+
+<p align="center">
+
+  <img src="./src/main/resources/vibe/com/demo/assets/img/play.jpg" alt="Ảnh bìa Game Arkanoid" width="800">
+</p>
+
+---
+
+## 🧩 Thông tin dự án
+- **Tên dự án:** Game Arkanoid - JavaFX
+- **Thời gian thực hiện:** 25/09/2025 – 8/11/2025
+
+---
+
+## 👥 Thành viên nhóm
+
+<table border="1" cellspacing="0" cellpadding="10" style="border-collapse: collapse; width: 100%; text-align: left;">
+  <thead style="background-color: #f2f2f2;">
+    <tr>
+      <th>👤 Họ và tên</th>
+      <th>🎯 Vai trò</th>
+      <th>🧩 Nhiệm vụ chính</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Nguyễn Văn Huy</strong></td>
+      <td><em>Nhóm trưởng</em></td>
+      <td>
+        Quản lý và định hướng toàn bộ tiến trình dự án.  
+        Thiết kế và xây dựng <strong>giao diện người dùng (UI)</strong> trong game.  
+        Dựng nền cơ bản, phát triển hệ thống <strong>service nội bộ</strong> gồm:  
+        <ul>
+          <li>🎵 Hệ thống âm thanh (Audio Service)</li>
+          <li>💾 Quản lý tiến trình game (Game Progress Service)</li>
+          <li>🔐 Xác thực người chơi (Authentication)</li>
+          <li>🗄️ Kết nối và thao tác với cơ sở dữ liệu (Database Service)</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Đặng Trần Hải Đăng</strong></td>
+      <td><em>Thành viên</em></td>
+      <td>
+        Phát triển và tối ưu các <strong>đối tượng tương tác trong game</strong> gồm:  
+        <ul>
+          <li>🧱 Thanh đỡ (Paddle)</li>
+          <li>⚪ Quả bóng (Ball)</li>
+          <li>⚡ Vật phẩm tăng sức mạnh (PowerUp)</li>
+        </ul>
+        Chịu trách nhiệm kiểm thử logic vật lý, va chạm và hành vi của đối tượng trong từng màn chơi.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Bùi Phan Quang Huy</strong></td>
+      <td><em>Thành viên</em></td>
+      <td>
+        Phụ trách <strong>thiết kế mỹ thuật và hiệu ứng</strong> trong game:  
+        <ul>
+          <li>🎨 Tìm kiếm và xử lý hình ảnh, âm thanh</li>
+          <li>🧱 Xây dựng đối tượng Brick và cơ chế phá vỡ</li>
+          <li>🗺️ Thiết kế hệ thống màn chơi (Level Design)</li>
+          <li>💥 Phát triển animation, hiệu ứng và trải nghiệm người chơi</li>
+          <li>📝 Thiết kế tài liệu README và phần mô tả dự án</li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+---
+
+## 🕹️ Tính năng Game
+
+### 1️⃣ Hệ thống tài khoản
+- Đăng ký tài khoản (username, password, player name)
+- Đăng nhập hệ thống
+- - Lưu trữ thông tin người chơi (điểm số, cup, coins)
+
+<p align="center">
+  <img src="./src/main/resources/vibe/com/demo/assets/img/login.jpg" alt="Màn hình đăng nhập" width="500">
+</p>
+<p align="center">
+  <img src="./src/main/resources/vibe/com/demo/assets/img/signup.jpg" alt="Màn hình đăng nhập" width="500">
+</p>
+---
+
+### 2️⃣ Gameplay
+- **20 Level** với độ khó tăng dần
+- **4 loại gạch đa dạng:**
+    - 🧱 Gạch thường (Normal Brick)
+    - 🧱 Gạch cứng (Strong Brick) — cần đập nhiều lần
+    - 💥 Gạch nổ (Explosive Brick) — phá hủy gạch xung quanh
+    - 🚫 Gạch không thể phá hủy (Unbreakable Brick)
+
+<p align="center">
+  <img src="./src/main/resources/vibe/com/demo/assets/img/level.jpg" alt="Minh họa gameplay" width="700">
+</p>
+
+#### Power-ups
+Có **7 loại Power-up** độc đáo giúp gameplay sinh động:
+1. 🔥 FireBall — biến bóng thành bóng lửa
+2. 🐢 SlowBall — làm chậm tốc độ bóng
+3. ⚽ MultiplyBall — nhân đôi số lượng bóng
+4. ⬛ ExpandPaddle — tăng kích thước paddle
+5. ❤️ ExtraLife — thêm mạng
+6. 💰 CoinPowerUp — nhận thêm coins
+7. 🧩 PowerUpManager — quản lý các power-up
+
+<p align="center">
+  <img src="./src/main/resources/vibe/com/demo/assets/img/power.jpg" alt="Hiệu ứng Power-Up" width="650">
+</p>
+
+---
+
+### 3️⃣ Các tính năng phụ trợ
+- 🏪 **Shop System:** nhiều loại paddle và hiệu ứng khác nhau
+- 🏆 **Bảng xếp hạng:** theo số cup của người chơi
+- 📖 **Hướng dẫn chơi chi tiết**
+- 💫 **Animation & Hiệu ứng nổ đẹp mắt**
+- 🔊 **Hệ thống âm thanh sống động**
+
+<p align="center">
+  <img src="./src/main/resources/vibe/com/demo/assets/img/shop.jpg" alt="Giao diện shop" width="700">
+</p>
+
+<p align="center">
+  <img src="./src/main/resources/vibe/com/demo/assets/img/rank.jpg" alt="Giao diện bảng xếp hạng" width="700">
+</p>
+
+<p align="center">
+  <img src="./src/main/resources/vibe/com/demo/assets/img/help.jpg" alt="Giao diện game help" width="700">
+</p>
+---
+
+## 🧠 Cấu trúc Source Code
+
+<pre>
+src/
+│
+├───main/
+│   ├───java/
+│   │   ├───module-info.java                 # Thông tin module JavaFX (định nghĩa module, xuất package)
+│   │   │
+│   │   └───vibe/com/demo/
+│   │       │
+│   │       ├───MainApp.java                 # Điểm khởi chạy ứng dụng (entry point)
+│   │       │
+│   │       ├───controller/                 # Các lớp điều khiển giao diện và tương tác người dùng (FXML Controller)
+│   │       │       BaseController.java
+│   │       │       FormController.java
+│   │       │       LoginController.java
+│   │       │       SignupController.java
+│   │       │       LobbyController.java
+│   │       │       GameViewController.java
+│   │       │       LevelMenuController.java
+│   │       │       RankingController.java
+│   │       │       ShopController.java
+│   │       │       GameHelpController.java
+│   │       │       └── ... (các controller khác nếu có)
+│   │       │
+│   │       ├───game/                       # Logic xử lý game Arkanoid
+│   │       │   ├───core/                   # Lõi game: vòng lặp, render, quản lý va chạm, engine
+│   │       │   │       GameEngine.java
+│   │       │   │       Renderer.java
+│   │       │   │       CollisionDetector.java
+│   │       │   │       GameDataModel.java
+│   │       │   │       GameManager.java
+│   │       │   │
+│   │       │   ├───animations/             # Quản lý hiệu ứng hình ảnh (nổ, cháy, paddle, bóng)
+│   │       │   │       AnimationManager.java
+│   │       │   │       AnimationType.java
+│   │       │   │       SpriteAnimation.java
+│   │       │   │       BrickDestroyAnimation.java
+│   │       │   │
+│   │       │   ├───levels/                 # Quản lý level: đọc file, tạo map, lưu tiến trình
+│   │       │   │       LevelConfig.java
+│   │       │   │       LevelLoader.java
+│   │       │   │       LevelManager.java
+│   │       │   │       LevelDesigner.java
+│   │       │   │
+│   │       │   ├───objects/                # Các đối tượng trong game (bóng, gạch, paddle, power-up,…)
+│   │       │   │   ├───abstractions/       # Các lớp trừu tượng cho game object
+│   │       │   │   ├───entities/           # Thực thể chính trong game (ball, brick, paddle,…)
+│   │       │   │   ├───factories/          # Factory pattern tạo đối tượng (BrickFactory, PowerUpFactory,…)
+│   │       │   │   └───powerups/           # Các loại power-up (coin, fireball, expand paddle,…)
+│   │       │   │
+│   │       │   └───utils/                  # Hằng số, tiện ích phụ trợ cho game
+│   │       │           GameConstants.java
+│   │       │
+│   │       ├───model/                      # Dữ liệu mô hình (Model) của người chơi và game
+│   │       │   ├───user/                   # Thông tin người dùng
+│   │       │   │       User.java
+│   │       │   │
+│   │       │   └───game/                   # Tiến trình và dữ liệu người chơi trong game
+│   │       │           PlayerProgress.java
+│   │       │
+│   │       └───service/                    # Lớp xử lý nghiệp vụ (Service layer)
+│   │           │
+│   │           ├───auth/                   # Xác thực và đăng nhập người dùng
+│   │           │       AuthService.java
+│   │           │
+│   │           ├───audio/                  # Quản lý âm thanh và nhạc nền
+│   │           │       AudioService.java
+│   │           │
+│   │           ├───database/               # Tầng dữ liệu (Data Access Layer)
+│   │           │   ├───dao/                # Data Access Object pattern
+│   │           │   │   ├───abstraction/    # Lớp cơ sở trừu tượng cho DAO
+│   │           │   │   ├───interfaces/     # Interface định nghĩa hành vi DAO
+│   │           │   │   └───objectdao/      # DAO cụ thể (UserDao, ...)
+│   │           │   │
+│   │           │   └───utils/              # Công cụ kết nối CSDL
+│   │           │           DatabaseConnection.java
+│   │           │
+│   │           ├───game/                   # Dịch vụ quản lý tiến trình game
+│   │           │       GameProgressService.java
+│   │           │
+│   │           ├───user/                   # Quản lý người dùng
+│   │           │       UserService.java
+│   │           │
+│   │           └───ServiceLocator.java     # Quản lý các service (dependency injection)
+│   │
+│   └───resources/
+│       └───vibe/com/demo/
+│           ├───assets/                     # Tài nguyên game
+│           │   ├───css/                    # Giao diện (CSS cho từng màn hình)
+│           │   ├───img/                    # Hình ảnh (logo, gạch, bóng, vật phẩm, icon,…)
+│           │   └───sounds/                 # Âm thanh và nhạc nền (mp3)
+│           │
+│           ├───db/                         # File cấu trúc cơ sở dữ liệu (SQL schema)
+│           │       arkanoid.sql
+│           │
+│           └───fxmlFiles/                  # File giao diện FXML (scene)
+│                   login.fxml
+│                   signup.fxml
+│                   lobby.fxml
+│                   gameview.fxml
+│                   levelmenu.fxml
+│                   ranking.fxml
+│                   shop.fxml
+│                   gameHelp.fxml
+│
+└───test/ 
+        # Chưa phát triển
+
+</pre>
+
+
+
+---
+
+## ⚙️ Công nghệ sử dụng
+☕ Java 21 – Ngôn ngữ chính để phát triển toàn bộ ứng dụng
+
+🎨 JavaFX – Framework giao diện đồ họa (UI framework)
+
+🗄️ MySQL – Hệ quản trị cơ sở dữ liệu lưu trữ thông tin người dùng và tiến trình game
+⚙️ Maven – Công cụ quản lý dependency và build project
+
+🤖 ChatGPT (OpenAI) – Hỗ trợ phân tích, gợi ý thuật toán và tối ưu mã nguồn
+
+🧠 GitHub Copilot – Trợ lý AI hỗ trợ gợi ý code thông minh trong IDE
+
+🌐 GitHub – Nền tảng quản lý mã nguồn, phân nhánh, commit và cộng tác nhóm
+---

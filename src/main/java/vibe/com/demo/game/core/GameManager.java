@@ -101,7 +101,7 @@ public class GameManager {
         overlay = new OverlayObject(0, 0, gameWidth, gameHeight);
         showOverlay("Nhấn SPACE để bắt đầu");
 
-        PauseTransition pause = new PauseTransition(Duration.millis(1500));
+        PauseTransition pause = new PauseTransition(Duration.millis(500));
         pause.setOnFinished(e -> {
             this.hideOverlay();
             gameState = GameState.PLAYING;
